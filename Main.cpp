@@ -8,15 +8,15 @@
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
-const int WINDOW_WIDTH = 800;  //ウィンドウの幅
-const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
+const int WINDOW_WIDTH = 800;				//ウィンドウの幅
+const int WINDOW_HEIGHT = 600;				//ウィンドウの高さ
 
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-ID3D11Device* pDevice;		//デバイス
-ID3D11DeviceContext* pContext;		//デバイスコンテキスト
-IDXGISwapChain* pSwapChain;		//スワップチェイン
+ID3D11Device* pDevice;						//デバイス
+ID3D11DeviceContext* pContext;				//デバイスコンテキスト
+IDXGISwapChain* pSwapChain;					//スワップチェイン
 ID3D11RenderTargetView* pRenderTargetView;	//レンダーターゲットビュー
 
 //エントリーポイント
@@ -26,7 +26,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
 	wc.hInstance = hInstance;                   //インスタンスハンドル
-	wc.lpszClassName = WIN_CLASS_NAME;            //ウィンドウクラス名
+	wc.lpszClassName = WIN_CLASS_NAME;          //ウィンドウクラス名
 	wc.lpfnWndProc = WndProc;                   //ウィンドウプロシージャ
 	wc.style = CS_VREDRAW | CS_HREDRAW;         //スタイル（デフォルト）
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION); //アイコン
@@ -36,27 +36,27 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); //背景（白）
-	RegisterClassEx(&wc);  //クラスを登録
+	RegisterClassEx(&wc);						//クラスを登録
 
 	//ウィンドウサイズの計算
 	RECT winRect = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
 	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, FALSE);
-	int winW = winRect.right - winRect.left;     //ウィンドウ幅
-	int winH = winRect.bottom - winRect.top;     //ウィンドウ高さ
+	int winW = winRect.right - winRect.left;	//ウィンドウ幅
+	int winH = winRect.bottom - winRect.top;	//ウィンドウ高さ
 
 	//ウィンドウを作成
 	HWND hWnd = CreateWindow(
-		WIN_CLASS_NAME,         //ウィンドウクラス名
-		"サンプルゲーム",     //タイトルバーに表示する内容
-		WS_OVERLAPPEDWINDOW, //スタイル（普通のウィンドウ）
-		CW_USEDEFAULT,       //表示位置左（おまかせ）
-		CW_USEDEFAULT,       //表示位置上（おまかせ）
-		winW,                 //ウィンドウ幅
-		winH,                 //ウィンドウ高さ
-		NULL,                //親ウインドウ（なし）
-		NULL,                //メニュー（なし）
-		hInstance,           //インスタンス
-		NULL                 //パラメータ（なし）
+		WIN_CLASS_NAME,			//ウィンドウクラス名
+		"サンプルゲーム",		//タイトルバーに表示する内容
+		WS_OVERLAPPEDWINDOW,	//スタイル（普通のウィンドウ）
+		CW_USEDEFAULT,			//表示位置左（おまかせ）
+		CW_USEDEFAULT,			//表示位置上（おまかせ）
+		winW,					//ウィンドウ幅
+		winH,					//ウィンドウ高さ
+		NULL,					//親ウインドウ（なし）
+		NULL,					//メニュー（なし）
+		hInstance,				//インスタンス
+		NULL					//パラメータ（なし）
 	);
 
 	//ウィンドウを表示
@@ -70,21 +70,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	ZeroMemory(&scDesc, sizeof(scDesc));
 
 	//描画先のフォーマット
-	scDesc.BufferDesc.Width = WINDOW_WIDTH;		//画面幅
-	scDesc.BufferDesc.Height = WINDOW_HEIGHT;	//画面高さ
-	scDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// 何色使えるか
+	scDesc.BufferDesc.Width = WINDOW_WIDTH;					//画面幅
+	scDesc.BufferDesc.Height = WINDOW_HEIGHT;				//画面高さ
+	scDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	//何色使えるか
 
 	//FPS（1/60秒に1回）
 	scDesc.BufferDesc.RefreshRate.Numerator = 60;
 	scDesc.BufferDesc.RefreshRate.Denominator = 1;
 
 	//その他
-	scDesc.Windowed = TRUE;				//ウィンドウモードかフルスクリーンか
-	scDesc.OutputWindow = hWnd;			//ウィンドウハンドル
-	scDesc.BufferCount = 1;				//バックバッファの枚数
+	scDesc.Windowed = TRUE;									//ウィンドウモードかフルスクリーンか
+	scDesc.OutputWindow = hWnd;								//ウィンドウハンドル
+	scDesc.BufferCount = 1;									//バックバッファの枚数
 	scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	//バックバッファの使い道＝画面に描画するために
-	scDesc.SampleDesc.Count = 1;		//MSAA（アンチエイリアス）の設定
-	scDesc.SampleDesc.Quality = 0;		//MSAA（アンチエイリアス）の設定
+	scDesc.SampleDesc.Count = 1;							//MSAA（アンチエイリアス）の設定
+	scDesc.SampleDesc.Quality = 0;							//MSAA（アンチエイリアス）の設定
 
 	////////////////上記設定をもとにデバイス、コンテキスト、スワップチェインを作成////////////////////////
 	D3D_FEATURE_LEVEL level;
@@ -116,16 +116,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	///////////////////////////ビューポート（描画範囲）設定///////////////////////////////
 	//レンダリング結果を表示する範囲
 	D3D11_VIEWPORT vp;
-	vp.Width = (float)WINDOW_WIDTH;	//幅
-	vp.Height = (float)WINDOW_HEIGHT;//高さ
-	vp.MinDepth = 0.0f;	//手前
-	vp.MaxDepth = 1.0f;	//奥
-	vp.TopLeftX = 0;	//左
-	vp.TopLeftY = 0;	//上
+	vp.Width = (float)WINDOW_WIDTH;		//幅
+	vp.Height = (float)WINDOW_HEIGHT;	//高さ
+	vp.MinDepth = 0.0f;					//手前
+	vp.MaxDepth = 1.0f;					//奥
+	vp.TopLeftX = 0;					//左
+	vp.TopLeftY = 0;					//上
 
 	//データを画面に描画するための一通りの設定（パイプライン）
 	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);  // データの入力種類を指定
-	pContext->OMSetRenderTargets(1, &pRenderTargetView, nullptr);            // 描画先を設定
+	pContext->OMSetRenderTargets(1, &pRenderTargetView, nullptr);			  // 描画先を設定
 	pContext->RSSetViewports(1, &vp);
 
 	//メッセージループ（何か起きるのを待つ）
