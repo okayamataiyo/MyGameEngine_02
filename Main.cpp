@@ -79,11 +79,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			//ƒQ[ƒ€‚Ìˆ— 
 			Direct3D::BeginDraw();
+			
 			P->Draw();
-
 			//•`‰æˆ—
 			Direct3D::EndDraw();
-
+			
 		}
 	}
 	Direct3D::Release();
