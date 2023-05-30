@@ -1,5 +1,4 @@
 #pragma once
-
 #include <d3d11.h>
 
 //ƒŠƒ“ƒJ
@@ -8,6 +7,7 @@
 
 namespace Direct3D
 {
+	extern ID3D11Device* pDevice;
 
 	//‰Šú‰»
 	void Initialize(int winW, int winH, HWND hWnd);
