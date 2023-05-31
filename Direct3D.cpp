@@ -65,8 +65,14 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	ID3D11Texture2D* pBackBuffer;
 	pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
+	HRESULT hr;
+
 	//レンダーターゲットビューを作成
-	pDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView);
+	hr = pDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView);
+	if (hr == E_FAIL)
+	{
+		//失敗したときの処理
+	}
 
 	//一時的にバックバッファを取得しただけなので解放
 	pBackBuffer->Release();
