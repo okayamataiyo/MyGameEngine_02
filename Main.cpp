@@ -4,7 +4,7 @@
 #include "Quad.h"
 #include "Camera.h"
 
-Quad* P = new Quad();
+Quad* P;
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -64,16 +64,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	{
 		PostQuitMessage(0);	//プログラム終了
 	}
-	P = new Quad;
+//	P = new Quad;
 
-	hr = P->Initialize();
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0);
 	}
 
-	P->Initialize();
+//	P->Initialize();
 	Camera::Initialize();
+//	Camera::SetPosition(XMFLOAT3(2, 0, 0));
+//	Camera::SetTarget(XMFLOAT3(2, 0, 0));
+	P = new Quad;
+	hr = P->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -91,13 +94,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
+			Camera::Update(); //カメラの更新処理
 			//ゲームの処理 
 			Direct3D::BeginDraw();
-			
-			Camera::Update(); //カメラの更新処理
 
-			P->Draw();
 			//描画処理
+			static float a = 0;
+			a += 0.05;
+			XMMATRIX matR = XMMatrixRotationY(XMConvertToRadians(a));
+//			XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
+//			XMMATRIX matS = XMMatrixScaling(1, 3, 1);
+//			XMMATRIX mat = matS * matR * matT;
+			XMMATRIX mat = matR;
+			P->Draw(mat);
 			Direct3D::EndDraw();
 			
 		}
