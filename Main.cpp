@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Direct3D.h"
 #include "Quad.h"
+#include "Camera.h"
 
 Quad* P = new Quad();
 
@@ -56,10 +57,23 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
 
+	HRESULT hr;//こっからしたはhr使えるよ
 	//Direct3D初期化
-	Direct3D::Initialize(winW, winH, hWnd);
+	hr = Direct3D::Initialize(winW, winH, hWnd);
+	if (FAILED(hr))
+	{
+		PostQuitMessage(0);	//プログラム終了
+	}
+	P = new Quad;
+
+	hr = P->Initialize();
+	if (FAILED(hr))
+	{
+		PostQuitMessage(0);
+	}
 
 	P->Initialize();
+	Camera::Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -80,6 +94,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//ゲームの処理 
 			Direct3D::BeginDraw();
 			
+			Camera::Update(); //カメラの更新処理
+
 			P->Draw();
 			//描画処理
 			Direct3D::EndDraw();
