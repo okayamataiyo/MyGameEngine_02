@@ -1,10 +1,12 @@
 //インクルード
 #include <Windows.h>
 #include "Direct3D.h"
-#include "Quad.h"
+//#include "Quad.h"
+#include"Dice.h"
 #include "Camera.h"
 
-Quad* P;
+Dice* D;
+//Quad* P;
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -60,23 +62,25 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	HRESULT hr;//こっからしたはhr使えるよ
 	//Direct3D初期化
 	hr = Direct3D::Initialize(winW, winH, hWnd);
+//	P = new Quad;
+	D = new Dice;
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0);	//プログラム終了
 	}
-//	P = new Quad;
 
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0);
 	}
 
-//	P->Initialize();
 	Camera::Initialize();
 //	Camera::SetPosition(XMFLOAT3(2, 0, 0));
 //	Camera::SetTarget(XMFLOAT3(2, 0, 0));
-	P = new Quad;
-	hr = P->Initialize();
+// 	   
+//	P->Initialize();
+//	hr = P->Initialize();
+	hr = D->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -106,14 +110,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 //			XMMATRIX matS = XMMatrixScaling(1, 3, 1);
 //			XMMATRIX mat = matS * matR * matT;
 			XMMATRIX mat = matR;
-			P->Draw(mat);
+//			P->Draw(mat);
+			D->Draw(mat);
 			Direct3D::EndDraw();
 			
 		}
 	}
 
 	Direct3D::Release();
-	SAFE_DELETE(P);
+//	SAFE_DELETE(P);
+	SAFE_DELETE(D);
 	
 	return 0;
 }
