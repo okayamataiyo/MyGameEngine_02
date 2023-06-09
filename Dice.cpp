@@ -1,28 +1,29 @@
-#include "Quad.h"
+#include "Dice.h"
 #include "Camera.h"
 
-Quad::Quad():
-	pVertexBuffer_(nullptr),pIndexBuffer_(nullptr), pConstantBuffer_(nullptr),pTexture_(nullptr)
+Dice::Dice():
+pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), pTexture_(nullptr)
 {
-
 }
 
-Quad::~Quad()
+Dice::~Dice()
 {
 	Release();
 }
 
-HRESULT Quad::Initialize()
+HRESULT Dice::Initialize()
 {
 	HRESULT hr;
-	// 頂点情報
-	VERTEX vertices[] = //[4]でも同じ意味
+
+	VERTEX vertices[] =
 	{
-		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f)},	// 四角形の頂点（左上)0
-		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f)},	// 四角形の頂点（右上)1
-		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f)},	// 四角形の頂点（右下)2
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)},	// 四角形の頂点（左下)3	
-//		XMVectorSet( 0.0f,  2.0f, 0.0f, 0.0f),
+		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f)},	// 0 後ろはテクスチャ座標
+		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f)},	// 1
+		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f)},	// 2
+		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)},	// 3	
+		{XMVectorSet( 1.0f,  1.0f, 2.0f, 0.0f),XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f)},	// 4
+		{XMVectorSet( 1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f)},	// 5
+		{XMVectorSet( 1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f)},	// 6
 	};
 
 	// 頂点データ用バッファの設定
@@ -45,7 +46,7 @@ HRESULT Quad::Initialize()
 	}
 
 	//インデックス情報
-	int index[] = { 0,2,3, 0,1,2};
+	int index[] = { 0,3,2, 0,1,2, 1,4,5, 2,1,5 };
 
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
@@ -84,14 +85,15 @@ HRESULT Quad::Initialize()
 		OutputDebugString("コンストラクタバッファの作成に失敗");
 		return hr;
 	}
-	
+
 	pTexture_ = new Texture();
 	pTexture_->Load("Assets\\Dice.png");
 
 	return S_OK;
+
 }
 
-void Quad::Draw(XMMATRIX& worldMatrix)
+void Dice::Draw(XMMATRIX& worldMatrix)
 {
 	//コンスタントバッファに渡す情報
 
@@ -125,11 +127,11 @@ void Quad::Draw(XMMATRIX& worldMatrix)
 	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
 	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
 
-	Direct3D::pContext_->DrawIndexed(9, 0, 0);
-//	Direct3D::pContext_->DrawIndexed(6, 0, 0);//6は頂点の数を決めている	
+	//	Direct3D::pContext_->DrawIndexed(9, 0, 0);
+	Direct3D::pContext_->DrawIndexed(12, 0, 0);//6は頂点の数を決めている	
 }
 
-void Quad::Release()
+void Dice::Release()
 {
 	pTexture_->Release();
 	SAFE_RELEASE(pConstantBuffer_);
