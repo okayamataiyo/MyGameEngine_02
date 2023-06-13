@@ -26,9 +26,11 @@ HRESULT Quad::Initialize()
 	};
 
 	//インデックス情報
-	int index[] = { 0,2,3, 0,1,2};
+	int index[] = {
+		0,2,3, 0,1,2,
+	};
 
-	CreateBuffers(vertices, 4 index, 6);
+//	CreateBuffers(vertices, 4 index, 6);
 
 	return S_OK;
 }
@@ -50,7 +52,7 @@ void Quad::Release()
 	SAFE_RELEASE(pTexture_);
 }
 
-HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int in)
+HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in)
 {
 	HRESULT hr;
 
