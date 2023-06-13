@@ -52,6 +52,16 @@ HRESULT Dice::Initialize()
 		{XMVectorSet(-1.0f,-1.0f, 2.0f, 0.0f),XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f)},	// 裏面四角形の頂点（右下）	23
 	};
 
+	//インデックス情報
+	int index[] ={
+	 0,3,1, 0,2,3,
+	 4,7,5, 4,6,7,
+	 8,11,9, 8,10,11,
+	 12,15,13, 12,14,15,
+	 16,19,17, 16,18,19,
+	 20,23,21, 20,22,23
+	};
+
 	CreateBuffers(vertices, 24, index, 36);
 
 	return S_OK;

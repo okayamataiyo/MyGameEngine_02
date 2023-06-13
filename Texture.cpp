@@ -14,7 +14,7 @@ Texture::~Texture()
 	Release();
 }
 
-HRESULT Texture::Load(string fileName)
+HRESULT Texture::Load(std::string fileName)
 {
 	using namespace DirectX;
 	/////////‰æ‘œ“Ç‚İ‚İ•”•ª(•ÏX)
