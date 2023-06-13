@@ -51,7 +51,7 @@ HRESULT Dice::Initialize()
 		{XMVectorSet( 1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.75f,  0.0f, 0.0f, 0.0f)},	// 裏面四角形の頂点（左上）	20
 		{XMVectorSet( 1.0f,-1.0f, 2.0f, 0.0f),XMVectorSet(1.0f,  0.0f, 0.0f, 0.0f)},	// 裏面四角形の頂点（左下）	21
 		{XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f)},	// 裏面四角形の頂点（右上）	22
-		{XMVectorSet(-1.0f,6-1.0f, 2.0f, 0.0f),XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f)},	// 裏面四角形の頂点（右下）	23
+		{XMVectorSet(-1.0f,-1.0f, 2.0f, 0.0f),XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f)},	// 裏面四角形の頂点（右下）	23
 	};
 
 	// 頂点データ用バッファの設定
@@ -80,7 +80,7 @@ HRESULT Dice::Initialize()
 	 8,11,9, 8,10,11,
 	 12,15,13, 12,14,15,
 	 16,19,17, 16,18,19,
-	 20,23,21, 20,22,23
+	 20,23,21, 20,22,23,
 	};
 
 
@@ -164,7 +164,7 @@ void Dice::Draw(XMMATRIX& worldMatrix)
 	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
 
 //	Direct3D::pContext_->DrawIndexed(9, 0, 0);
-	Direct3D::pContext_->DrawIndexed(30, 0, 0);//6は頂点の数を決めている	
+	Direct3D::pContext_->DrawIndexed(36, 0, 0);//6は頂点の数を決めている	
 }
 
 void Dice::Release()
