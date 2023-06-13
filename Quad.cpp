@@ -18,10 +18,10 @@ HRESULT Quad::Initialize()
 	// 頂点情報
 	VERTEX vertices[] = //[4]でも同じ意味
 	{
-		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f)},	// 四角形の頂点（左上)0
-		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f)},	// 四角形の頂点（右上)1
-		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f)},	// 四角形の頂点（右下)2
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)},	// 四角形の頂点（左下)3	
+		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（左上)0
+		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（右上)1
+		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（右下)2
+		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（左下)3	
 //		XMVectorSet( 0.0f,  2.0f, 0.0f, 0.0f),
 	};
 
@@ -30,7 +30,7 @@ HRESULT Quad::Initialize()
 		0,2,3, 0,1,2,
 	};
 
-//	CreateBuffers(vertices, 4 index, 6);
+	CreateBuffers(vertices, 4, index, 6);
 
 	return S_OK;
 }
@@ -127,6 +127,7 @@ void Quad::SetBuffers(int _in, XMMATRIX& worldMatrix)
 	////800.0f / 600.0f 
 	CONSTANT_BUFFER cb;
 	cb.matWVP = XMMatrixTranspose(worldMatrix * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+	cb.matW	  = XMMatrixTranspose(worldMatrix);
 
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
