@@ -34,8 +34,11 @@ public:
 	/// </summary>
 	Quad();
 	~Quad();
-	HRESULT Initialize();
-	void Draw(XMMATRIX& worldMatrix);
-	void Release();
+	virtual HRESULT Initialize();
+	virtual void Draw(XMMATRIX& worldMatrix);
+	virtual void Release();
+	HRESULT CreateBuffers(VERTEX* _ver, int vn, int* _index, int in);
+
+	void SetBuffers(int _in, XMMATRIX& worldMatrix);
 };
 
