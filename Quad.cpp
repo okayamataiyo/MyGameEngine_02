@@ -18,7 +18,7 @@ HRESULT Quad::Initialize()
 	// 頂点情報
 	VERTEX vertices[] = //[4]でも同じ意味
 	{
-		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（左上)0
+		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（左上)0
 		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（右上)1
 		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（右下)2
 		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（左下)3	
