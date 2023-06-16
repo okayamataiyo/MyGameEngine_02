@@ -45,7 +45,7 @@ void Quad::Draw(XMMATRIX& worldMatrix)
 
 void Quad::Release()
 {
-	pTexture_->Release();
+//	pTexture_->Release();
 	SAFE_RELEASE(pConstantBuffer_);
 	SAFE_RELEASE(pIndexBuffer_);
 	SAFE_RELEASE(pVertexBuffer_);
@@ -153,7 +153,7 @@ void Quad::SetBuffers(int _in, XMMATRIX& worldMatrix)
 
 	//コンスタントバッファ
 	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
-	Direct3D::pContext_->PSSetConstantBuffers(0, 0, &pConstantBuffer_);	//ピクセルシェーダー用
+	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
 
 	Direct3D::pContext_->DrawIndexed(_in, 0, 0);
 }

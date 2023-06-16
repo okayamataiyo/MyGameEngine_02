@@ -1,7 +1,7 @@
 //───────────────────────────────────────
 // テクスチャ＆サンプラーデータのグローバル変数定義
 //───────────────────────────────────────
-Texture2D	g_texture : register(t0);	//テクスチャー
+Texture2D		g_texture : register(t0);	//テクスチャー
 SamplerState	g_sampler : register(s0);	//サンプラー
 
 //───────────────────────────────────────
@@ -10,8 +10,7 @@ SamplerState	g_sampler : register(s0);	//サンプラー
 //───────────────────────────────────────
 cbuffer global
 {
-	float4x4	matWVP;			// ワールド・ビュー・プロジェクションの合成行列
-	float4x4	matW;	//ワールド行列
+	float4x4	matW;		//ワールド行列
 };
 
 //───────────────────────────────────────
@@ -21,7 +20,6 @@ struct VS_OUT
 {
 	float4 pos  : SV_POSITION;	//位置
 	float2 uv	: TEXCOORD;		//UV座標
-	float4 color	: COLOR;	//色（明るさ）
 };
 
 //───────────────────────────────────────
@@ -32,16 +30,10 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 	//ピクセルシェーダーへ渡す情報
 	VS_OUT outData;
 
-	//ローカル座標に、ワールド・ビュー・プロジェクション行列をかけて
-	//スクリーン座標に変換し、ピクセルシェーダーへ
-	outData.pos = mul(pos, matWVP);
+	//ローカル座標に、ワールド行列をかけて
+	//ワールド座標に変換し、ピクセルシェーダーへ
+	outData.pos = mul(pos, matW);
 	outData.uv = uv;
-
-	//法線を回転
-	normal = mul(normal , matW);
-	float4 light = float4(1, 0.5, -0.8, 0);
-	light = normalize(light);
-	outData.color = clamp(dot(normal, light), 0 , 1);
 
 	//まとめて出力
 	return outData;
@@ -52,11 +44,5 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 //───────────────────────────────────────
 float4 PS(VS_OUT inData) : SV_Target
 {
-	float4 lightSource = float4(1.0,1.0,1.0,1.0);
-	float4 ambentSource = float4(0.5, 0.5, 0.5, 1.0);
-	float4 diffuse = lightSource * g_texture.Sample(g_sampler, inData.uv) * inData.color;
-	float4 ambient = lightSource * g_texture.Sample(g_sampler, inData.uv) * ambentSource;
-	return (diffuse + ambient);
-//	float4 lightSource = float4(0.0, 10.0, 1.0, 0.0);
-//	return lightSource * g_texture.Sample(g_sampler, inData.uv) * inData.color;
+	return g_texture.Sample(g_sampler, inData.uv);
 }
