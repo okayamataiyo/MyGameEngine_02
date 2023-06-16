@@ -34,6 +34,9 @@ HRESULT Sprite::Initialize() {
 }
 
 void Sprite::Draw(XMMATRIX& worldMatrix){
+	PassDataToCB();
+
+	SetBufferToPipeline(6, worldMatrix);
 }
 
 void Sprite::Release()
@@ -44,8 +47,8 @@ void Sprite::Release()
 	SAFE_RELEASE(pTexture_);
 }
 
-void Sprite::InitVertexData(VERTEX* _ver, int _vn)
-{
+void Sprite::InitVertexData(VERTEX* _ver, int _vn){
+
 	// 頂点データ用バッファの設定
 	D3D11_BUFFER_DESC bd_vertex;
 	bd_vertex.ByteWidth = sizeof(VERTEX) * _vn;
@@ -57,10 +60,11 @@ void Sprite::InitVertexData(VERTEX* _ver, int _vn)
 	D3D11_SUBRESOURCE_DATA data_vertex;
 	data_vertex.pSysMem = _ver;
 
+	CreateVertexBuffer(bd_vertex, data_vertex);
 }
 
-HRESULT Sprite::CreateVertexBuffer()
-{
+HRESULT Sprite::CreateVertexBuffer(VERTEX* _ver, int vn, int* _index, int in){
+
 	HRESULT hr;
 
 	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
@@ -72,12 +76,7 @@ HRESULT Sprite::CreateVertexBuffer()
 	}
 }
 
-HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int _vn, int* _index, int _in) {
-
-	HRESULT hr;
-
-	
-
+void Sprite::InitIndexData(int* _index, int _in){
 
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
@@ -91,13 +90,26 @@ HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int _vn, int* _index, int _in) {
 	InitData.pSysMem = _index;
 	InitData.SysMemPitch = 0;
 	InitData.SysMemSlicePitch = 0;
-	hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
+	CreateIndexBuffer(&bd, &InitData, pIndexBuffer_);
+}
+
+HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in) {
+
+	HRESULT hr;
+
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr, "インデックスバッファの生成に失敗しました", "エラー", MB_OK);
 		return hr;
 		//エラー処理
 	}
+	
+}
+
+HRESULT Sprite::CreateConstantBuffer(){
+
+	HRESULT hr;
+
 	//コンスタントバッファ作成
 	D3D11_BUFFER_DESC cb;
 	cb.ByteWidth = sizeof(CONSTANT_BUFFER);
@@ -115,6 +127,13 @@ HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int _vn, int* _index, int _in) {
 		return hr;
 		//エラー処理
 	}
+	pTexture_ = new Texture;
+	pTexture_->Load("Assets\\dice.png");
+	return S_OK;
+}
+
+HRESULT Sprite::LoadTexture(){
+
 	pTexture_ = new Texture;
 	pTexture_->Load("Assets\\dice.png");
 	return S_OK;

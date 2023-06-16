@@ -64,6 +64,7 @@ HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in)
 	bd_vertex.CPUAccessFlags = 0;
 	bd_vertex.MiscFlags = 0;
 	bd_vertex.StructureByteStride = 0;
+
 	D3D11_SUBRESOURCE_DATA data_vertex;
 	data_vertex.pSysMem = _ver;
 	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
