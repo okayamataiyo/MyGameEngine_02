@@ -54,14 +54,14 @@ public:
 private:
 	//-----Initializeから呼ばれる関数-----
 	virtual void InitVertexData(VERTEX* _ver, int _vn);		//頂点情報を準備
-	HRESULT CreateVertexBuffer();		//頂点バッファを作成
+	HRESULT CreateVertexBuffer(VERTEX* _ver, int vn, int* _index, int in);		//頂点バッファを作成
 
-	virtual void InitIndexData();		//インデックス情報を準備
-	HRESULT CreateIndexBuffer(VERTEX* _ver, int _vn,int* _index, int _in);		//インデックスバッファを作成
+	virtual void InitIndexData(int* _index, int _in);							//インデックス情報を準備
+	HRESULT CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in);		//インデックスバッファを作成
 
-	HRESULT CreateConstantBuffer();		//コンスタントバッファを作成
+	HRESULT CreateConstantBuffer();							//コンスタントバッファを作成
 
-	HRESULT LoadTexture();				//テクスチャをロード
+	HRESULT LoadTexture();									//テクスチャをロード
 
 	//-----Draw関数から呼ばれる関数-----
 	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);		//コンスタント
