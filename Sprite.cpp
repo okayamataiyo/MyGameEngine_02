@@ -34,9 +34,9 @@ HRESULT Sprite::Initialize() {
 }
 
 void Sprite::Draw(XMMATRIX& worldMatrix){
-	PassDataToCB();
+	PassDataToCB(worldMatrix);
 
-	SetBufferToPipeline(6, worldMatrix);
+	SetBufferToPipeline();
 }
 
 void Sprite::Release()
@@ -60,20 +60,20 @@ void Sprite::InitVertexData(VERTEX* _ver, int _vn){
 	D3D11_SUBRESOURCE_DATA data_vertex;
 	data_vertex.pSysMem = _ver;
 
-	CreateVertexBuffer(bd_vertex, data_vertex);
+	Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
+//	CreateVertexBuffer(bd_vertex, data_vertex);
 }
 
 HRESULT Sprite::CreateVertexBuffer(VERTEX* _ver, int vn, int* _index, int in){
 
-	HRESULT hr;
+	//HRESULT hr;
 
-	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
-	if (FAILED(hr))
-	{
-		MessageBox(nullptr, "頂点データ用バッファの設定にエラーが起きました", "エラー", MB_OK);
-		return hr;
-		//エラー処理
-	}
+	//if (FAILED(hr))
+	//{
+	//	MessageBox(nullptr, "頂点データ用バッファの設定にエラーが起きました", "エラー", MB_OK);
+	//	return hr;
+	//	//エラー処理
+	//}
 }
 
 void Sprite::InitIndexData(int* _index, int _in){
@@ -90,7 +90,9 @@ void Sprite::InitIndexData(int* _index, int _in){
 	InitData.pSysMem = _index;
 	InitData.SysMemPitch = 0;
 	InitData.SysMemSlicePitch = 0;
-	CreateIndexBuffer(&bd, &InitData, pIndexBuffer_);
+
+	Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
+	//CreateIndexBuffer(&bd, &InitData, pIndexBuffer_);
 }
 
 HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in) {
@@ -127,9 +129,8 @@ HRESULT Sprite::CreateConstantBuffer(){
 		return hr;
 		//エラー処理
 	}
-	pTexture_ = new Texture;
-	pTexture_->Load("Assets\\dice.png");
-	return S_OK;
+
+
 }
 
 HRESULT Sprite::LoadTexture(){
