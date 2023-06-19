@@ -1,8 +1,10 @@
 #include "Sprite.h"
 #include "Camera.h"
 
-Sprite::Sprite() :pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr)
-{
+Sprite::Sprite()
+	:vertexNum_(0),pVertexBuffer_(nullptr), indexNum_(0)
+	,pIndexBuffer_(nullptr), pConstantBuffer_(nullptr),pTexture_(nullptr){
+
 
 }
 
@@ -47,7 +49,7 @@ void Sprite::Release()
 	SAFE_RELEASE(pTexture_);
 }
 
-void Sprite::InitVertexData(VERTEX* _ver, int _vn){
+void Sprite::InitVertexData(){
 
 	// 頂点データ用バッファの設定
 	D3D11_BUFFER_DESC bd_vertex;
@@ -64,7 +66,7 @@ void Sprite::InitVertexData(VERTEX* _ver, int _vn){
 //	CreateVertexBuffer(bd_vertex, data_vertex);
 }
 
-HRESULT Sprite::CreateVertexBuffer(VERTEX* _ver, int vn, int* _index, int in){
+HRESULT Sprite::CreateVertexBuffer(){
 
 	//HRESULT hr;
 
@@ -76,7 +78,7 @@ HRESULT Sprite::CreateVertexBuffer(VERTEX* _ver, int vn, int* _index, int in){
 	//}
 }
 
-void Sprite::InitIndexData(int* _index, int _in){
+void Sprite::InitIndexData(){
 
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
@@ -95,7 +97,7 @@ void Sprite::InitIndexData(int* _index, int _in){
 	//CreateIndexBuffer(&bd, &InitData, pIndexBuffer_);
 }
 
-HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in) {
+HRESULT Sprite::CreateIndexBuffer() {
 
 	HRESULT hr;
 
@@ -138,6 +140,15 @@ HRESULT Sprite::LoadTexture(){
 	pTexture_ = new Texture;
 	pTexture_->Load("Assets\\dice.png");
 	return S_OK;
+}
+
+void Sprite::PassDataToCB(DirectX::XMMATRIX& worldMatrix)
+{
+}
+
+void Sprite::SetBufferToPipeline()
+{
+
 }
 
 

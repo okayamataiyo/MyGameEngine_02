@@ -13,28 +13,28 @@ class Sprite
 	//コンスタントバッファー
 	struct CONSTANT_BUFFER
 	{
-		XMMATRIX	matW;
+		XMMATRIX	matW;	//ワールド行列
 	};
 
 	//頂点情報
 	struct VERTEX
 	{
-		XMVECTOR position;
-		XMVECTOR uv;
+		XMVECTOR position;	//位置
+		XMVECTOR uv;		//UV
 	};
 
 protected:
-	UINT64 vertexNum_;
-	std::vector<VERTEX> vertices_;
-	ID3D11Buffer* pVertexBuffer_;
+	UINT64 vertexNum_;				//頂点数
+	std::vector<VERTEX> vertices_;	//頂点情報
+	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
 
-	UINT64 indexNum_;
-	std::vector<int> index_;
+	UINT64 indexNum_;				//インデックス数
+	std::vector<int> index_;		//インデックス情報
 
-	ID3D11Buffer* pIndexBuffer_;
-	ID3D11Buffer* pConstantBuffer_;
+	ID3D11Buffer* pIndexBuffer_;	//インデックスバッファ
+	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
 
-	Texture* pTexture_;
+	Texture* pTexture_;				//テクスチャ
 
 public:
 	Sprite();
@@ -53,18 +53,18 @@ public:
 
 private:
 	//-----Initializeから呼ばれる関数-----
-	virtual void InitVertexData(VERTEX* _ver, int _vn);		//頂点情報を準備
-	HRESULT CreateVertexBuffer(VERTEX* _ver, int vn, int* _index, int in);		//頂点バッファを作成
+	virtual void InitVertexData();		//頂点情報を準備
+	HRESULT CreateVertexBuffer();		//頂点バッファを作成
 
-	virtual void InitIndexData(int* _index, int _in);							//インデックス情報を準備
-	HRESULT CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in);		//インデックスバッファを作成
+	virtual void InitIndexData();							//インデックス情報を準備
+	HRESULT CreateIndexBuffer();		//インデックスバッファを作成
 
 	HRESULT CreateConstantBuffer();							//コンスタントバッファを作成
 
 	HRESULT LoadTexture();									//テクスチャをロード
 
 	//-----Draw関数から呼ばれる関数-----
-	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);		//コンスタント
-	void SetBufferToPipeline();								//各バッファを
+	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);		//CBに情報を渡す
+	void SetBufferToPipeline();								//各バッファをセットする
 };
 
