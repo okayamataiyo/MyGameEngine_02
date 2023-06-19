@@ -8,8 +8,8 @@ Sprite::Sprite()
 
 }
 
-Sprite::~Sprite()
-{
+Sprite::~Sprite(){
+
 	Release();
 }
 
@@ -25,24 +25,39 @@ HRESULT Sprite::Initialize() {
 		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)},	// 四角形の頂点（左下)3	
 	};
 
+	vertexNum_ = sizeof(vertices);
+
+	vertices_ = new VERTEX[4];
+
 	//インデックス情報
 	int index[] = {
 		0,2,3, 0,1,2,
 	};
 
-	CreateIndexBuffer(vertices, 4, index, 6);
+	indexNum_ = sizeof(vertices);
+
+	index_ = new index[6];
+
+
+	InitVertexData();
+	CreateVertexBuffer();
+	InitIndexData();
+	CreateIndexBuffer();
+	LoadTexture();
+
+	delete[] vertices_;
 
 	return S_OK;
 }
 
 void Sprite::Draw(XMMATRIX& worldMatrix){
-	PassDataToCB(worldMatrix);
 
+	PassDataToCB(worldMatrix);
 	SetBufferToPipeline();
 }
 
-void Sprite::Release()
-{
+void Sprite::Release(){
+
 	SAFE_RELEASE(pConstantBuffer_);
 	SAFE_RELEASE(pIndexBuffer_);
 	SAFE_RELEASE(pVertexBuffer_);
@@ -53,14 +68,14 @@ void Sprite::InitVertexData(){
 
 	// 頂点データ用バッファの設定
 	D3D11_BUFFER_DESC bd_vertex;
-	bd_vertex.ByteWidth = sizeof(VERTEX) * _vn;
+	bd_vertex.ByteWidth = sizeof(VERTEX) * vertexNum_;
 	bd_vertex.Usage = D3D11_USAGE_DEFAULT;
 	bd_vertex.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd_vertex.CPUAccessFlags = 0;
 	bd_vertex.MiscFlags = 0;
 	bd_vertex.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA data_vertex;
-	data_vertex.pSysMem = _ver;
+	data_vertex.pSysMem = vertices_;
 
 	Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 //	CreateVertexBuffer(bd_vertex, data_vertex);
@@ -83,7 +98,7 @@ void Sprite::InitIndexData(){
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(int) * _in;
+	bd.ByteWidth = sizeof(int) * indexNum_;
 	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 	bd.MiscFlags = 0;

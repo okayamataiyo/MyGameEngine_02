@@ -39,7 +39,7 @@ public:
 	virtual HRESULT Initialize();
 	virtual void Draw(XMMATRIX& worldMatrix);
 	virtual void Release();
-	HRESULT CreateBuffers(VERTEX* _ver, int vn, int* _index, int in);
+	HRESULT CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in);
 
 	void SetBuffers(int _in, XMMATRIX& worldMatrix);
 };
