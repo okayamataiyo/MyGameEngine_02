@@ -3,16 +3,11 @@
 
 class Dice :public Quad
 {
-public:
-	//メンバ関数
+	//頂点情報の準備
+	void InitVertexData()	override;
 
-	/// <summary>
-	/// 四角形を表すクラスのコンストラクタ
-	/// </summary>
-	Dice();
-	~Dice();
-	HRESULT Initialize()override;
-	void Draw(XMMATRIX& worldMatrix)override;
-	void Release()override;
+	//インデックス情報を準備
+	void InitIndexData()	override;
+
 };
 

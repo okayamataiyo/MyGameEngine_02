@@ -8,13 +8,13 @@ using namespace DirectX;
 
 #define SAFE_DELETE_ARRAY(p) if(p != nullptr){ delete[] }
 
-class Sprite{
-protected:
+class Sprite
+{
 
 	//コンスタントバッファー
 	struct CONSTANT_BUFFER
 	{
-		XMMATRIX	matW;	//ワールド行列
+		XMMATRIX matW;	//ワールド行列
 	};
 
 	//頂点情報
@@ -23,14 +23,14 @@ protected:
 		XMVECTOR position;	//位置
 		XMVECTOR uv;		//UV
 	};
-
+protected:
 
 	UINT64 vertexNum_;				//頂点数
-	VERTEX* vertices_;				//頂点情報
+	std::vector<VERTEX> vertices_;				//頂点情報
 	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
 
 	UINT64 indexNum_;				//インデックス数
-	int* index_;						//インデックス情報
+	std::vector<int> index_;						//インデックス情報
 
 	ID3D11Buffer* pIndexBuffer_;	//インデックスバッファ
 	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
