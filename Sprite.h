@@ -8,8 +8,9 @@ using namespace DirectX;
 
 #define SAFE_DELETE_ARRAY(p) if(p != nullptr){ delete[] }
 
-class Sprite
-{
+class Sprite{
+protected:
+
 	//コンスタントバッファー
 	struct CONSTANT_BUFFER
 	{
@@ -23,7 +24,7 @@ class Sprite
 		XMVECTOR uv;		//UV
 	};
 
-protected:
+
 	UINT64 vertexNum_;				//頂点数
 	VERTEX* vertices_;				//頂点情報
 	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
@@ -56,12 +57,12 @@ private:
 	virtual void InitVertexData();		//頂点情報を準備
 	HRESULT CreateVertexBuffer();		//頂点バッファを作成
 
-	virtual void InitIndexData();							//インデックス情報を準備
+	virtual void InitIndexData();		//インデックス情報を準備
 	HRESULT CreateIndexBuffer();		//インデックスバッファを作成
 
-	HRESULT CreateConstantBuffer();							//コンスタントバッファを作成
+	HRESULT CreateConstantBuffer();		//コンスタントバッファを作成
 
-	HRESULT LoadTexture();									//テクスチャをロード
+	HRESULT LoadTexture();				//テクスチャをロード
 
 	//-----Draw関数から呼ばれる関数-----
 	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);		//CBに情報を渡す

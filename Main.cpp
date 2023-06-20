@@ -2,11 +2,13 @@
 #include <Windows.h>
 #include "Direct3D.h"
 #include "Quad.h"
-#include"Dice.h"
+#include "Dice.h"
+#include "Sprite.h"
 #include "Camera.h"
 
-Dice* D;
 Quad* P;
+Dice* D;
+Sprite* S;
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -17,8 +19,8 @@ const int WINDOW_HEIGHT = 600;				//ウィンドウの高さ
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //エントリーポイント
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
-{
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow){
+
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
@@ -64,14 +66,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	hr = Direct3D::Initialize(winW, winH, hWnd);
 	P = new Quad;
 	D = new Dice;
-	if (FAILED(hr))
-	{
-		PostQuitMessage(0);	//プログラム終了
-	}
+	S = new Sprite;
+	if (FAILED(hr)){
 
-	if (FAILED(hr))
-	{
-		PostQuitMessage(0);
+		PostQuitMessage(0);	//プログラム終了
 	}
 
 	Camera::Initialize();
@@ -80,6 +78,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	hr = P->Initialize();
 	hr = D->Initialize();
+	hr = S->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -116,8 +115,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 //			XMMATRIX mat = matS * matR * matT;
 //			XMMATRIX mat = matRY * matRX;
 			XMMATRIX mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
-			P->Draw(mat);
+//			XMMatrixIdentity();
+//			P->Draw(mat);
 //			D->Draw(mat);
+			S->Draw(mat);
 			Direct3D::EndDraw();
 			
 		}
@@ -126,6 +127,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Direct3D::Release();
 	SAFE_DELETE(P);
 	SAFE_DELETE(D);
+	SAFE_DELETE(S);
 	
 	return 0;
 }
