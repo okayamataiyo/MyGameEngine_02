@@ -1,7 +1,9 @@
 #pragma once
 #include <DirectXMath.h>
+#include <vector>
 #include "Direct3D.h"
 #include "Texture.h"
+
 
 
 using namespace DirectX;
@@ -10,7 +12,7 @@ using namespace DirectX;
 struct CONSTANT_BUFFER
 {
 	XMMATRIX	matWVP;
-	XMMATRIX	matW;
+	XMMATRIX	matNormal;
 };
 
 //頂点情報
@@ -23,6 +25,12 @@ struct VERTEX
 
 class Quad
 {
+protected:
+	int vertexNum_;
+	std::vector<VERTEX> vertices_;
+	int indexNum_;				//インデックス数
+	std::vector<int> index_;	//インデックス情報
+
 	//メンバ変数
 	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
 	ID3D11Buffer* pIndexBuffer_;	//インデックスバッファ
@@ -36,11 +44,22 @@ public:
 	/// </summary>
 	Quad();
 	~Quad();
-	virtual HRESULT Initialize();
-	virtual void Draw(XMMATRIX& worldMatrix);
-	virtual void Release();
+	HRESULT Initialize();
+	void Draw(XMMATRIX& worldMatrix);
+	void Release();
 	HRESULT CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in);
 
 	void SetBuffers(int _in, XMMATRIX& worldMatrix);
+private:
+	virtual void InitVertexData();
+	HRESULT CreateVertexBuffer();
+	virtual void InitIndexData();
+	HRESULT CreateIndexBuffer();
+	HRESULT CreateConstantBuffer();
+	HRESULT LoadTexture();
+
+	//---------Draw関数から呼ばれる関数---------
+	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);	//コンスタントバッファに各種情報を渡す
+	void SetBufferToPipeline();
 };
 

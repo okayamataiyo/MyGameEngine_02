@@ -1,16 +1,7 @@
 #include "Dice.h"
 #include "Camera.h"
 
-Dice::Dice()
-{
-}
-
-Dice::~Dice()
-{
-	Release();
-}
-
-HRESULT Dice::Initialize()
+void Dice::InitVertexData()
 {
 
 	VERTEX vertices[] =
@@ -52,28 +43,15 @@ HRESULT Dice::Initialize()
 		{XMVectorSet(-1.0f,-1.0f, 2.0f, 0.0f),	XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 裏面四角形の頂点（右下）	23
 	};
 
-	//インデックス情報
-	int index[] ={
-	 0,3,1, 0,2,3,
-	 4,7,5, 4,6,7,
-	 8,11,9, 8,10,11,
-	 12,15,13, 12,14,15,
-	 16,19,17, 16,18,19,
-	 20,23,21, 20,22,23
-	};
-
-	CreateBuffers(vertices, 24, index, 36);
-
-	return S_OK;
-
-	
+	//頂点の数
+	vertexNum_ = vertices_.size();
 }
 
-void Dice::Draw(XMMATRIX& worldMatrix)
+//インデックス情報を準備
+void Dice::InitIndexData()
 {
-	SetBuffers(36, worldMatrix);
-}
+	index_ = { 0,1,2, 0,2,3, 4,5,6, 4,6,7, 8,9,10, 8,10,11, 12,13,14, 12,14,15, 16,17,18, 16,18,19, 20,21,22, 20,22,23, };
 
-void Dice::Release()
-{
+	//インデックス数
+	indexNum_ = index_.size();
 }
