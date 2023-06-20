@@ -2,22 +2,21 @@
 #include "Camera.h"
 
 Quad::Quad():
-	pVertexBuffer_(nullptr),pIndexBuffer_(nullptr), pConstantBuffer_(nullptr),pTexture_(nullptr)
-{
+	pVertexBuffer_(nullptr),pIndexBuffer_(nullptr), pConstantBuffer_(nullptr),pTexture_(nullptr){
 
 }
 
-Quad::~Quad()
-{
+Quad::~Quad(){
+
 	Release();
 }
 
-HRESULT Quad::Initialize()
-{
+HRESULT Quad::Initialize(){
+
 	HRESULT hr;
 	// 頂点情報
-	VERTEX vertices[] = //[4]でも同じ意味
-	{
+	VERTEX vertices[] = {//[4]でも同じ意味
+
 		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（左上)0
 		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（右上)1
 		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f), XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 四角形の頂点（右下)2
@@ -35,16 +34,16 @@ HRESULT Quad::Initialize()
 	return S_OK;
 }
 
-void Quad::Draw(XMMATRIX& worldMatrix)
-{
+void Quad::Draw(XMMATRIX& worldMatrix){
+
 	SetBuffers(6, worldMatrix);
 
 //	Direct3D::pContext_->DrawIndexed(9, 0, 0);
 //	Direct3D::pContext_->DrawIndexed(6, 0, 0);//6は頂点の数を決めている	
 }
 
-void Quad::Release()
-{
+void Quad::Release(){
+
 //	pTexture_->Release();
 	SAFE_RELEASE(pConstantBuffer_);
 	SAFE_RELEASE(pIndexBuffer_);
@@ -52,8 +51,8 @@ void Quad::Release()
 	SAFE_RELEASE(pTexture_);
 }
 
-HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in)
-{
+HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in){
+
 	HRESULT hr;
 
 	// 頂点データ用バッファの設定
@@ -68,8 +67,8 @@ HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in)
 	D3D11_SUBRESOURCE_DATA data_vertex;
 	data_vertex.pSysMem = _ver;
 	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
-	if (FAILED(hr))
-	{
+	if (FAILED(hr)){
+
 		MessageBox(nullptr, "頂点データ用バッファの設定にエラーが起きました", "エラー", MB_OK);
 		return hr;
 		//エラー処理
@@ -89,8 +88,8 @@ HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in)
 	InitData.SysMemPitch = 0;
 	InitData.SysMemSlicePitch = 0;
 	hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
-	if (FAILED(hr))
-	{
+	if (FAILED(hr)){
+
 		MessageBox(nullptr, "インデックスバッファの生成に失敗しました", "エラー", MB_OK);
 		return hr;
 		//エラー処理
@@ -106,8 +105,8 @@ HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in)
 
 	// コンスタントバッファの作成
 	hr = Direct3D::pDevice_->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
-	if (FAILED(hr))
-	{
+	if (FAILED(hr)){
+
 		MessageBox(nullptr, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
 		return hr;
 		//エラー処理
@@ -117,8 +116,8 @@ HRESULT Quad::CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in)
 	return S_OK;
 }
 
-void Quad::SetBuffers(int _in, XMMATRIX& worldMatrix)
-{
+void Quad::SetBuffers(int _in, XMMATRIX& worldMatrix){
+
 	////コンスタントバッファに渡す情報
 	//XMVECTOR position = { 0, 3, -10, 0 };	//カメラの位置
 	//XMVECTOR target = { 0, 0, 0, 0 };	//カメラの焦点

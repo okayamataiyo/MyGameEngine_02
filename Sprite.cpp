@@ -10,15 +10,14 @@ Sprite::Sprite()
 
 Sprite::~Sprite(){
 
-	Release();
+	
 }
 
 HRESULT Sprite::Initialize() {
 	
 	HRESULT hr;
 	// 頂点情報
-	VERTEX vertices[] = //[4]でも同じ意味
-	{
+	VERTEX vertices[] ={ //[4]でも同じ意味
 		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f)},	// 四角形の頂点（左上)0
 		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f)},	// 四角形の頂点（右上)1
 		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f)},	// 四角形の頂点（右下)2
@@ -36,14 +35,15 @@ HRESULT Sprite::Initialize() {
 
 	indexNum_ = sizeof(vertices);
 
-	index_ = new index[6];
+	int indexSize = sizeof(index);
+	index_ = new int[indexSize];
 
 
-	InitVertexData();
-	CreateVertexBuffer();
-	InitIndexData();
-	CreateIndexBuffer();
-	LoadTexture();
+	InitVertexData();		//頂点情報を準備
+	CreateVertexBuffer();	//頂点バッファを作成
+	InitIndexData();		//インデックス情報を準備
+	CreateIndexBuffer();	//インデックスバッファを作成
+	LoadTexture();			//テクスチャをロード
 
 	delete[] vertices_;
 
@@ -57,7 +57,6 @@ void Sprite::Draw(XMMATRIX& worldMatrix){
 }
 
 void Sprite::Release(){
-
 	SAFE_RELEASE(pConstantBuffer_);
 	SAFE_RELEASE(pIndexBuffer_);
 	SAFE_RELEASE(pVertexBuffer_);
@@ -91,6 +90,7 @@ HRESULT Sprite::CreateVertexBuffer(){
 	//	return hr;
 	//	//エラー処理
 	//}
+	return S_OK;
 }
 
 void Sprite::InitIndexData(){
@@ -104,7 +104,7 @@ void Sprite::InitIndexData(){
 	bd.MiscFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA InitData;
-	InitData.pSysMem = _index;
+	InitData.pSysMem = index_;
 	InitData.SysMemPitch = 0;
 	InitData.SysMemSlicePitch = 0;
 
@@ -114,15 +114,8 @@ void Sprite::InitIndexData(){
 
 HRESULT Sprite::CreateIndexBuffer() {
 
-	HRESULT hr;
 
-	if (FAILED(hr))
-	{
-		MessageBox(nullptr, "インデックスバッファの生成に失敗しました", "エラー", MB_OK);
-		return hr;
-		//エラー処理
-	}
-	
+	return S_OK;
 }
 
 HRESULT Sprite::CreateConstantBuffer(){
@@ -147,14 +140,15 @@ HRESULT Sprite::CreateConstantBuffer(){
 		//エラー処理
 	}
 
-
 }
 
 HRESULT Sprite::LoadTexture(){
 
-	pTexture_ = new Texture;
-	pTexture_->Load("Assets\\dice.png");
-	return S_OK;
+	pTexture_ = new Texture();
+	if (FAILED(pTexture_->Load("Assets\\dice.png"))) {
+
+		return E_FAIL;
+	}
 }
 
 void Sprite::PassDataToCB(DirectX::XMMATRIX& worldMatrix)
