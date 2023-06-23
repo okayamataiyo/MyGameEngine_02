@@ -3,7 +3,7 @@
 
 Sprite::Sprite()
 	:vertexNum_(0),pVertexBuffer_(nullptr),
-	indexNum_(0),pIndexBuffer_(nullptr),
+	indexNum(0),pIndexBuffer_(nullptr),
 	pConstantBuffer_(nullptr),
 	pTexture_(nullptr){
 
@@ -17,9 +17,8 @@ Sprite::~Sprite()
 
 HRESULT Sprite::Initialize() 
 {
-
 	// 頂点情報
-	InitIndexData();					//データを用意して
+	InitVertexData();					//データを用意して
 	if (FAILED(CreateVertexBuffer()))	//頂点バッファ作成
 	{
 		return E_FAIL;
@@ -59,7 +58,7 @@ void Sprite::Draw(Transform& transform)
 	SetBufferToPipeline();
 
 	//描画
-	Direct3D::pContext_->DrawIndexed(indexNum_, 0, 0);
+	Direct3D::pContext_->DrawIndexed(indexNum, 0, 0);
 
 }
 
@@ -97,24 +96,23 @@ void Sprite::InitVertexData()
 //頂点バッファを作成
 HRESULT Sprite::CreateVertexBuffer()
 {
-	HRESULT hr;
-	D3D11_BUFFER_DESC bd_vertex;
-	bd_vertex.ByteWidth = sizeof(VERTEX) * vertexNum_;
-	bd_vertex.Usage = D3D11_USAGE_DEFAULT;
-	bd_vertex.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd_vertex.CPUAccessFlags = 0;
-	bd_vertex.MiscFlags = 0;
-	bd_vertex.StructureByteStride = 0;
-	D3D11_SUBRESOURCE_DATA data_vertex;
-	data_vertex.pSysMem = vertices_.data();
-	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
-	if (FAILED(hr))
-	{
-		MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
-		return hr;
-	}
-
-	return S_OK;
+		HRESULT hr;
+		D3D11_BUFFER_DESC bd_vertex;
+		bd_vertex.ByteWidth = sizeof(VERTEX) * vertexNum_;
+		bd_vertex.Usage = D3D11_USAGE_DEFAULT;
+		bd_vertex.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd_vertex.CPUAccessFlags = 0;
+		bd_vertex.MiscFlags = 0;
+		bd_vertex.StructureByteStride = 0;
+		D3D11_SUBRESOURCE_DATA data_vertex;
+		data_vertex.pSysMem = vertices_.data();
+		hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
+		if (FAILED(hr))
+		{
+			MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
+			return hr;
+		}
+		return S_OK;
 }
 
 //インデックス情報を準備
@@ -122,7 +120,7 @@ void Sprite::InitIndexData()
 {
 	index_ = { 0,2,3, 0,1,2 };
 	//インデックス数
-	indexNum_ = index_.size();
+	indexNum = index_.size();
 	//メンバ変数へコピー
 	//index_ = new int[indexNum];
 	//memcpy(index_, index, sizeof(index));
@@ -135,7 +133,7 @@ HRESULT Sprite::CreateIndexBuffer()
 
 	D3D11_BUFFER_DESC   bd;
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(int) * indexNum_;
+	bd.ByteWidth = sizeof(int) * indexNum;
 	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 	bd.MiscFlags = 0;
@@ -173,7 +171,7 @@ HRESULT Sprite::CreateConstantBuffer()
 	hr = Direct3D::pDevice_->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(nullptr, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
+		MessageBox(NULL, "コンスタントバッファの作成に失敗しました", "エラー", MB_OK);
 		return hr;
 	}
 
@@ -200,13 +198,17 @@ void Sprite::PassDataToCB(XMMATRIX worldMatrix)
 {
 	CONSTANT_BUFFER cb;
 	cb.matW = XMMatrixTranspose(worldMatrix);
+
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
+
 	ID3D11SamplerState* pSampler = pTexture_->GetSampler();
 	Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
+
 	ID3D11ShaderResourceView* pSRV = pTexture_->GetSRV();
 	Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
+
 	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
 }
 
@@ -217,6 +219,7 @@ void Sprite::SetBufferToPipeline()
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
 	Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
+
 	// インデックスバッファーをセット
 	stride = sizeof(int);
 	offset = 0;

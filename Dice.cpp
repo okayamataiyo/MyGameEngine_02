@@ -1,50 +1,53 @@
 ﻿#include "Dice.h"
 
+//頂点情報の準備
 void Dice::InitVertexData()
 {
-
-	VERTEX vertices[] =
+	// 頂点情報
+	vertices_ =
 	{
-		//面１
-		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 正面四角形の頂点（左上)	0
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 正面四角形の頂点（左下）	1
-		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 正面四角形の頂点（右上)	2
-		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 正面四角形の頂点（右下）	3
+		//前(1)
+		{ XMVectorSet(-1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, -1.0f, 0.0f)},	// 0
+		{ XMVectorSet(1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, -1.0f, 0.0f)},	// 1
+		{ XMVectorSet(1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, -1.0f, 0.0f)},	// 2
+		{ XMVectorSet(-1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.0f , 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, -1.0f, 0.0f)},	// 3
 
-		//面2
-		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 左面四角形の頂点（左上）	4
-		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 左面四角形の頂点（左下）	5
-		{XMVectorSet( 1.0f,  1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 左面四角形の頂点（右上）	6
-		{XMVectorSet( 1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 左面四角形の頂点（右下）	7
+		//右(2)
+		{ XMVectorSet(1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f),	XMVectorSet(1.0f , 0.0f, 0.0f, 0.0f)},	// 4
+		{ XMVectorSet(1.0f,  1.0f, 1.0f, 0.0f),		XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f),	XMVectorSet(1.0f , 0.0f, 0.0f, 0.0f)},	// 5
+		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),		XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f),	XMVectorSet(1.0f , 0.0f, 0.0f, 0.0f)},	// 6
+		{ XMVectorSet(1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(1.0f , 0.0f, 0.0f, 0.0f)},	// 7
 
-		//面3
-		{XMVectorSet(-1.0f,  1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 右面四角形の頂点（左上）	8
-		{XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 右面四角形の頂点（左下）	9
-		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 右面四角形の頂点（右上）	10
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 右面四角形の頂点（右下）	11
+		//左(3)
+		{ XMVectorSet(-1.0f,  1.0f,  1.0f, 0.0f),	XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f),	XMVectorSet(-1.0f , 0.0f, 0.0f, 0.0f)},	// 8
+		{ XMVectorSet(-1.0f,  1.0f, -1.0f, 0.0f),	XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f),	XMVectorSet(-1.0f , 0.0f, 0.0f, 0.0f)},	// 9
+		{ XMVectorSet(-1.0f, -1.0f, -1.0f, 0.0f),	XMVectorSet(0.75f, 0.5f, 0.0f, 0.0f),	XMVectorSet(-1.0f , 0.0f, 0.0f, 0.0f)},	// 10
+		{ XMVectorSet(-1.0f, -1.0f,  1.0f, 0.0f),	XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f),	XMVectorSet(-1.0f , 0.0f, 0.0f, 0.0f)},	// 11
 
-		//面4
-		{XMVectorSet( 1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 下面四角形の頂点（左上）	12
-		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 下面四角形の頂点（左下）	13
-		{XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 下面四角形の頂点（右上）	14
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  1.0f, 0.5f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 下面四角形の頂点（右下）	15
+		//奥(4)
+		{ XMVectorSet(1.0f,  1.0f, 1.0f, 0.0f),		XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, 1.0f, 0.0f)},	// 12
+		{ XMVectorSet(-1.0f,  1.0f, 1.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, 1.0f, 0.0f)}, 	// 13
+		{ XMVectorSet(-1.0f, -1.0f, 1.0f, 0.0f),	XMVectorSet(1.0f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, 1.0f, 0.0f)},	// 14
+		{ XMVectorSet(1.0f, -1.0f, 1.0f, 0.0f),		XMVectorSet(0.75f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f , 0.0f, 1.0f, 0.0f)},// 15
 
-		//面5
-		{XMVectorSet( 1.0f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 上面四角形の頂点（左上）	16
-		{XMVectorSet( 1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 上面四角形の頂点（左下）	17
-		{XMVectorSet(-1.0f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 上面四角形の頂点（右上）	18
-		{XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 上面四角形の頂点（右下）	19
+		//上(5)
+		{ XMVectorSet(-1.0f, 1.0f,  1.0f, 0.0f),	XMVectorSet(0.0f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f , 1.0f, 0.0f, 0.0f)},	// 16
+		{ XMVectorSet(1.0f, 1.0f,  1.0f, 0.0f),		XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f , 1.0f, 0.0f, 0.0f)},  // 17
+		{ XMVectorSet(1.0f, 1.0f, -1.0f, 0.0f),		XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f , 1.0f, 0.0f, 0.0f)},  // 18
+		{ XMVectorSet(-1.0f, 1.0f, -1.0f, 0.0f),	XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f , 1.0f, 0.0f, 0.0f)},	// 19
 
-		//面6
-		{XMVectorSet( 1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 裏面四角形の頂点（左上）	20
-		{XMVectorSet( 1.0f,-1.0f, 2.0f, 0.0f),	XMVectorSet(1.0f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 裏面四角形の頂点（左下）	21
-		{XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 裏面四角形の頂点（右上）	22
-		{XMVectorSet(-1.0f,-1.0f, 2.0f, 0.0f),	XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// 裏面四角形の頂点（右下）	23
+		//下(6)
+		{ XMVectorSet(-1.0f, -1.0f,  -1.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f , -1.0f, 0.0f, 0.0f)},  // 20
+		{ XMVectorSet(1.0f, -1.0f,  -1.0f, 0.0f),	XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f , -1.0f, 0.0f, 0.0f)},	// 21
+		{ XMVectorSet(1.0f, -1.0f,   1.0f, 0.0f),	XMVectorSet(0.5f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f , -1.0f, 0.0f, 0.0f)},	// 22
+		{ XMVectorSet(-1.0f, -1.0f,   1.0f, 0.0f),	XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f , -1.0f, 0.0f, 0.0f)},  // 23
 	};
 
 	//頂点の数
 	vertexNum_ = vertices_.size();
+
 }
+
 
 //インデックス情報を準備
 void Dice::InitIndexData()
