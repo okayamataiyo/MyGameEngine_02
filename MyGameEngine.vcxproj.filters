@@ -34,6 +34,9 @@
     <Filter Include="ソース ファイル\Transform">
       <UniqueIdentifier>{f2e5cb03-b0d9-4d30-9ad3-2f6ec945abfb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Fbx">
+      <UniqueIdentifier>{6cc328c8-f0c7-4de7-af62-455e5629ed33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -60,6 +63,9 @@
     <ClCompile Include="Transform.cpp">
       <Filter>ソース ファイル\Transform</Filter>
     </ClCompile>
+    <ClCompile Include="Fbx.cpp">
+      <Filter>ソース ファイル\Fbx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -82,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>ソース ファイル\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Fbx.h">
+      <Filter>ソース ファイル\Fbx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
