@@ -1,10 +1,8 @@
 ﻿#include "Texture.h"
 #include "Direct3D.h"
-
 #include <DirectXTex.h>
 
-#pragma comment(lib,"DirectXTex.lib")
-
+#pragma comment( lib, "WindowsCodecs.lib" )
 
 Texture::Texture()
 	:pSampler_(nullptr), pSRV_(nullptr)
@@ -16,14 +14,14 @@ Texture::~Texture()
 	Release();
 }
 
-HRESULT Texture::Load(string filename)
+HRESULT Texture::Load(string fileName)
 {
 	using namespace DirectX;
-	//////////�摜�ǂݍ��ݕ����i�ύX�j
+	//////////画像読み込み部分（変更）
 
 	wchar_t wtext[FILENAME_MAX];
 	size_t ret;
-	mbstowcs_s(&ret, wtext, filename.c_str(), filename.length());
+	mbstowcs_s(&ret, wtext, fileName.c_str(), fileName.length());
 
 	TexMetadata metadata;
 	ScratchImage image;
@@ -34,7 +32,7 @@ HRESULT Texture::Load(string filename)
 	{
 		return E_FAIL;
 	}
-	//�T���v���[�̍쐬
+	//サンプラーの作成
 	D3D11_SAMPLER_DESC  SamDesc;
 	ZeroMemory(&SamDesc, sizeof(D3D11_SAMPLER_DESC));
 	SamDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -47,7 +45,7 @@ HRESULT Texture::Load(string filename)
 		return E_FAIL;
 	}
 
-	//�V�F�[�_�[���\�[�X�r���[
+
 	D3D11_SHADER_RESOURCE_VIEW_DESC srv = {};
 	srv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	srv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -59,8 +57,6 @@ HRESULT Texture::Load(string filename)
 	{
 		return S_FALSE;
 	}
-
-
 	return S_OK;
 }
 

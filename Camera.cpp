@@ -1,12 +1,13 @@
 #include "Camera.h"
 
+//変数
 namespace Camera
 {
-	//変数
-XMVECTOR position_;	//カメラの位置（視点）
-XMVECTOR target_;	//見る位置（焦点）
-XMMATRIX viewMatrix_;	//ビュー行列
-XMMATRIX projMatrix_;	//プロジェクション行列
+	XMVECTOR position_;	//カメラの位置（視点）
+	XMVECTOR target_;	//見る位置（焦点）
+	XMMATRIX viewMatrix_;	//ビュー行列
+	XMMATRIX projMatrix_;	//プロジェクション行列
+
 }
 
 //初期化
@@ -57,6 +58,5 @@ XMMATRIX Camera::GetViewMatrix()
 //プロジェクション行列を取得
 XMMATRIX Camera::GetProjectionMatrix()
 {
-
 	return projMatrix_;
 }

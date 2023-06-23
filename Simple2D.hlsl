@@ -1,5 +1,5 @@
 //───────────────────────────────────────
-// テクスチャ＆サンプラーデータのグローバル変数定義
+ // テクスチャ＆サンプラーデータのグローバル変数定義
 //───────────────────────────────────────
 Texture2D		g_texture : register(t0);	//テクスチャー
 SamplerState	g_sampler : register(s0);	//サンプラー
@@ -10,7 +10,7 @@ SamplerState	g_sampler : register(s0);	//サンプラー
 //───────────────────────────────────────
 cbuffer global
 {
-	float4x4	matW;		//ワールド行列
+	float4x4	matW;			// ワールド行列
 };
 
 //───────────────────────────────────────
@@ -25,13 +25,13 @@ struct VS_OUT
 //───────────────────────────────────────
 // 頂点シェーダ
 //───────────────────────────────────────
-VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
+VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD)
 {
 	//ピクセルシェーダーへ渡す情報
 	VS_OUT outData;
 
 	//ローカル座標に、ワールド行列をかけて
-	//ワールド座標に変換し、ピクセルシェーダーへ
+	//スクリーン座標に変換し、ピクセルシェーダーへ
 	outData.pos = mul(pos, matW);
 	outData.uv = uv;
 
