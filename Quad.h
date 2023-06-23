@@ -3,6 +3,7 @@
 #include <vector>
 #include "Direct3D.h"
 #include "Texture.h"
+#include "Transform.h"
 
 
 
@@ -45,11 +46,8 @@ public:
 	Quad();
 	~Quad();
 	HRESULT Initialize();
-	void Draw(XMMATRIX& worldMatrix);
+	void Draw(Transform& transform);
 	void Release();
-	HRESULT CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in);
-
-	void SetBuffers(int _in, XMMATRIX& worldMatrix);
 private:
 	virtual void InitVertexData();
 	HRESULT CreateVertexBuffer();
@@ -59,7 +57,7 @@ private:
 	HRESULT LoadTexture();
 
 	//---------Draw関数から呼ばれる関数---------
-	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);	//コンスタントバッファに各種情報を渡す
+	void PassDataToCB(Transform transform);	//コンスタントバッファに各種情報を渡す
 	void SetBufferToPipeline();
 };
 

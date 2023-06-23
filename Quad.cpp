@@ -40,12 +40,12 @@ HRESULT Quad::Initialize()
 	return S_OK;
 }
 
-void Quad::Draw(XMMATRIX& worldMatrix)
+void Quad::Draw(Transform& transform)
 {
 	Direct3D::SetShader(SHADER_3D);
 
 	//コンスタントバッファに情報を渡す
-	PassDataToCB(worldMatrix);
+	PassDataToCB(transform);
 
 	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
 	SetBufferToPipeline();
@@ -74,6 +74,37 @@ void Quad::InitVertexData()
 		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(0.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f)}	// 四角形の頂点（左下）	
 	};
 	vertexNum_ = vertices_.size();
+}
+
+//頂点バッファを作成
+HRESULT Quad::CreateVertexBuffer()
+{
+	HRESULT hr;
+	D3D11_BUFFER_DESC bd_vertex;
+	bd_vertex.ByteWidth = sizeof(VERTEX) * vertexNum_;
+	bd_vertex.Usage = D3D11_USAGE_DEFAULT;
+	bd_vertex.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd_vertex.CPUAccessFlags = 0;
+	bd_vertex.MiscFlags = 0;
+	bd_vertex.StructureByteStride = 0;
+	D3D11_SUBRESOURCE_DATA data_vertex;
+	data_vertex.pSysMem = vertices_.data();
+	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
+		return hr;
+	}
+	return S_OK;
+}
+
+//インデックス情報を準備
+void Quad::InitIndexData()
+{
+	index_ = { 0,2,3, 0,1,2 };
+
+	//インデックス数
+	indexNum_ = index_.size();
 }
 
 HRESULT Quad::CreateIndexBuffer()
@@ -137,12 +168,12 @@ HRESULT Quad::LoadTexture()
 }
 
 //コンスタントバッファに各種情報を渡す
-void Quad::PassDataToCB(DirectX::XMMATRIX& worldMatrix)
+void Quad::PassDataToCB(Transform transform)
 {
 
 	CONSTANT_BUFFER cb;
-	cb.matWVP = XMMatrixTranspose(worldMatrix * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
-	cb.matNormal = XMMatrixTranspose(worldMatrix);
+	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+	cb.matNormal = XMMatrixTranspose(transform.GetWorldMatrix());
 
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
