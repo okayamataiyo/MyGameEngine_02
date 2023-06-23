@@ -3,6 +3,7 @@
 #include"Texture.h"
 #include<DirectXMath.h>
 #include<vector>
+#include "Transform.h"
 
 using namespace DirectX;
 
@@ -47,7 +48,7 @@ public:
 
 	//描画
 	//引数:worldMatrix ワールド行列
-	void Draw(XMMATRIX& worldMatrix);
+	void Draw(Transform& transform);
 
 	//解放
 	void Release();
@@ -65,7 +66,7 @@ private:
 	HRESULT LoadTexture();				//テクスチャをロード
 
 	//-----Draw関数から呼ばれる関数-----
-	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);		//CBに情報を渡す
+	void PassDataToCB(XMMATRIX worldMatrix);		//CBに情報を渡す
 	void SetBufferToPipeline();								//各バッファをセットする
 };
 

@@ -1,4 +1,4 @@
-#include "Sprite.h"
+ï»¿#include "Sprite.h"
 #include "Camera.h"
 
 Sprite::Sprite()
@@ -18,24 +18,24 @@ Sprite::~Sprite()
 HRESULT Sprite::Initialize() 
 {
 
-	// ’¸“_î•ñ
-	InitIndexData();					//ƒf[ƒ^‚ð—pˆÓ‚µ‚Ä
-	if (FAILED(CreateVertexBuffer()))	//’¸“_ƒoƒbƒtƒ@ì¬
+	// é ‚ç‚¹æƒ…å ±
+	InitIndexData();					//ãƒ‡ãƒ¼ã‚¿ã‚’ç”¨æ„ã—ã¦
+	if (FAILED(CreateVertexBuffer()))	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ä½œæˆ
 	{
 		return E_FAIL;
 	}
-	//ƒCƒ“ƒfƒbƒNƒXî•ñ
-	InitIndexData();					//ƒf[ƒ^‚ð—pˆÓ‚µ‚Ä
-	if (FAILED(CreateIndexBuffer()))	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ì¬
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±
+	InitIndexData();					//ãƒ‡ãƒ¼ã‚¿ã‚’ç”¨æ„ã—ã¦
+	if (FAILED(CreateIndexBuffer()))	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ä½œæˆ
 	{
 		return E_FAIL;
 	}
-	//ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@ì¬
+	//ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ä½œæˆ
 	if (FAILED(CreateConstantBuffer()))
 	{
 		return E_FAIL;
 	}
-	//ƒeƒNƒXƒ`ƒƒ‚Ìƒ[ƒh
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ­ãƒ¼ãƒ‰
 	if (FAILED(LoadTexture()))
 	{
 		return E_FAIL;
@@ -44,15 +44,21 @@ HRESULT Sprite::Initialize()
 	return S_OK;
 }
 
-void Sprite::Draw(XMMATRIX& worldMatrix)
+void Sprite::Draw(Transform& transform)
 {
+
 	Direct3D::SetShader(SHADER_2D);
 
-	PassDataToCB(worldMatrix);	//ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@‚Éî•ñ‚ð“n‚·
 
-	//’¸“_ƒoƒbƒtƒ@AƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@AƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@‚ðƒpƒCƒvƒ‰ƒCƒ“‚ÉƒZƒbƒg
+	transform.Calclation();//ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’è¨ˆç®—
+
+	//ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ã«æƒ…å ±ã‚’æ¸¡ã™
+	PassDataToCB(transform.GetWorldMatrix());
+
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã€ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ã‚’ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«ã‚»ãƒƒãƒˆ
 	SetBufferToPipeline();
-	//•`‰æ
+
+	//æç”»
 	Direct3D::pContext_->DrawIndexed(indexNum_, 0, 0);
 
 }
@@ -67,28 +73,28 @@ void Sprite::Release()
 	
 }
 
-//‚±‚±‚©‚çprivateŠÖ”
+//ã“ã“ã‹ã‚‰privateé–¢æ•°
 
-//’¸“_î•ñ‚Ì€”õ
+//é ‚ç‚¹æƒ…å ±ã®æº–å‚™
 void Sprite::InitVertexData()
 {
 
 	vertices_ =
 	{
-		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },// ŽlŠpŒ`‚Ì’¸“_i¶ãj
-		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),  XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },	// ŽlŠpŒ`‚Ì’¸“_i‰Eãj
-		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),  XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },// ŽlŠpŒ`‚Ì’¸“_i‰E‰ºj
-		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// ŽlŠpŒ`‚Ì’¸“_i¶‰ºj		
+		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },// å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸Šï¼‰
+		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),  XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },	// å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸Šï¼‰
+		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),  XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },// å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸‹ï¼‰
+		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸‹ï¼‰		
 	};
 
-	//’¸“_‚Ì”
-	vertexNum_ = vertices_.size();	//‘Sƒf[ƒ^‚ÌƒTƒCƒY@€@1’¸“_•ª‚ÌƒTƒCƒY@@’¸“_”
-	//ƒƒ“ƒo•Ï”‚ÖƒRƒs[
-	//vertices_ = new VERTEX[vertexNum_];				//•K—v‚ÈƒTƒCƒY‚Ì”z—ñ‚É‚µ‚Ä
-	//memcpy(vertices_, vertices, sizeof(vertices));	//ƒRƒs[
+	//é ‚ç‚¹ã®æ•°
+	vertexNum_ = vertices_.size();	//å…¨ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚ºã€€Ã·ã€€1é ‚ç‚¹åˆ†ã®ã‚µã‚¤ã‚ºã€€ï¼ã€€é ‚ç‚¹æ•°
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°ã¸ã‚³ãƒ”ãƒ¼
+	//vertices_ = new VERTEX[vertexNum_];				//å¿…è¦ãªã‚µã‚¤ã‚ºã®é…åˆ—ã«ã—ã¦
+	//memcpy(vertices_, vertices, sizeof(vertices));	//ã‚³ãƒ”ãƒ¼
 }
 
-//’¸“_ƒoƒbƒtƒ@‚ðì¬
+//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆ
 HRESULT Sprite::CreateVertexBuffer()
 {
 	HRESULT hr;
@@ -104,26 +110,26 @@ HRESULT Sprite::CreateVertexBuffer()
 	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(NULL, "’¸“_ƒoƒbƒtƒ@‚Ìì¬‚ÉŽ¸”s‚µ‚Ü‚µ‚½", "ƒGƒ‰[", MB_OK);
+		MessageBox(NULL, "é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ", "ã‚¨ãƒ©ãƒ¼", MB_OK);
 		return hr;
 	}
 
 	return S_OK;
 }
 
-//ƒCƒ“ƒfƒbƒNƒXî•ñ‚ð€”õ
+//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±ã‚’æº–å‚™
 void Sprite::InitIndexData()
 {
 	index_ = { 0,2,3, 0,1,2 };
-	//ƒCƒ“ƒfƒbƒNƒX”
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æ•°
 	indexNum_ = index_.size();
-	//ƒƒ“ƒo•Ï”‚ÖƒRƒs[
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°ã¸ã‚³ãƒ”ãƒ¼
 	//index_ = new int[indexNum];
 	//memcpy(index_, index, sizeof(index));
 
 }
 
-//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ðì¬
+//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆ
 HRESULT Sprite::CreateIndexBuffer() 
 {
 
@@ -141,18 +147,18 @@ HRESULT Sprite::CreateIndexBuffer()
 	hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(NULL, "ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìì¬‚ÉŽ¸”s‚µ‚Ü‚µ‚½", "ƒGƒ‰[", MB_OK);
+		MessageBox(NULL, "ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ", "ã‚¨ãƒ©ãƒ¼", MB_OK);
 		return hr;
 	}
 	return S_OK;
 }
 
-//ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@‚ðì¬
+//ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆ
 HRESULT Sprite::CreateConstantBuffer()
 {
 
 
-	//ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@ì¬
+	//ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ä½œæˆ
 	D3D11_BUFFER_DESC cb;
 	cb.ByteWidth = sizeof(CONSTANT_BUFFER);
 	cb.Usage = D3D11_USAGE_DYNAMIC;
@@ -161,20 +167,20 @@ HRESULT Sprite::CreateConstantBuffer()
 	cb.MiscFlags = 0;
 	cb.StructureByteStride = 0;
 
-	// ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@‚Ìì¬
+	// ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
 	HRESULT hr;
 
 	hr = Direct3D::pDevice_->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(nullptr, "’¸“_ƒoƒbƒtƒ@‚Ìì¬‚ÉŽ¸”s‚µ‚Ü‚µ‚½", "ƒGƒ‰[", MB_OK);
+		MessageBox(nullptr, "é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ", "ã‚¨ãƒ©ãƒ¼", MB_OK);
 		return hr;
 	}
 
 	return S_OK;
 }
 
-//ƒeƒNƒXƒ`ƒƒ‚ðƒ[ƒh
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ãƒ­ãƒ¼ãƒ‰
 HRESULT Sprite::LoadTexture(){
 
 	pTexture_ = new Texture();
@@ -182,42 +188,42 @@ HRESULT Sprite::LoadTexture(){
 	HRESULT hr;
 	hr = pTexture_->Load("Assets\\dice.png");
 	if (FAILED(hr)) {
-		MessageBox(NULL, "ƒeƒNƒXƒ`ƒƒ‚Ìì¬‚ÉŽ¸”s‚µ‚Ü‚µ‚½", "ƒGƒ‰[", MB_OK);
+		MessageBox(NULL, "ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ", "ã‚¨ãƒ©ãƒ¼", MB_OK);
 		return hr;
 	}
 
 	return S_OK;
 }
 
-//ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@‚ÉŠeŽíî•ñ‚ð“n‚·
-void Sprite::PassDataToCB(DirectX::XMMATRIX& worldMatrix)
+//ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ã«å„ç¨®æƒ…å ±ã‚’æ¸¡ã™
+void Sprite::PassDataToCB(XMMATRIX worldMatrix)
 {
 	CONSTANT_BUFFER cb;
 	cb.matW = XMMatrixTranspose(worldMatrix);
 	D3D11_MAPPED_SUBRESOURCE pdata;
-	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPU‚©‚ç‚Ìƒf[ƒ^ƒAƒNƒZƒX‚ðŽ~‚ß‚é
-	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// ƒf[ƒ^‚ð’l‚ð‘—‚é
+	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUã‹ã‚‰ã®ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚¹ã‚’æ­¢ã‚ã‚‹
+	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// ãƒ‡ãƒ¼ã‚¿ã‚’å€¤ã‚’é€ã‚‹
 	ID3D11SamplerState* pSampler = pTexture_->GetSampler();
 	Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
 	ID3D11ShaderResourceView* pSRV = pTexture_->GetSRV();
 	Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
-	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//ÄŠJ
+	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//å†é–‹
 }
 
-//Šeƒoƒbƒtƒ@‚ðƒpƒCƒvƒ‰ƒCƒ“‚ÉƒZƒbƒg
+//å„ãƒãƒƒãƒ•ã‚¡ã‚’ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«ã‚»ãƒƒãƒˆ
 void Sprite::SetBufferToPipeline()
 {
-	//’¸“_ƒoƒbƒtƒ@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
 	Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@[‚ðƒZƒbƒg
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 	stride = sizeof(int);
 	offset = 0;
 	Direct3D::pContext_->IASetIndexBuffer(pIndexBuffer_, DXGI_FORMAT_R32_UINT, 0);
-	//ƒRƒ“ƒXƒ^ƒ“ƒgƒoƒbƒtƒ@
-	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//’¸“_ƒVƒF[ƒ_[—p	
-	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_[—p
+	//ã‚³ãƒ³ã‚¹ã‚¿ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡
+	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ç”¨	
+	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ç”¨
 }
 
 

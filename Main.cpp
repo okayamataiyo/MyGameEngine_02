@@ -5,6 +5,7 @@
 //#include "Quad.h"
 #include "Dice.h"
 #include "Sprite.h"
+#include "Transform.h"
 
 
 //Quad* P;
@@ -83,60 +84,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Sprite* pSprite = new Sprite;
 	hr = pSprite->Initialize();
 
-	//メッセージループ（何か起きるのを待つ）
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg));
-	while (msg.message != WM_QUIT)
-	{
-		//メッセージあり
-		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-			
-		}
 
-		//メッセージなし
-		else
-		{
-			Camera::Update(); //カメラの更新処理
-			//ゲームの処理 
-			Direct3D::BeginDraw();
-
-			//描画処理
-			static float a = 0;
-			a += 0.05;
-
-			XMMATRIX matRY = XMMatrixRotationY(XMConvertToRadians(a));
-			XMMATRIX matRX = XMMatrixRotationX(XMConvertToRadians(-a));
-			XMMatrixRotationZ(XMConvertToRadians(a));
-			XMMATRIX matR = XMMatrixRotationY(XMConvertToRadians(a));
-			XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
-			XMMATRIX matS = XMMatrixScaling(1, 3, 1);
-//			XMMATRIX mat = matS * matR * matT;
-//			XMMATRIX mat = matRY * matRX;
-//			XMMatrixIdentity();
-//			P->Draw(mat);
-//			D->Draw(mat);
-			static float angle = 0;
-			angle += 0.05;
-			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0, 3, 0);
-			pDice->Draw(mat);
-
-			mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
-
-			pSprite->Draw(mat);
-			Direct3D::EndDraw();
-			
-		}
-	}
-
-	//SAFE_DELETE(P);
-	//SAFE_DELETE(D);
-	SAFE_DELETE(pDice);
-	SAFE_DELETE(pSprite);
-
-	Direct3D::Release();
 
 	return 0;
 }

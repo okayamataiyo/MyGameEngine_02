@@ -1,12 +1,14 @@
-#include<DirectXTex.h>
-#include "Texture.h"
-#include"Direct3D.h"
+ï»¿#include "Texture.h"
+#include "Direct3D.h"
+
+#include <DirectXTex.h>
 
 #pragma comment(lib,"DirectXTex.lib")
 
-Texture::Texture():pSampler_(nullptr),pSRV_(nullptr)
-{
 
+Texture::Texture()
+	:pSampler_(nullptr), pSRV_(nullptr)
+{
 }
 
 Texture::~Texture()
@@ -14,28 +16,25 @@ Texture::~Texture()
 	Release();
 }
 
-HRESULT Texture::Load(std::string fileName)
+HRESULT Texture::Load(string filename)
 {
 	using namespace DirectX;
-	/////////‰æ‘œ“Ç‚Ýž‚Ý•”•ª(•ÏX)
+	//////////ï¿½æ‘œï¿½Ç‚Ýï¿½ï¿½Ý•ï¿½ï¿½ï¿½ï¿½iï¿½ÏXï¿½j
 
 	wchar_t wtext[FILENAME_MAX];
 	size_t ret;
-	mbstowcs_s(&ret, wtext, fileName.c_str(), fileName.length());
+	mbstowcs_s(&ret, wtext, filename.c_str(), filename.length());
 
 	TexMetadata metadata;
 	ScratchImage image;
 	HRESULT hr;
-	hr = LoadFromWICFile(wtext, WIC_FLAGS::WIC_FLAGS_NONE,&metadata, image);
+	hr = LoadFromWICFile(wtext, WIC_FLAGS::WIC_FLAGS_NONE, &metadata, image);
 	/////////
 	if (FAILED(hr))
 	{
-//		MassageBox()
-		//ƒGƒ‰[ˆ—,‘ŠúƒŠƒ^[ƒ“
-		OutputDebugString("‰æ‘œ‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s");
 		return E_FAIL;
 	}
-	//ƒTƒ“ƒvƒ‰[ì¬
+	//ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½Ìì¬
 	D3D11_SAMPLER_DESC  SamDesc;
 	ZeroMemory(&SamDesc, sizeof(D3D11_SAMPLER_DESC));
 	SamDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -45,10 +44,10 @@ HRESULT Texture::Load(std::string fileName)
 	hr = Direct3D::pDevice_->CreateSamplerState(&SamDesc, &pSampler_);
 	if (FAILED(hr))
 	{
-		OutputDebugString("ƒTƒ“ƒvƒ‰[ì¬‚ÉŽ¸”s");
 		return E_FAIL;
 	}
-	//ƒVƒF[ƒ_[ƒŠƒ\[ƒXƒrƒ…[ì¬
+
+	//ï¿½Vï¿½Fï¿½[ï¿½_ï¿½[ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½rï¿½ï¿½ï¿½[
 	D3D11_SHADER_RESOURCE_VIEW_DESC srv = {};
 	srv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	srv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -58,10 +57,10 @@ HRESULT Texture::Load(std::string fileName)
 		image.GetImages(), image.GetImageCount(), metadata, &pSRV_);
 	if (FAILED(hr))
 	{
-		OutputDebugString("ƒVƒF[ƒ_[ƒŠƒ\[ƒXƒrƒ…[ì¬‚ÉŽ¸”s");
 		return S_FALSE;
 	}
-//	pTexture->Release();
+
+
 	return S_OK;
 }
 

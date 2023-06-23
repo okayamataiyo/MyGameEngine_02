@@ -1,57 +1,56 @@
-#include "Dice.h"
-#include "Camera.h"
+ï»¿#include "Dice.h"
 
 void Dice::InitVertexData()
 {
 
 	VERTEX vertices[] =
 	{
-		//–Ê‚P
-		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ³–ÊlŠpŒ`‚Ì’¸“_i¶ã)	0
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ³–ÊlŠpŒ`‚Ì’¸“_i¶‰ºj	1
-		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ³–ÊlŠpŒ`‚Ì’¸“_i‰Eã)	2
-		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ³–ÊlŠpŒ`‚Ì’¸“_i‰E‰ºj	3
+		//é¢ï¼‘
+		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// æ­£é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸Š)	0
+		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// æ­£é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸‹ï¼‰	1
+		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// æ­£é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸Š)	2
+		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// æ­£é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸‹ï¼‰	3
 
-		//–Ê2
-		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ¶–ÊlŠpŒ`‚Ì’¸“_i¶ãj	4
-		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ¶–ÊlŠpŒ`‚Ì’¸“_i¶‰ºj	5
-		{XMVectorSet( 1.0f,  1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ¶–ÊlŠpŒ`‚Ì’¸“_i‰Eãj	6
-		{XMVectorSet( 1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ¶–ÊlŠpŒ`‚Ì’¸“_i‰E‰ºj	7
+		//é¢2
+		{XMVectorSet( 1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// å·¦é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸Šï¼‰	4
+		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// å·¦é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸‹ï¼‰	5
+		{XMVectorSet( 1.0f,  1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// å·¦é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸Šï¼‰	6
+		{XMVectorSet( 1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// å·¦é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸‹ï¼‰	7
 
-		//–Ê3
-		{XMVectorSet(-1.0f,  1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ‰E–ÊlŠpŒ`‚Ì’¸“_i¶ãj	8
-		{XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ‰E–ÊlŠpŒ`‚Ì’¸“_i¶‰ºj	9
-		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ‰E–ÊlŠpŒ`‚Ì’¸“_i‰Eãj	10
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ‰E–ÊlŠpŒ`‚Ì’¸“_i‰E‰ºj	11
+		//é¢3
+		{XMVectorSet(-1.0f,  1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// å³é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸Šï¼‰	8
+		{XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// å³é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸‹ï¼‰	9
+		{XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// å³é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸Šï¼‰	10
+		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// å³é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸‹ï¼‰	11
 
-		//–Ê4
-		{XMVectorSet( 1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ‰º–ÊlŠpŒ`‚Ì’¸“_i¶ãj	12
-		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ‰º–ÊlŠpŒ`‚Ì’¸“_i¶‰ºj	13
-		{XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ‰º–ÊlŠpŒ`‚Ì’¸“_i‰Eãj	14
-		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  1.0f, 0.5f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ‰º–ÊlŠpŒ`‚Ì’¸“_i‰E‰ºj	15
+		//é¢4
+		{XMVectorSet( 1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ä¸‹é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸Šï¼‰	12
+		{XMVectorSet( 1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ä¸‹é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸‹ï¼‰	13
+		{XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ä¸‹é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸Šï¼‰	14
+		{XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  1.0f, 0.5f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ä¸‹é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸‹ï¼‰	15
 
-		//–Ê5
-		{XMVectorSet( 1.0f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ã–ÊlŠpŒ`‚Ì’¸“_i¶ãj	16
-		{XMVectorSet( 1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ã–ÊlŠpŒ`‚Ì’¸“_i¶‰ºj	17
-		{XMVectorSet(-1.0f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ã–ÊlŠpŒ`‚Ì’¸“_i‰Eãj	18
-		{XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ã–ÊlŠpŒ`‚Ì’¸“_i‰E‰ºj	19
+		//é¢5
+		{XMVectorSet( 1.0f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ä¸Šé¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸Šï¼‰	16
+		{XMVectorSet( 1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ä¸Šé¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸‹ï¼‰	17
+		{XMVectorSet(-1.0f, 1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ä¸Šé¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸Šï¼‰	18
+		{XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// ä¸Šé¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸‹ï¼‰	19
 
-		//–Ê6
-		{XMVectorSet( 1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// — –ÊlŠpŒ`‚Ì’¸“_i¶ãj	20
-		{XMVectorSet( 1.0f,-1.0f, 2.0f, 0.0f),	XMVectorSet(1.0f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// — –ÊlŠpŒ`‚Ì’¸“_i¶‰ºj	21
-		{XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// — –ÊlŠpŒ`‚Ì’¸“_i‰Eãj	22
-		{XMVectorSet(-1.0f,-1.0f, 2.0f, 0.0f),	XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// — –ÊlŠpŒ`‚Ì’¸“_i‰E‰ºj	23
+		//é¢6
+		{XMVectorSet( 1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// è£é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸Šï¼‰	20
+		{XMVectorSet( 1.0f,-1.0f, 2.0f, 0.0f),	XMVectorSet(1.0f,  0.0f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// è£é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå·¦ä¸‹ï¼‰	21
+		{XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// è£é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸Šï¼‰	22
+		{XMVectorSet(-1.0f,-1.0f, 2.0f, 0.0f),	XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f),	XMVectorSet(0.0f,0.0f,-1.0f,0.0f)},	// è£é¢å››è§’å½¢ã®é ‚ç‚¹ï¼ˆå³ä¸‹ï¼‰	23
 	};
 
-	//’¸“_‚Ì”
+	//é ‚ç‚¹ã®æ•°
 	vertexNum_ = vertices_.size();
 }
 
-//ƒCƒ“ƒfƒbƒNƒXî•ñ‚ğ€”õ
+//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±ã‚’æº–å‚™
 void Dice::InitIndexData()
 {
 	index_ = { 0,1,2, 0,2,3, 4,5,6, 4,6,7, 8,9,10, 8,10,11, 12,13,14, 12,14,15, 16,17,18, 16,18,19, 20,21,22, 20,22,23, };
 
-	//ƒCƒ“ƒfƒbƒNƒX”
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æ•°
 	indexNum_ = index_.size();
 }
