@@ -34,11 +34,12 @@ HRESULT Fbx::Load(std::string fileName)
     //各情報の個数を取得
     vertexCount_  = mesh->GetControlPointsCount();	//頂点の数
     polygonCount_ = mesh->GetPolygonCount();	    //ポリゴンの数
+    materialCount_ = pNode->GetMaterialCount();     //マテリアルの数
 
     InitVertex(mesh);		//頂点バッファ準備
     InitIndex(mesh);		//インデックスバッファ準備
     InitConstantBuffer();	//コンスタントバッファ準備
-
+    InitMaterial(pNode);    //ノードからマテリアルの情報を引き出す
 
 
     //マネージャ解放
@@ -142,6 +143,41 @@ void Fbx::InitConstantBuffer()
     }
 }
 
+void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
+{
+    pMaterialList_ = new MATERIAL[materialCount_];
+
+    for (int i = 0; i < materialCount_; i++)
+    {
+        //i番目のマテリアル情報を取得
+        FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
+
+        //テクスチャ情報
+        FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
+
+        //テクスチャの数数
+        int fileTextureCount = lProperty.GetSrcObjectCount<FbxFileTexture>();
+
+        //テクスチャあり
+        if (fileTextureCount)
+        {
+            FbxFileTexture* textureInfo = lProperty.GetSrcObject<FbxFileTexture>(0);
+            const char* textureFilePath = textureInfo->GetRelativeFileName();
+
+            //ファイルからテクスチャ作成
+            pMaterialList_[i].pTexture = new Texture;
+//            pMaterialList_[i].pTexture->Load();
+        }
+
+        //テクスチャ無し
+        else
+        {
+
+        }
+
+
+    }
+}
 
 //テクスチャをロード
 void Fbx::Draw(Transform& transform)
