@@ -32,14 +32,13 @@ class Fbx
 	};
 
 	int vertexCount_;	//頂点数	FBXファイルを扱うために必要になる変数を宣言する。
-	VERTEX vertices_;
 	int polygonCount_;	//ポリゴン数
 
-	//メンバ変数
+
 	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
 	ID3D11Buffer* pIndexBuffer_;	//インデックスバッファ
 	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
-	Texture* pTexture_;
+//	Texture* pTexture_;
 
 	void InitVertex(fbxsdk::FbxMesh* mesh);
 	void InitIndex(fbxsdk::FbxMesh* mesh);
