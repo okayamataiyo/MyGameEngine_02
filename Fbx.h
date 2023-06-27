@@ -4,15 +4,22 @@
 #include <fbxsdk.h>
 #include <string>
 #include "Direct3D.h"
-#include "Texture.h"
 #include "Transform.h"
 
 #pragma comment(lib, "LibFbxSDK-MD.lib")
-#pragma comment(lib, "LibXml2-MT.lib")
-#pragma comment(lib, "zlib-MT.lib")
+#pragma comment(lib, "LibXml2-MD.lib")
+#pragma comment(lib, "zlib-MD.lib")
+
+class Texture;
 
 class Fbx
 {
+	//マテリアル
+	struct MATERIAL
+	{
+		//		Texture* pTexture;
+	};
+
 	//コンスタントバッファー
 	struct CONSTANT_BUFFER {
 		XMMATRIX matWVP;
@@ -34,14 +41,16 @@ class Fbx
 	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
 	Texture* pTexture_;
 
+	void InitVertex(fbxsdk::FbxMesh* mesh);
+	void InitIndex(fbxsdk::FbxMesh* mesh);
+	void InitConstantBuffer();
+
 public:
 	//メンバ関数
 	Fbx();
 	HRESULT Load(std::string fileName);
-	void InitVertex(fbxsdk::FbxMesh* mesh);
-	void InitIndex(fbxsdk::FbxMesh* mesh);
-	void InitConstantBuffer();
-	HRESULT CreateIndexBuffer();
+	
+	
 	void Draw(Transform& transform);
 	void Release();
 };
