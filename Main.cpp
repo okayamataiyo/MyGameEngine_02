@@ -6,7 +6,7 @@
 #include "Dice.h"
 #include "Sprite.h"
 #include "Transform.h"
-
+#include "Fbx.h"
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -19,7 +19,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //Quad* pQuad;
 //Dice* pDice;
-
+Fbx* pFbx;
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -81,8 +81,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	Dice* pDice = new Dice;
 	hr = pDice->Initialize();
+
 	Sprite* pSprite = new Sprite;
 	hr = pSprite->Initialize();
+
+	pFbx = new Fbx;
+	pFbx->Load("Assets/Oden_01.fbx");
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -110,7 +114,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Transform diceTransform;
 			diceTransform.position_.y = 3.0f;
 			diceTransform.rotate_.y = angle;
-			pDice->Draw(diceTransform);
 
 			////mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
 			Transform spriteTransform;
@@ -132,7 +135,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//XMMATRIX matS = XMMatrixTranslation(2.0, 2.0, 2.0);
 			//XMMATRIX mat = matS * matT * matR;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
+
+			pDice->Draw(diceTransform);
+
 			pSprite->Draw(spriteTransform);
+
+			pFbx->Draw(diceTransform);
 
 			Direct3D::EndDraw();
 
