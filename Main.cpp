@@ -136,9 +136,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//XMMATRIX mat = matS * matT * matR;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
 
-			pDice->Draw(diceTransform);
+//			pDice->Draw(diceTransform);
 
-			pSprite->Draw(spriteTransform);
+//			pSprite->Draw(spriteTransform);
 
 			pFbx->Draw(diceTransform);
 
