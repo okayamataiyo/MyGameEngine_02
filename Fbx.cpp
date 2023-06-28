@@ -150,21 +150,22 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
     //InitData.pSysMem = index;
     //InitData.SysMemPitch = 0;
     //InitData.SysMemSlicePitch = 0;
+    
     //全ポリゴン
-        for (DWORD poly = 0; poly < polygonCount_; poly++)
-        {
-            //あるマテリアルを持ったポリゴンのリストをとってきて、頂点をリストアップ
-            FbxLayerElementMaterial* mtl = mesh->GetLayer(0)->GetMaterials();
-            int mtlId = mtl->GetIndexArray().GetAt(poly);
+    for (DWORD poly = 0; poly < polygonCount_; poly++)
+    {
+        //あるマテリアルを持ったポリゴンのリストをとってきて、頂点をリストアップ
+        FbxLayerElementMaterial* mtl = mesh->GetLayer(0)->GetMaterials();
+        int mtlId = mtl->GetIndexArray().GetAt(poly);
 
-            if (mtlId == i)
+        if (mtlId == i)
+        {
+            //3頂点分
+            for (DWORD vertex = 0; vertex < 3; vertex++)
             {
-                //3頂点分
-                for (DWORD vertex = 0; vertex < 3; vertex++)
-                {
-                    index[count] = mesh->GetPolygonVertex(poly, vertex);
-                    count++;
-                }
+                index[count] = mesh->GetPolygonVertex(poly, vertex);
+                count++;
+            }
         }
     }
     indexCount_[i] = count;
@@ -244,7 +245,7 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
             //ファイルからテクスチャ作成
             pMaterialList_[i].pTexture = new Texture;
             HRESULT hr = pMaterialList_[i].pTexture->Load(name);
- //           assert(hr == S_OK);
+            assert(hr == S_OK);
         }
 
         //テクスチャ無し
@@ -267,43 +268,16 @@ void Fbx::Draw(Transform& transform)
     cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
     cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 
-    D3D11_MAPPED_SUBRESOURCE pdata;
-    Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
-    memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
-
-
-
-    Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
-
-
-
-    //頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
-    //頂点バッファ
-    UINT stride = sizeof(VERTEX);
-    UINT offset = 0;
-    Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
-
-    //// インデックスバッファーをセット
-    //stride = sizeof(int);
-    //offset = 0;
-    //Direct3D::pContext_->IASetIndexBuffer(pIndexBuffer_, DXGI_FORMAT_R32_UINT, 0);
-
-    ////コンスタントバッファ
-    //Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
-    //Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
-
-    ////描画
-    //Direct3D::pContext_->DrawIndexed(polygonCount_ * 3, 0, 0);
-
-    for (int i = 0; i < materialCount_; i++)
-    {
+    for (int i = 0; i < materialCount_; i++) {
         D3D11_MAPPED_SUBRESOURCE pdata;
-        Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);  //GPUからのデータアクセス
-        memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));                    //データを送る
+        Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
+        memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
 
-        Direct3D::pContext_->Unmap(pConstantBuffer_, 0);     //再開
+        Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
 
         //頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
+
+        //頂点バッファ
         UINT stride = sizeof(VERTEX);
         UINT offset = 0;
         Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
@@ -317,7 +291,20 @@ void Fbx::Draw(Transform& transform)
         Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
         Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
 
+        ////描画
+        //Direct3D::pContext_->DrawIndexed(polygonCount_ * 3, 0, 0);
+        //D3D11_MAPPED_SUBRESOURCE pdata;
+        //Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);  //GPUからのデータアクセス
+        //memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));                    //データを送る
 
+        //Direct3D::pContext_->Unmap(pConstantBuffer_, 0);     //再開
+
+        //頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
+        /*UINT stride = sizeof(VERTEX);
+        UINT offset = 0;*/
+
+
+       
 
         if (pMaterialList_[i].pTexture)
         {
