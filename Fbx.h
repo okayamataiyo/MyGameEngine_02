@@ -3,12 +3,14 @@
 #include <d3d11.h>
 #include <fbxsdk.h>
 #include <string>
-#include "Direct3D.h"
+#include <vector>
 #include "Transform.h"
 
 #pragma comment(lib, "LibFbxSDK-MD.lib")
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
+
+using std::vector;
 
 class Texture;
 
@@ -29,6 +31,8 @@ class Fbx
 	//頂点情報
 	struct VERTEX {
 		XMVECTOR position;
+		XMVECTOR uv;
+		XMVECTOR normal;
 	};
 
 	int vertexCount_;	//頂点数	FBXファイルを扱うために必要になる変数を宣言する。
@@ -36,9 +40,11 @@ class Fbx
 	int materialCount_;	//マテリアルの個数
 
 	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
-	ID3D11Buffer* pIndexBuffer_;	//インデックスバッファ
+	ID3D11Buffer** pIndexBuffer_;	//インデックスバッファ
 	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
 	MATERIAL* pMaterialList_;
+	vector<int> indexCount_;
+//	int* indexCount_;
 
 	void InitVertex(fbxsdk::FbxMesh* mesh);
 	void InitIndex(fbxsdk::FbxMesh* mesh);
