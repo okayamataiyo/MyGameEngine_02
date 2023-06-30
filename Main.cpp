@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "Transform.h"
 #include "Fbx.h"
+#include "Input.h"
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -67,6 +68,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//Direct3D初期化
 	HRESULT hr;
 	hr = Direct3D::Initialize(winW, winH, hWnd);
+
+	//DirectInputの初期化
+	Input::Initialize(hWnd);
+
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0); //エラー起きたら強制終了
@@ -98,15 +103,27 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+
 		}
 
 		//メッセージなし
 		else
 		{
+
 			Camera::Update();
 
 			//ゲームの処理
 			Direct3D::BeginDraw();
+
+			//入力情報の更新
+			Input::Update();
+
+			if (Input::IsKey(DIK_ESCAPE))
+			{
+ 				PostQuitMessage(0);
+			}
+
 			static float angle = 0;
 			angle += 0.05;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0,3,0);
@@ -148,10 +165,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		}
 	}
+
+
 	//SAFE_DELETE(pQuad);
 	SAFE_DELETE(pDice);
+	SAFE_DELETE(pFbx);
 	SAFE_DELETE(pSprite);
 
+	Input::Release();
 	Direct3D::Release();
 
 	return 0;
