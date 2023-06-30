@@ -91,7 +91,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	hr = pSprite->Initialize();
 
 	pFbx = new Fbx;
-	pFbx->Load("Assets/Oden.fbx");
+	pFbx->Load("Assets/Cube.fbx");
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
