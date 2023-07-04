@@ -9,7 +9,6 @@ Quad::Quad()
 
 Quad::~Quad()
 {
-
 	Release();
 }
 
@@ -80,6 +79,7 @@ void Quad::InitVertexData()
 HRESULT Quad::CreateVertexBuffer()
 {
 	HRESULT hr;
+
 	D3D11_BUFFER_DESC bd_vertex;
 	bd_vertex.ByteWidth = sizeof(VERTEX) * vertexNum_;
 	bd_vertex.Usage = D3D11_USAGE_DEFAULT;
@@ -109,6 +109,8 @@ void Quad::InitIndexData()
 
 HRESULT Quad::CreateIndexBuffer()
 {
+	HRESULT hr;
+
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -122,7 +124,6 @@ HRESULT Quad::CreateIndexBuffer()
 	InitData.SysMemPitch = 0;
 	InitData.SysMemSlicePitch = 0;
 
-	HRESULT hr;
 	hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
 	if (FAILED(hr))
 	{
@@ -135,6 +136,8 @@ HRESULT Quad::CreateIndexBuffer()
 //コンスタントバッファ作成
 HRESULT Quad::CreateConstantBuffer()
 {
+	HRESULT hr;
+
 	D3D11_BUFFER_DESC cb;
 	cb.ByteWidth = sizeof(CONSTANT_BUFFER);
 	cb.Usage = D3D11_USAGE_DYNAMIC;
@@ -142,8 +145,6 @@ HRESULT Quad::CreateConstantBuffer()
 	cb.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	cb.MiscFlags = 0;
 	cb.StructureByteStride = 0;
-	// コンスタントバッファの作成
-	HRESULT hr;
 	hr = Direct3D::pDevice_->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
