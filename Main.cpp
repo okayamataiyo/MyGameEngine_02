@@ -18,6 +18,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 {
+	HRESULT hr;
+
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
@@ -59,18 +61,22 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	ShowWindow(hWnd, nCmdShow);
 
 	//Direct3D初期化
-	HRESULT hr;
 	hr = Direct3D::Initialize(winW, winH, hWnd);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, "Direct3Dの初期化に失敗", "エラー", MB_OK);
+		PostQuitMessage(0); //エラー起きたら強制終了
+		return hr;
+	}
+
+	//カメラの初期化
+	Camera::Initialize();
 
 	//DirectInputの初期化
 	Input::Initialize(hWnd);
 
-	if (FAILED(hr))
-	{
-		PostQuitMessage(0); //エラー起きたら強制終了
-	}
-
-	Camera::Initialize();
+	pRootjob = new Rootjob;
+	pRootjob->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -95,6 +101,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//入力の処理
 			Input::Update();
 
+			pRootjob->Update();
+
 			//▼描画
 			Direct3D::BeginDraw();
 
@@ -102,11 +110,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		}
 	}
-
+	pRootjob->Release();
 	Input::Release();
 	Direct3D::Release();
 
-	return 0;
+	return S_OK;
 }
 
 //ウィンドウプロシージャ（何かあった時によばれる関数）

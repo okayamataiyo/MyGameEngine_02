@@ -4,12 +4,16 @@
 #include <string>
 #include "Transform.h"
 
+using std::string;
+using std::list;
+
 class GameObject
 {
-	std::list<GameObject*>	childList_;
-	Transform				transform_;
-	GameObject*				pParent_;
-	std::string				objectName_;
+protected:
+	list<GameObject*>	childList_;
+	Transform			transform_;
+	GameObject*			pParent_;
+	string				objectName_;
 
 public:
 	GameObject();
