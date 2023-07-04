@@ -91,7 +91,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	hr = pSprite->Initialize();
 
 	pFbx = new Fbx;
-	pFbx->Load("Assets/Cube.fbx");
+	pFbx->Load("Assets/Oden.fbx");
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -119,9 +119,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//入力情報の更新
 			Input::Update();
 
-			if (Input::IsKey(DIK_ESCAPE))
+			if (Input::IsKeyUp(DIK_ESCAPE))
 			{
- 				PostQuitMessage(0);
+				static int cnt = 0;
+				cnt++;
+				if (cnt >= 3)
+				{
+					PostQuitMessage(0);
+				}
 			}
 
 			static float angle = 0;
@@ -183,6 +188,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
+	case WM_MOUSEMOVE:
+		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+		return 0;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);  //プログラム終了
 		return 0;
