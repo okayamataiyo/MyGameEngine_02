@@ -129,12 +129,26 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 				}
 			}
 
+			static Transform diceTransform;
+
+			/*static float pos = 0;
+
+			if (Input::IsKey(DIK_A))
+			{
+				pos -= 0.01;
+			}
+			else if (Input::IsKey(DIK_D))
+			{
+				pos += 0.01;
+			}*/
+
 			static float angle = 0;
 			angle += 0.05;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0,3,0);
 
-			Transform diceTransform;
+			
 //			diceTransform.position_.y = 1.0f;
+//			diceTransform.position_.x = pos;
 			diceTransform.rotate_.y = -2.0f;
 			diceTransform.rotate_.y =  3.0f;
 			diceTransform.rotate_.y = angle;

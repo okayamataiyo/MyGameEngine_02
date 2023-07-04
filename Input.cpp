@@ -41,7 +41,7 @@ namespace Input
 	bool IsKeyDown(int keyCode)
 	{
 		//今は押してて、前回は押してない
-		if ((KeyState[keyCode] & 0x80) && !(prevKeyState[keyCode] & 0x80))
+		if (IsKey(keyCode) && !(prevKeyState[keyCode] & 0x80))
 		{
 			return true;
 		}
@@ -51,7 +51,7 @@ namespace Input
 	bool IsKeyUp(int keyCode)
 	{
 		//今は押してなくて、前回は押している
-		if (!(KeyState[keyCode] & 0x80) && (prevKeyState[keyCode] & 0x80))
+		if (!IsKey(keyCode) && (prevKeyState[keyCode] & 0x80))
 		{
 			return true;
 		}
