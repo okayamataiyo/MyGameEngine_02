@@ -131,24 +131,28 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			static Transform diceTransform;
 
-			/*static float pos = 0;
+			static float posX = 0;
+			static float posY = 0;
 
-			if (Input::IsKey(DIK_A))
-			{
-				pos -= 0.01;
+			if (Input::IsKey(DIK_A)){
+				posX -= 0.01;
 			}
-			else if (Input::IsKey(DIK_D))
-			{
-				pos += 0.01;
-			}*/
+			else if (Input::IsKey(DIK_D)){
+				posX += 0.01;
+			}
+			if (Input::IsKey(DIK_W)) {
+				posY += 0.01;
+			}
+			else if (Input::IsKey(DIK_S)) {
+				posY -= 0.01;
+			}
 
 			static float angle = 0;
 			angle += 0.05;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0,3,0);
 
-			
-//			diceTransform.position_.y = 1.0f;
-//			diceTransform.position_.x = pos;
+			diceTransform.position_.y = posY;
+			diceTransform.position_.x = posX;
 			diceTransform.rotate_.y = -2.0f;
 			diceTransform.rotate_.y =  3.0f;
 			diceTransform.rotate_.y = angle;
@@ -190,6 +194,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	SAFE_DELETE(pDice);
 	SAFE_DELETE(pFbx);
 	SAFE_DELETE(pSprite);
+
 
 	Input::Release();
 	Direct3D::Release();
