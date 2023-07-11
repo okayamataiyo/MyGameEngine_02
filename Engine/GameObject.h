@@ -9,12 +9,14 @@ using std::list;
 
 class GameObject
 {
+	bool Is_DeadFlag;	//è¡ãéÉtÉâÉO
+
+	
 protected:
 	list<GameObject*>	childList_;
 	Transform			transform_;
 	GameObject*			pParent_;
 	string				objectName_;
-	bool Is_DeadFlag = false;
 
 public:
 	GameObject();
@@ -25,16 +27,19 @@ public:
 	virtual void Update() =0;
 	virtual void Draw() =0;
 	virtual void Release() =0;
+	bool IsDead();
+	void KillMe();
 	void DrawSub();
 	void UpdateSub();
 	void ReleaseSub();
 	template <class T>
-	void Instantiate(GameObject* parent)
+	GameObject* Instantiate(GameObject* parent)
 	{
 		T* pObject;
 		pObject = new T(parent);
 		pObject->Initialize();
 		childList_.push_back(pObject);
+		return pObject;
 	}
 };
 

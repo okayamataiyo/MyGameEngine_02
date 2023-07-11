@@ -1,19 +1,20 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Fbx.h"
+#include "Player.h"
 
 class Fbx;
 
-//プレイヤーを管理するクラス
-class Player : public GameObject
+//プレイヤーの子供を管理するクラス
+class ChildPlayer : public GameObject
 {
 	Fbx* pFbx;
 public:
 	//コンストラクタ
 	//引数:parent 親オブジェクト(SceneManager)
-	Player(GameObject* parent);
+	ChildPlayer(GameObject*parent);
 
-	~Player();
+	~ChildPlayer();
 
 	//初期化
 	void Initialize() override;
@@ -26,4 +27,6 @@ public:
 
 	//開放
 	void Release() override;
+
 };
+

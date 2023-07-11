@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "ChildPlayer.h"
 #include "Engine/GameObject.h"
 #include "Engine/Input.h"
 
@@ -9,13 +10,15 @@ Player::Player(GameObject* parent)
 
 Player::~Player()
 {
-
+	Release();
 }
 
 void Player::Initialize()
 {
 	pFbx = new Fbx;
 	pFbx->Load("Assets/oden.fbx");
+
+	Instantiate<ChildPlayer>(this);
 }
 
 void Player::Update()
@@ -37,7 +40,7 @@ void Player::Update()
 	}
 
 	if (Input::IsKey(DIK_F)) {
-		Is_DeadFlag = true;
+		KillMe();
 	}
 	
 	this->transform_.position_.x += Verocity;
