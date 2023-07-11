@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Engine/GameObject.h"
+#include "Engine/Input.h"
 
 Player::Player(GameObject* parent)
 	:GameObject(parent,"Player"),pFbx(nullptr)
@@ -19,7 +20,14 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	this->transform_.rotate_.y += 10;
+	this->transform_.rotate_.y++;
+
+	if (Input::IsKey(DIK_A)) {
+		this->transform_.position_.x++;
+	}
+	else if (Input::IsKey(DIK_D)) {
+		this->transform_.position_.x--;
+	}
 }
 
 void Player::Draw()
