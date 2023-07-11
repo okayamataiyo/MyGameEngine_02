@@ -14,6 +14,7 @@ protected:
 	Transform			transform_;
 	GameObject*			pParent_;
 	string				objectName_;
+	bool Is_DeadFlag = false;
 
 public:
 	GameObject();

@@ -22,12 +22,25 @@ void Player::Update()
 {
 	this->transform_.rotate_.y++;
 
+	float Verocity = 0;
+
+
 	if (Input::IsKey(DIK_A)) {
-		this->transform_.position_.x++;
+		Verocity--;
 	}
 	else if (Input::IsKey(DIK_D)) {
-		this->transform_.position_.x--;
+		Verocity++;
 	}
+
+	if (Input::IsKey(DIK_LSHIFT)) {
+		Verocity *= 0.5;
+	}
+
+	if (Input::IsKey(DIK_F)) {
+		Is_DeadFlag = true;
+	}
+	
+	this->transform_.position_.x += Verocity;
 }
 
 void Player::Draw()
