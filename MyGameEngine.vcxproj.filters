@@ -62,6 +62,9 @@
     <ClCompile Include="Engine\Transform.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple3D.hlsl" />
@@ -110,5 +113,6 @@
     <ClInclude Include="ChildPlayer.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h" />
   </ItemGroup>
 </Project>
