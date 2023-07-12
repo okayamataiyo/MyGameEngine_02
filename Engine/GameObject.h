@@ -3,6 +3,7 @@
 #include <list>
 #include <string>
 #include "Transform.h"
+#include "Direct3D.h"
 
 using std::string;
 using std::list;
@@ -32,6 +33,11 @@ public:
 	void DrawSub();
 	void UpdateSub();
 	void ReleaseSub();
+	void SetPosition(XMFLOAT3 position);
+	void SetPosition(float x, float y, float z);
+	void MirrorPosition(float x, float y, float z);
+	void SetRotate(XMFLOAT3 rotate);
+	void MirrorRotate(float x, float y, float z);
 	template <class T>
 	GameObject* Instantiate(GameObject* parent)
 	{

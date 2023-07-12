@@ -1,9 +1,13 @@
 #pragma once
 #include "Engine/GameObject.h"
 
+//前方宣言
+class Fbx;
+
 //プレイシーンを管理するクラス
 class PlayScene : public GameObject
 {
+	Fbx* pFbx;
 public:
 	//コンストラクタ
 	//引数:parent 親オブジェクト(SceneManager)

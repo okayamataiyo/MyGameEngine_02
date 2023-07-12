@@ -44,9 +44,6 @@
     <ClCompile Include="Engine\Texture.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Transform.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\GameObject.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
@@ -61,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="ChildPlayer.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Transform.cpp">
+      <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

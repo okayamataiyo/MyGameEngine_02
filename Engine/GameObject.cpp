@@ -7,9 +7,12 @@ GameObject::GameObject()
 }
 
 GameObject::GameObject(GameObject* parent, const std::string& name)
-	: pParent_(nullptr),Is_DeadFlag(false)
-
+	: pParent_(parent),Is_DeadFlag(false),objectName_(name)
 {
+	if (pParent_ != nullptr) {
+		this->transform_.pParent_ = &(parent->transform_);
+	}
+	 
 }
 
 //template <class T>
@@ -36,6 +39,31 @@ void GameObject::KillMe()
 	Is_DeadFlag = true;
 }
 
+void GameObject::SetPosition(XMFLOAT3 position)
+{
+	transform_.position_ = position;
+}
+
+void GameObject::SetPosition(float x, float y, float z)
+{
+	SetPosition(XMFLOAT3(x, y, z));
+}
+
+void GameObject::MirrorPosition(float x, float y, float z)
+{
+	SetPosition(XMFLOAT3(-x, -y, -z));
+}
+
+void GameObject::SetRotate(XMFLOAT3 rotate)
+{
+	transform_.rotate_ = rotate;
+}
+
+void GameObject::MirrorRotate(float x, float y, float z)
+{
+	SetRotate(XMFLOAT3(-transform_.rotate_.x* x, -transform_.rotate_.y * y, -transform_.rotate_.z * z));
+}
+
 void GameObject::DrawSub()
 {
 	Draw();
@@ -58,21 +86,23 @@ void GameObject::UpdateSub()
 		if ((*itr)->IsDead() == true) {
 
 			(*itr)->ReleaseSub();
-			SAFE_DELETE(*itr);
-			itr = childList_.erase(itr);
+			SAFE_DELETE(*itr);				//自分自身を消す
+			itr = childList_.erase(itr);	//リストからも削除
 		}
 		else {
 			itr++;
 		}
 	}
-
-
 }
 
 void GameObject::ReleaseSub()
 {
-	Release();
 
-	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)
-		(*itr)->ReleaseSub();
+	for (auto itr = childList_.begin(); itr != childList_.end(); itr++) {
+
+		(*itr)->ReleaseSub();	//*itrのリリースを呼ぶ
+		SAFE_DELETE(*itr);		//*itr自体を消す
+	}
+
+	Release();
 }

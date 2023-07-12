@@ -17,13 +17,17 @@ void Player::Initialize()
 {
 	pFbx = new Fbx;
 	pFbx->Load("Assets/oden.fbx");
-
-	Instantiate<ChildPlayer>(this);
+	GameObject* pCP1 = Instantiate<ChildPlayer>(this);
+	pCP1->SetPosition(2, 0, 0);
+	GameObject* pCP2 = Instantiate<ChildPlayer>(this);
+	pCP2->SetPosition(-2,0,0);
 }
 
 void Player::Update()
 {
-	this->transform_.rotate_.y++;
+//	transform_.rotate_.y++;
+
+	MirrorRotate(2, 0, 0);
 
 	float Verocity = 0;
 
@@ -43,7 +47,7 @@ void Player::Update()
 		KillMe();
 	}
 	
-	this->transform_.position_.x += Verocity;
+	transform_.position_.x += Verocity;
 }
 
 void Player::Draw()
@@ -54,6 +58,6 @@ void Player::Draw()
 void Player::Release()
 {
 
-	pFbx->Release();
-	delete pFbx;
+	/*pFbx->Release();
+	delete pFbx;*/
 }

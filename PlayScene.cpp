@@ -5,7 +5,7 @@
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
-	: GameObject(parent, "PlayScene")
+	: GameObject(parent, "PlayScene"),pFbx(nullptr)
 {
 }
 
@@ -38,4 +38,6 @@ void PlayScene::Draw()
 //開放
 void PlayScene::Release()
 {
+	/*pFbx->Release();
+	delete pFbx;*/
 }
