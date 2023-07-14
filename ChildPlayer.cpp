@@ -20,12 +20,15 @@ void ChildPlayer::Initialize()
 	transform_.scale_.x = 0.5;
 	transform_.scale_.y = 0.5;
 	transform_.scale_.z = 0.5;
-	transform_.position_.x = -4.0f;
+	transform_.rotate_.x = 90;
+//	transform_.position_.x = -4.0f;
 }
 
 void ChildPlayer::Update()
 {
-	transform_.rotate_.y++;
+	transform_.rotate_.z += 5;
+	transform_.position_.z += 0.5f;
+	if (transform_.position_.z > 50) KillMe();
 
 	if (Input::IsKey(DIK_G)) {
 		KillMe();

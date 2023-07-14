@@ -1,15 +1,23 @@
 #pragma once
 #include<string>
+#include<vector>
+#include"Engine/Transform.h"
+#include"Engine/Fbx.h"
 //必要なincludeを書く
 
 namespace Model
 {
 	struct ModelData {
 		//FBX
+		Fbx* pfbx_;
 		//トランスフォーム
-		//ファイル名
+		Transform transform_;
+		std::string filename_;	//ファイル名
 	};
-	//モデルのポインタをぶち込んでおくベクタ
-};
+	int Load(std::string fileName);
+	void SetTransform(int hModel, Transform transform);
+	void Draw(int hModel);
 
-int Load(std::string fileName)
+	//モデルのポインタをぶち込んでおくベクタ
+	std::vector<ModelData * >modelList;
+};

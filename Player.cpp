@@ -17,17 +17,18 @@ void Player::Initialize()
 {
 	pFbx = new Fbx;
 	pFbx->Load("Assets/oden.fbx");
-	GameObject* pCP1 = Instantiate<ChildPlayer>(this);
+	/*GameObject* pCP1 = Instantiate<ChildPlayer>(this);
 	pCP1->SetPosition(2, 0, 0);
 	GameObject* pCP2 = Instantiate<ChildPlayer>(this);
 	pCP2->SetPosition(-2,0,0);
+	*/
 }
 
 void Player::Update()
 {
-//	transform_.rotate_.y++;
+	transform_.rotate_.y++;
 
-	MirrorRotate(2, 0, 0);
+//	MirrorRotate(2, 0, 0);	//âÒì]ÇÃîΩì]Ç≥ÇπÇΩÇ©Ç¡ÇΩÇØÇ«Ç‹ÇæèoóàÇƒÇ¢Ç»Ç¢ÅB
 
 	float Verocity = 0;
 
@@ -45,6 +46,11 @@ void Player::Update()
 
 	if (Input::IsKey(DIK_F)) {
 		KillMe();
+	}
+
+	if (Input::IsKeyDown(DIK_SPACE)) {
+		GameObject * pBullet = Instantiate<ChildPlayer>(pParent_);
+		pBullet->SetPosition(transform_.position_);
 	}
 	
 	transform_.position_.x += Verocity;
