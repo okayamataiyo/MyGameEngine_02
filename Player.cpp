@@ -2,9 +2,10 @@
 #include "ChildPlayer.h"
 #include "Engine/GameObject.h"
 #include "Engine/Input.h"
+#include "Engine/Model.h"
 
 Player::Player(GameObject* parent)
-	:GameObject(parent,"Player"),pFbx(nullptr)
+	:GameObject(parent, "Player"), pFbx(nullptr), hModel_(-1)
 {
 }
 
@@ -15,8 +16,8 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	pFbx = new Fbx;
-	pFbx->Load("Assets/oden.fbx");
+	hModel_ = Model::Load("Assets/oden.fbx");
+	assert(hModel_ >= 0);
 	/*GameObject* pCP1 = Instantiate<ChildPlayer>(this);
 	pCP1->SetPosition(2, 0, 0);
 	GameObject* pCP2 = Instantiate<ChildPlayer>(this);
@@ -58,7 +59,9 @@ void Player::Update()
 
 void Player::Draw()
 {
-	pFbx->Draw(transform_);
+//	pFbx->Draw(transform_);
+	Model::SetTransform(hModel_, transform_);
+	Model::Draw(hModel_);
 }
 
 void Player::Release()

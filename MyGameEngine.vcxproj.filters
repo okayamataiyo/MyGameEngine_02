@@ -62,8 +62,8 @@
     <ClCompile Include="Engine\Transform.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Model.cpp">
+      <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +113,8 @@
     <ClInclude Include="ChildPlayer.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="Engine\Model.h">
+      <Filter>ヘッダーファイル\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

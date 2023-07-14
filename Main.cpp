@@ -5,6 +5,7 @@
 #include "Engine/Camera.h"
 #include "Engine/Input.h"
 #include "Engine/Rootjob.h"
+#include "Engine/Model.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -124,8 +125,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			countFps++;
 
 
-
 			timeEndPeriod(1);
+
+			if (Input::IsKeyUp(DIK_ESCAPE))
+			{
+				static int cnt = 0;
+				cnt++;
+				if (cnt >= 1) {
+					PostQuitMessage(0);
+				}
+			}
 
 			//¥ƒQ[ƒ€‚Ìˆ—
 			//ƒJƒƒ‰‚Ìˆ—
@@ -146,7 +155,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		}
 	}
-	pRootjob->ReleaseSub();
+
+	Model::Release();
+//	pRootjob->ReleaseSub();
+	SAFE_DELETE(pRootjob);
+
 	Input::Release();
 	Direct3D::Release();
 

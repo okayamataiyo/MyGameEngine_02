@@ -25,6 +25,7 @@ void Transform::Calclation()
     rotateX = XMMatrixRotationX(XMConvertToRadians(rotate_.x));
     rotateY = XMMatrixRotationY(XMConvertToRadians(rotate_.y));
     rotateZ = XMMatrixRotationZ(XMConvertToRadians(rotate_.z));
+    //rotateZ‚ªÅ‰‚¾‚Á‚½‚Ì‚ğÅŒã‚É‚µ‚½B
     matRotate_ = rotateX * rotateY * rotateZ;
 
     //Šg‘ås—ñì¬
