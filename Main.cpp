@@ -157,7 +157,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	}
 
 	Model::Release();
-//	pRootjob->ReleaseSub();
+	pRootjob->ReleaseSub();
 	SAFE_DELETE(pRootjob);
 
 	Input::Release();
