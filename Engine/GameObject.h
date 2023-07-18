@@ -35,9 +35,11 @@ public:
 	void ReleaseSub();
 	void SetPosition(XMFLOAT3 position);
 	void SetPosition(float x, float y, float z);
+	/*Ç±Ç±å¬êlêßçÏ*/
 	void MirrorPosition(float x, float y, float z);
 	void SetRotate(XMFLOAT3 rotate);
 	void MirrorRotate(float x, float y, float z);
+	/*Ç±Ç±Ç‹Ç≈*/
 	template <class T>
 	GameObject* Instantiate(GameObject* parent)
 	{

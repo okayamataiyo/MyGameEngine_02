@@ -3,6 +3,7 @@
 #include "Engine/GameObject.h"
 #include "Engine/Input.h"
 #include "Engine/Model.h"
+#include "Engine/SceneManager.h"
 
 Player::Player(GameObject* parent)
 	:GameObject(parent, "Player"), pFbx(nullptr), hModel_(-1)
@@ -35,23 +36,34 @@ void Player::Update()
 
 
 	if (Input::IsKey(DIK_A)) {
+		
 		Verocity--;
 	}
 	else if (Input::IsKey(DIK_D)) {
+		
 		Verocity++;
 	}
 
 	if (Input::IsKey(DIK_LSHIFT)) {
+		
 		Verocity *= 0.5;
 	}
 
 	if (Input::IsKey(DIK_F)) {
+		
 		KillMe();
 	}
 
 	if (Input::IsKeyDown(DIK_SPACE)) {
+		
 		GameObject * pBullet = Instantiate<ChildPlayer>(pParent_);
 		pBullet->SetPosition(transform_.position_);
+	}
+
+	if (Input::IsKey(DIK_RETURN)) {
+		
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TEST);
 	}
 	
 	transform_.position_.x += Verocity;

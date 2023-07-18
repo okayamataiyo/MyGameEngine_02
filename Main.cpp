@@ -79,7 +79,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//DirectInputの初期化
 	Input::Initialize(hWnd);
 
-	pRootjob = new Rootjob;
+	pRootjob = new Rootjob(nullptr);
 	pRootjob->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）

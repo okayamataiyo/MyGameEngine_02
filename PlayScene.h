@@ -5,7 +5,8 @@
 class Fbx;
 
 //プレイシーンを管理するクラス
-class PlayScene : public GameObject
+class PlayScene
+	: public GameObject
 {
 	Fbx* pFbx;
 public:
