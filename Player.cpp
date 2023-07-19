@@ -32,22 +32,38 @@ void Player::Update()
 
 //	MirrorRotate(2, 0, 0);	//‰ñ“]‚Ì”½“]‚³‚¹‚½‚©‚Á‚½‚¯‚Ç‚Ü‚¾o—ˆ‚Ä‚¢‚È‚¢B
 
-	float Verocity = 0;
+	float VerPosX = 0;	//XŽ²ˆÚ“®—Ê
+	float VerRotY = 0;	//YŽ²ˆÚ“®—Ê
 
 
+
+	if (Input::IsKey(DIK_W)) {
+
+		VerRotY++;
+	}
+	else if (Input::IsKey(DIK_S)) {
+
+		VerRotY--;
+	}
 	if (Input::IsKey(DIK_A)) {
 		
-		Verocity--;
+		VerPosX--;
 	}
 	else if (Input::IsKey(DIK_D)) {
 		
-		Verocity++;
+		VerPosX++;
 	}
 
 	if (Input::IsKey(DIK_LSHIFT)) {
 		
-		Verocity *= 0.5;
+		VerPosX *= 0.5;
 	}
+
+	VerPosX = VerPosX * 0.5;
+	VerRotY = VerRotY * 0.5;
+
+	transform_.rotate_.x += VerRotY;
+	transform_.position_.x += VerPosX;
 
 	if (Input::IsKey(DIK_F)) {
 		
@@ -60,13 +76,7 @@ void Player::Update()
 		pBullet->SetPosition(transform_.position_);
 	}
 
-	if (Input::IsKey(DIK_RETURN)) {
-		
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_TEST);
-	}
 	
-	transform_.position_.x += Verocity;
 }
 
 void Player::Draw()
