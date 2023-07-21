@@ -28,30 +28,30 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	transform_.rotate_.y++;
 
 //	MirrorRotate(2, 0, 0);	//âÒì]ÇÃîΩì]Ç≥ÇπÇΩÇ©Ç¡ÇΩÇØÇ«Ç‹ÇæèoóàÇƒÇ¢Ç»Ç¢ÅB
 
 	float VerPosX = 0;	//Xé≤à⁄ìÆó 
-	float VerRotY = 0;	//Yé≤à⁄ìÆó 
-
-
+	float VerRotX = 0;	//Xé≤âÒì]ó 
+	float VerRotY = 1;	//Yé≤âÒì]ó 
 
 	if (Input::IsKey(DIK_W)) {
 
-		VerRotY++;
+		VerRotX += 2;
+		VerRotY = VerRotY * 5;
 	}
 	else if (Input::IsKey(DIK_S)) {
 
-		VerRotY--;
+		VerRotX -= 2;
+		VerRotY = VerRotY * 5;
 	}
-	if (Input::IsKey(DIK_A)) {
-		
-		VerPosX--;
-	}
-	else if (Input::IsKey(DIK_D)) {
-		
+	if (Input::IsKey(DIK_D)) {
+
 		VerPosX++;
+	}
+	else if (Input::IsKey(DIK_A)) {
+
+		VerPosX--;
 	}
 
 	if (Input::IsKey(DIK_LSHIFT)) {
@@ -60,9 +60,10 @@ void Player::Update()
 	}
 
 	VerPosX = VerPosX * 0.5;
-	VerRotY = VerRotY * 0.5;
+	VerRotX = VerRotX;
 
-	transform_.rotate_.x += VerRotY;
+	transform_.rotate_.y += VerRotY;
+	transform_.rotate_.x += VerRotX;
 	transform_.position_.x += VerPosX;
 
 	if (Input::IsKey(DIK_F)) {

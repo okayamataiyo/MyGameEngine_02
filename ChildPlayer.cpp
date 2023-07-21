@@ -3,6 +3,7 @@
 #include "Engine/Input.h"
 #include "Engine/Fbx.h"
 #include "Engine/Model.h"
+#include "Engine/SphereCollider.h"
 
 ChildPlayer::ChildPlayer(GameObject* parent)
 	:GameObject(parent, "ChildPlayer"), pFbx(nullptr),hModel_(-1)
@@ -23,6 +24,8 @@ void ChildPlayer::Initialize()
 	transform_.scale_.z = 0.5;
 	transform_.rotate_.x = 90;
 //	transform_.position_.x = -4.0f;
+	SphereCollider* col = new SphereCollider(1.0);
+	AddCollider(col);
 }
 
 void ChildPlayer::Update()
@@ -46,5 +49,14 @@ void ChildPlayer::Release()
 {
 	/*pFbx->Release();
 	delete pFbx;*/
+}
+
+//Õ“Ë”»’è
+void ChildPlayer::OnCollision(GameObject* pTarget)
+{
+	if (pTarget->GetObjectName() == "Enemy") {
+
+		KillMe();
+	}
 }
 

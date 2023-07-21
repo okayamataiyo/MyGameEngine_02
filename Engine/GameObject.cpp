@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "SphereCollider.h"
 #include "Direct3D.h"
 
 GameObject::GameObject()
@@ -7,7 +8,7 @@ GameObject::GameObject()
 }
 
 GameObject::GameObject(GameObject* parent, const std::string& name)
-	: pParent_(parent),Is_DeadFlag(false),objectName_(name)
+	: pParent_(parent),Is_DeadFlag(false),objectName_(name),pCollider_(nullptr)
 {
 	if (pParent_ != nullptr) {
 		this->transform_.pParent_ = &(parent->transform_);
@@ -116,6 +117,7 @@ void GameObject::UpdateSub()
 {
 	Update();
 
+	RoundRobin(GetRootJob());
 	for (auto itr = childList_.begin(); itr != childList_.end(); itr++) {
 
 		(*itr)->UpdateSub();
@@ -146,3 +148,56 @@ void GameObject::ReleaseSub()
 
 	Release();
 }
+
+void GameObject::AddCollider(SphereCollider* pCollider)
+{
+
+	pCollider_ = pCollider;
+}
+
+void GameObject::Collision(GameObject* pTarget)
+{
+
+	if (pTarget == this || pTarget->pCollider_ == nullptr) 
+		return;		//ターゲットにコライダーがアタッチされていない
+
+		//XMVECTOR v{ transform_.position_.x - pTarget->transform_.position_.x,
+		//			transform_.position_.y - pTarget->transform_.position_.y,
+		//			transform_.position_.z - pTarget->transform_.position_.z,
+		//			0 };
+		//XMVECTOR dist = XMVector3Dot(v, v);
+		float dist = (transform_.position_.x - pTarget->transform_.position_.x) * (transform_.position_.x - pTarget->transform_.position_.x)
+			+ (transform_.position_.y - pTarget->transform_.position_.y) * (transform_.position_.y - pTarget->transform_.position_.y)
+			+ (transform_.position_.z - pTarget->transform_.position_.z) * (transform_.position_.z - pTarget->transform_.position_.z);
+
+		float rDist = (this->pCollider_->GetRadius() + pTarget->pCollider_->GetRadius()) * (this->pCollider_->GetRadius() + pTarget->pCollider_->GetRadius());
+
+		//自分とターゲットの距離	<= R1+R2なら
+		//もし、自分のコライダーとターゲットがぶつかっていたら
+		//onCollision(pTarget)を呼び出す
+		if (dist <= rDist) {
+
+			//onCollinsion();呼ぼう！
+			double p = 0;
+		}
+}
+
+void GameObject::RoundRobin(GameObject* pTarget)
+{
+
+	if (pCollider_ == nullptr)
+		return;
+	if (pTarget->pCollider_ != nullptr)	//自分とターゲット
+		Collision(pTarget);
+	//自分の子供全部とターゲット
+	for (auto itr:pTarget->childList_)
+		RoundRobin(itr);
+}
+
+//オブジェクトの名前を取得
+const std::string& GameObject::GetObjectName(void)const
+{
+
+	return objectName_;
+}
+

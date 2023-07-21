@@ -2,6 +2,7 @@
 #include "Engine/Fbx.h"
 #include "Player.h"
 #include "ChildPlayer.h"
+#include "Enemy.h"
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
@@ -20,6 +21,7 @@ void PlayScene::Initialize()
 	this->transform_.scale_.y = 0.5;
 	this->transform_.scale_.z = 0.5;*/
 	GameObject* pPlayer = Instantiate<Player>(this);
+	GameObject* pEnemy = Instantiate<Enemy>(this);
 //	pPlayer->transform_.scale_.x;
 }
 

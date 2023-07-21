@@ -8,6 +8,8 @@
 using std::string;
 using std::list;
 
+class SphereCollider;
+
 class GameObject
 {
 	bool Is_DeadFlag;	//消去フラグ
@@ -18,6 +20,7 @@ protected:
 	Transform			transform_;
 	GameObject*			pParent_;
 	string				objectName_;	//オブジェクトの名前の配列
+	SphereCollider*		pCollider_;
 
 public:
 	GameObject();
@@ -38,6 +41,17 @@ public:
 	GameObject* FindChildObject(string _objName);
 	GameObject* GetRootJob();
 	GameObject* FindObject(string _objName);
+	void AddCollider(SphereCollider* pCollider);
+
+	//何かと衝突した場合に呼ばれる(オーバーライド用)
+	//引数:pTarget衝突してるか調べる相手
+	virtual void OnCollision(GameObject* pTarget) {};
+	void Collision(GameObject* pTarget);
+	void RoundRobin(GameObject* pTarget);
+
+	//何かと衝突した場合に呼ばれる(オーバーライド用)
+	//引数:pTarget	衝突した相手
+	virtual void OnCollider(GameObject* pTarget) {};
 	/*ここ個人制作*/
 	void MirrorPosition(float x, float y, float z);
 	void SetRotate(XMFLOAT3 rotate);
@@ -53,5 +67,10 @@ public:	//テンプレートの定義
 		childList_.push_back(pObject);
 		return pObject;
 	}
+
+	//追加で書き込むやつ
+	//オブジェクトの名前を取得
+	//戻値:名前
+	const std::string& GetObjectName(void) const;
 };
 
