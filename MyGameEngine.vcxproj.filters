@@ -18,6 +18,9 @@
     <Filter Include="ヘッダーファイル\Engine">
       <UniqueIdentifier>{9045cf68-d35b-4686-a31c-6b4697e90eb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Stage">
+      <UniqueIdentifier>{ed7c4a2f-d0e9-47d9-8378-4057345898e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="Engine\SphereCollider.cpp">
       <Filter>ソース ファイル\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>リソース ファイル\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="Engine\SphereCollider.h">
       <Filter>ヘッダーファイル\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>リソース ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
