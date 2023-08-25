@@ -90,21 +90,6 @@ GameObject* GameObject::FindObject(string _objName)
 //	return GetRootJob()->FindObject(_objName);
 }
 
-void GameObject::MirrorPosition(float x, float y, float z)
-{
-	SetPosition(XMFLOAT3(-x, -y, -z));
-}
-
-void GameObject::SetRotate(XMFLOAT3 rotate)
-{
-	transform_.rotate_ = rotate;
-}
-
-void GameObject::MirrorRotate(float x, float y, float z)
-{
-	SetRotate(XMFLOAT3(-transform_.rotate_.x* x, -transform_.rotate_.y * y, -transform_.rotate_.z * z));
-}
-
 void GameObject::DrawSub()
 {
 	Draw();
@@ -177,8 +162,7 @@ void GameObject::Collision(GameObject* pTarget)
 		//onCollision(pTarget)ÇåƒÇ—èoÇ∑
 		if (dist <= rDist) {
 
-			//onCollinsion();åƒÇ⁄Ç§ÅI
-			double p = 0;
+			OnCollision(pTarget);
 		}
 }
 

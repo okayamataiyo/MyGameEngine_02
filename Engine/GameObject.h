@@ -42,21 +42,14 @@ public:
 	GameObject* GetRootJob();
 	GameObject* FindObject(string _objName);
 	void AddCollider(SphereCollider* pCollider);
-
-	//何かと衝突した場合に呼ばれる(オーバーライド用)
-	//引数:pTarget衝突してるか調べる相手
-	virtual void OnCollision(GameObject* pTarget) {};
 	void Collision(GameObject* pTarget);
 	void RoundRobin(GameObject* pTarget);
 
 	//何かと衝突した場合に呼ばれる(オーバーライド用)
-	//引数:pTarget	衝突した相手
-	virtual void OnCollider(GameObject* pTarget) {};
-	/*ここ個人制作*/
-	void MirrorPosition(float x, float y, float z);
-	void SetRotate(XMFLOAT3 rotate);
-	void MirrorRotate(float x, float y, float z);
-	/*ここまで*/
+	//引数:pTarget衝突してるか調べる相手
+	virtual void OnCollision(GameObject* pTarget) {};
+
+
 public:	//テンプレートの定義
 	template <class T>
 	GameObject* Instantiate(GameObject* parent)

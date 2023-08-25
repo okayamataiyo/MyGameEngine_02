@@ -16,7 +16,7 @@ void Enemy::Initialize()
 	pFbx->Load("Assets/oden.fbx");
 	transform_.position_.z = 20.0f;
 
-	SphereCollider* col = new SphereCollider(1.0f);
+	SphereCollider* col = new SphereCollider(1.2f);
 	AddCollider(col);
 }
 
@@ -32,3 +32,13 @@ void Enemy::Draw()
 void Enemy::Release()
 {
 }
+
+void Enemy::OnCollision(GameObject* pTarget)
+{
+	//ChildPlayer‚É‚Ô‚Â‚©‚Á‚½‚Æ‚«
+	KillMe();
+	pTarget->KillMe();
+	
+}
+
+

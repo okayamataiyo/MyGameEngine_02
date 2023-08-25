@@ -24,7 +24,7 @@ void ChildPlayer::Initialize()
 	transform_.scale_.z = 0.5;
 	transform_.rotate_.x = 90;
 //	transform_.position_.x = -4.0f;
-	SphereCollider* col = new SphereCollider(1.0);
+	SphereCollider* col = new SphereCollider(1.2f);
 	AddCollider(col);
 }
 
@@ -54,8 +54,9 @@ void ChildPlayer::Release()
 //Õ“Ë”»’è
 void ChildPlayer::OnCollision(GameObject* pTarget)
 {
-	if (pTarget->GetObjectName() == "Enemy") {
-
+	//Enemy‚É‚Ô‚Â‚©‚Á‚½‚Æ‚«
+	if (pTarget->GetObjectName() == "Enemy")
+	{
 		KillMe();
 	}
 }
