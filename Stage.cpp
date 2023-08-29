@@ -3,8 +3,17 @@
 
 //コンストラクタ
 Stage::Stage(GameObject* parent)
-    :GameObject(parent, "Stage"),hModel_{-1},table_(nullptr)
+    :GameObject(parent, "Stage"),hModel_{-1,-1}//,table_(nullptr)
 {
+    ZeroMemory(table_, sizeof(table_));
+
+    for (int x = 0; x < 15; x++)
+    {
+        for (int z = 0; z < 15; z++)
+        {
+            table_[x][z] = 0;
+        }
+    }
 }
 
 //デストラクタ
@@ -15,7 +24,7 @@ Stage::~Stage()
 //初期化
 void Stage::Initialize()
 {
-    const char* fileName[] = { "Assets/BoxDefault.fbx" };
+    const char*fileName[] = { "Assets/BoxDefault.fbx" , "Assets/BoxBrick.fbx"};
 
     //モデルデータのロード
     for (int i = 0; i < TYPE_MAX; i++)
@@ -43,7 +52,7 @@ void Stage::Draw()
             blockTrans.position_.z = z;
 
             int type = table_[x][z];
-            Model::SetTransform(hModel_[type], transform_);
+            Model::SetTransform(hModel_[type], blockTrans);
             Model::Draw(hModel_[type]);
         }
     }
@@ -58,4 +67,12 @@ void Stage::Release()
         delete[] table_[x];
     }
     delete[]table_;
+}
+
+bool Stage::IsWall(int x, int z)
+{
+    if (table_[x][z] == TYPE_WALL)
+    {
+        return true;
+    }
 }

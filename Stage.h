@@ -12,7 +12,7 @@ enum
 class Stage : public GameObject
 {
     int hModel_[TYPE_MAX];    //モデル番号
-    int** table_;
+    int table_[15][15];
     int width_, height_;
 
 public:
@@ -38,5 +38,5 @@ public:
     //指定した位置が通れるか通れないかを調べる
     //引数:x,z  調べる位置
     //戻り値:通れない=true/通れない=false
-    //bool IsWall(int x, int z);
+    bool IsWall(int x, int z);
 };

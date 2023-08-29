@@ -21,6 +21,9 @@
     <Filter Include="リソース ファイル\Stage">
       <UniqueIdentifier>{ed7c4a2f-d0e9-47d9-8378-4057345898e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Contoroller">
+      <UniqueIdentifier>{e6296c51-309d-48de-a328-8cbd46810de0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>リソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>リソース ファイル\Contoroller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>リソース ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>リソース ファイル\Contoroller</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
