@@ -12,6 +12,12 @@ enum
 Controller::Controller(GameObject* parent)
     :GameObject(parent, "Controller"), hModel_(-1)
 {
+    transform_.position_.x = 7.0f;
+    transform_.position_.z = 7.0f;
+    transform_.position_.y = 0.001f;
+
+    transform_.rotate_.x = 45.0f;
+
 }
 
 //ÉfÉXÉgÉâÉNÉ^
@@ -25,10 +31,6 @@ void Controller::Initialize()
     //ÉÇÉfÉãÉfÅ[É^ÇÃÉçÅ[Éh
     hModel_ = Model::Load("Assets/BoxWater.fbx");
     assert(hModel_ >= 0);
-
-    transform_.position_.x = 7.0f;
-    transform_.position_.z = 7.0f;
-    transform_.position_.y = -0.0001f;
 
     //Instantiate<ControllerHead>(this);
 }
@@ -124,7 +126,7 @@ void Controller::Update()
 
         XMStoreFloat3(&transform_.position_, vPos);*/
 
-        if(transform_.rotate_.x <= 45) transform_.rotate_.x += 1.0f;     // 1ddÅãÇ∏Ç¬âÒì]
+        if(transform_.rotate_.x <= 89) transform_.rotate_.x += 1.0f;     // 1ddÅãÇ∏Ç¬âÒì]
     }
 
     if (Input::IsKey(DIK_DOWN))
@@ -132,7 +134,7 @@ void Controller::Update()
         /*vPos += vMove1;
 
         XMStoreFloat3(&transform_.position_, vPos);*/
-        if(transform_.rotate_.x >= -30) transform_.rotate_.x += -1.0f;     // 1ddÅãÇ∏Ç¬âÒì]
+        if(transform_.rotate_.x >= 0) transform_.rotate_.x += -1.0f;     // 1ddÅãÇ∏Ç¬âÒì]
     }
 
     if (Input::IsKey(DIK_LEFT))
@@ -156,7 +158,7 @@ void Controller::Update()
     Camera::SetPosition(camPos);*/
 
     //ÉJÉÅÉâ
-    XMVECTOR vCam = { 0, 7, -10, 0 };              //é©éBÇËñ_ópà”
+    XMVECTOR vCam = { 0, 0, -10, 0 };              //é©éBÇËñ_ópà”
     vCam = XMVector3TransformCoord(vCam, mRotX * mRotY);    //é©éBÇËñ_âÒì]
     //vCam = XMVector3TransformCoord(vCam, mRotX);
     //XMFLOAT3 camPos;
