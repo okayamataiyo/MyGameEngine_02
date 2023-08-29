@@ -116,49 +116,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//ÉQÅ[ÉÄÇÃèàóù
 			Direct3D::BeginDraw();
 
-			//ì¸óÕèÓïÒÇÃçXêV
-			Input::Update();
-
-			if (Input::IsKeyUp(DIK_ESCAPE))
-			{
-				static int cnt = 0;
-				cnt++;
-				if (cnt >= 3)
-				{
-					PostQuitMessage(0);
-				}
-			}
-
-			static Transform diceTransform;
-
-			/*static float pos = 0;
-
-			if (Input::IsKey(DIK_A))
-			{
-				pos -= 0.01;
-			}
-			else if (Input::IsKey(DIK_D))
-			{
-				pos += 0.01;
-			}*/
-
-			static float angle = 0;
-			angle += 0.05;
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0,3,0);
-
-			
-//			diceTransform.position_.y = 1.0f;
-//			diceTransform.position_.x = pos;
-			diceTransform.rotate_.y = -2.0f;
-			diceTransform.rotate_.y =  3.0f;
-			diceTransform.rotate_.y = angle;
-
-//			mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
-//			Transform spriteTransform;
-//			spriteTransform.scale_.x = 512.0f / 800.0f;
-//			spriteTransform.scale_.y = 256.0f / 600.0f;
-			//mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
-
 			//ï`âÊèàóù
 			//static float a = 0;
 			//a += 0.01;
@@ -185,13 +142,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		}
 	}
 
-
-	//SAFE_DELETE(pQuad);
-	SAFE_DELETE(pDice);
-	SAFE_DELETE(pFbx);
-	SAFE_DELETE(pSprite);
-
-	Input::Release();
 	Direct3D::Release();
 
 	return 0;
