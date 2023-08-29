@@ -62,17 +62,17 @@ void Stage::Draw()
 //ŠJ•ú
 void Stage::Release()
 {
-    for (int x = 0; x < width_; x++)
+    /*for (int x = 0; x < width_; x++)
     {
         delete[] table_[x];
     }
-    delete[]table_;
+    delete[]table_;*/
 }
 
-bool Stage::IsWall(int x, int z)
-{
-    if (table_[x][z] == TYPE_WALL)
-    {
-        return true;
-    }
-}
+//bool Stage::IsWall(int x, int z)
+//{
+//    if (table_[x][z] == TYPE_WALL)
+//    {
+//        return true;
+//    }
+//}

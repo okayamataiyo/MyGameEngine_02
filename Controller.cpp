@@ -26,6 +26,8 @@ void Controller::Initialize()
     hModel_ = Model::Load("Assets/BoxWater.fbx");
     assert(hModel_ >= 0);
 
+    transform_.position_.x = 7.0f;
+    transform_.position_.z = 7.0f;
     transform_.position_.y = -0.0001f;
 
     //Instantiate<ControllerHead>(this);
@@ -49,28 +51,24 @@ void Controller::Update()
     //Debug::Log("angle = ");
     //Debug::Log(transform_.rotate_.y, true);
 
+    //transform_.rotate_.y度回転させる行列を作成
+    XMMATRIX mRotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
+    XMMATRIX mRotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
+
     //戦車の現在地をベクトル型に変換
     XMVECTOR vPos = XMLoadFloat3(&transform_.position_);
 
-    //1フレームの移動ベクトル
-    XMVECTOR vMove1{ 0.0f, 0.0f, 0.1f, 0.0f }; //奥に0.1m
+    //移動ベクトル
+    XMVECTOR frontMove = XMVectorSet(0, 0, 0.1f, 0);          //奥向きのXMVECTOR構造体を用意し
+    frontMove = XMVector3TransformCoord(frontMove, mRotY);    //移動ベクトル回転
+    XMVECTOR rightMove = XMVectorSet(0.1f, 0, 0, 0);
+    rightMove = XMVector3TransformCoord(rightMove, mRotY);
 
-    //1フレームの移動ベクトル
-    XMVECTOR vMove2{ 0.1f, 0.0f, 0.0f, 0.0f };//横に0.1m
-
-    XMVECTOR vMove3{ 0.0f, 0.1f, 0.0f, 0.0f };//縦に0.1m
-
-    //transform_.rotate_.y度回転させる行列を作成
-    XMMATRIX mRotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
-
-    XMMATRIX mRotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
-
-    //移動ベクトルを変換させる
-    vMove1 = XMVector3TransformCoord(vMove1, mRotY);
-
-    //移動ベクトルを変換させる
+    XMVECTOR vMove1{ 0.0f, 0.0f, 0.1f, 0.0f };          //奥に0.1m
+    vMove1 = XMVector3TransformCoord(vMove1, mRotY);    //移動ベクトルを変換させる
+    XMVECTOR vMove2{ 0.1f, 0.0f, 0.0f, 0.0f };          //横に0.1m
     vMove2 = XMVector3TransformCoord(vMove2, mRotY);
-
+    XMVECTOR vMove3{ 0.0f, 0.1f, 0.0f, 0.0f };          //縦に0.1m
     vMove3 = XMVector3TransformCoord(vMove3, mRotY);
 
     //Wキーが押されたら移動
@@ -78,6 +76,7 @@ void Controller::Update()
     {
         //移動
         vPos += vMove1;
+        vPos += frontMove;
 
         //現在地をベクトルからいつものtransform_.position_に戻す
         XMStoreFloat3(&transform_.position_, vPos);
@@ -88,6 +87,7 @@ void Controller::Update()
     {
         //移動
         vPos -= vMove1;
+        vPos -= frontMove;
 
         //現在地をベクトルからいつものtransform_.position_に戻す
         XMStoreFloat3(&transform_.position_, vPos);
@@ -97,8 +97,10 @@ void Controller::Update()
     {
         //何らかの処理
         //transform_.rotate_.y += -1.0f;     // 1dd°ずつ回転
+        // 
         //移動
         vPos += vMove2;
+        vPos += rightMove;
 
         //現在地をベクトルからいつものtransform_.position_に戻す
         XMStoreFloat3(&transform_.position_, vPos);
@@ -110,6 +112,7 @@ void Controller::Update()
         //transform_.rotate_.y += 1.0f;     // 1dd°ずつ回転
         //移動
         vPos -= vMove2;
+        vPos -= rightMove;
 
         //現在地をベクトルからいつものtransform_.position_に戻す
         XMStoreFloat3(&transform_.position_, vPos);
@@ -121,7 +124,7 @@ void Controller::Update()
 
         XMStoreFloat3(&transform_.position_, vPos);*/
 
-        transform_.rotate_.x += 1.0f;     // 1dd°ずつ回転
+        if(transform_.rotate_.x <= 45) transform_.rotate_.x += 1.0f;     // 1dd°ずつ回転
     }
 
     if (Input::IsKey(DIK_DOWN))
@@ -129,8 +132,7 @@ void Controller::Update()
         /*vPos += vMove1;
 
         XMStoreFloat3(&transform_.position_, vPos);*/
-
-        transform_.rotate_.x += -1.0f;     // 1dd°ずつ回転
+        if(transform_.rotate_.x >= -30) transform_.rotate_.x += -1.0f;     // 1dd°ずつ回転
     }
 
     if (Input::IsKey(DIK_LEFT))
@@ -153,13 +155,14 @@ void Controller::Update()
     camPos.z -= 10;
     Camera::SetPosition(camPos);*/
 
-    Camera::SetTarget(transform_.position_);
-    XMVECTOR vCam = { 0, 5, -10, 0 };
-    vCam = XMVector3TransformCoord(vCam, mRotY);
-    vCam = XMVector3TransformCoord(vCam, mRotX);
-    XMFLOAT3 camPos;
-    XMStoreFloat3(&camPos, vPos + vCam);
-    Camera::SetPosition(camPos);
+    //カメラ
+    XMVECTOR vCam = { 0, 7, -10, 0 };              //自撮り棒用意
+    vCam = XMVector3TransformCoord(vCam, mRotX * mRotY);    //自撮り棒回転
+    //vCam = XMVector3TransformCoord(vCam, mRotX);
+    //XMFLOAT3 camPos;
+    //XMStoreFloat3(&camPos, vPos + vCam);
+    Camera::SetPosition(vPos+ vCam);            //カメラの位置は自撮り棒の先端
+    Camera::SetTarget(transform_.position_);    //カメラの見る位置はこのオブジェクトの位置
 
 }
 
