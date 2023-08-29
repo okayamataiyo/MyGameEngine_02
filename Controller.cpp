@@ -63,6 +63,8 @@ void Controller::Update()
     //transform_.rotate_.y度回転させる行列を作成
     XMMATRIX mRotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
 
+    XMMATRIX mRotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
+
     //移動ベクトルを変換させる
     vMove1 = XMVector3TransformCoord(vMove1, mRotY);
 
@@ -115,16 +117,20 @@ void Controller::Update()
 
     if (Input::IsKey(DIK_UP))
     {
-        vPos += vMove3;
+        /*vPos += vMove3;
 
-        XMStoreFloat3(&transform_.position_, vPos);
+        XMStoreFloat3(&transform_.position_, vPos);*/
+
+        transform_.rotate_.x += 1.0f;     // 1dd°ずつ回転
     }
 
     if (Input::IsKey(DIK_DOWN))
     {
-        vPos += vMove1;
+        /*vPos += vMove1;
 
-        XMStoreFloat3(&transform_.position_, vPos);
+        XMStoreFloat3(&transform_.position_, vPos);*/
+
+        transform_.rotate_.x += -1.0f;     // 1dd°ずつ回転
     }
 
     if (Input::IsKey(DIK_LEFT))
@@ -150,6 +156,7 @@ void Controller::Update()
     Camera::SetTarget(transform_.position_);
     XMVECTOR vCam = { 0, 5, -10, 0 };
     vCam = XMVector3TransformCoord(vCam, mRotY);
+    vCam = XMVector3TransformCoord(vCam, mRotX);
     XMFLOAT3 camPos;
     XMStoreFloat3(&camPos, vPos + vCam);
     Camera::SetPosition(camPos);
