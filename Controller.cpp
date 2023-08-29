@@ -22,9 +22,9 @@ Controller::~Controller()
 //初期化
 void Controller::Initialize()
 {
-    //モデルデータのロード
-    hModel_ = Model::Load("Assets/BoxWater.fbx");
-    assert(hModel_ >= 0);
+    ////モデルデータのロード
+    //hModel_ = Model::Load("Assets/BoxWater.fbx");
+    //assert(hModel_ >= 0);
 
     transform_.position_.x = 7.0f;
     transform_.position_.z = 7.0f;
@@ -184,8 +184,8 @@ void Controller::Update()
 //描画
 void Controller::Draw()
 {
-    Model::SetTransform(hModel_, transform_);
-    Model::Draw(hModel_);
+   /* Model::SetTransform(hModel_, transform_);
+    Model::Draw(hModel_);*/
 }
 
 //開放
