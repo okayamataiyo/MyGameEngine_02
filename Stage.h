@@ -1,23 +1,26 @@
 #pragma once
 #include "Engine/GameObject.h"
 
-enum BLOCKTYPES
-{
-    TYPE_FLOOR,
-    TYPE_WALL,
-    TYPE_MAX,
-};
-
-const int MODEL_NUM{ 5 };
-const int XSIZE{ 15 };
-const int ZSIZE{ 15 };
-
+namespace {
+    const int MODEL_NUM{ 5 };
+    const int XSIZE{ 15 };
+    const int ZSIZE{ 15 };
+    enum BLOCKTYPE
+    {
+        DEFAULT, BRICK, GRASS, SAND, WATER
+    };
+}
 
 //Stageを管理するクラス
 class Stage : public GameObject
 {
+    struct Block {
+        int type;
+        int height;
+    }table_[XSIZE][ZSIZE];
+
     int hModel_[MODEL_NUM];    //モデル番号
-    int table_[XSIZE][ZSIZE];
+    //int table_[XSIZE][ZSIZE];
     //int width_, height_;
 
 public:
@@ -39,6 +42,12 @@ public:
 
     //開放
     void Release() override;
+
+    void SetBlock(int _x, int _z, BLOCKTYPE _type);
+
+    void SetBlockHeight(int _x, int _z, int _y);
+
+
 
     //指定した位置が通れるか通れないかを調べる
     //引数:x,z  調べる位置

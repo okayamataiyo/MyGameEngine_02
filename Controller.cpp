@@ -126,7 +126,7 @@ void Controller::Update()
 
         XMStoreFloat3(&transform_.position_, vPos);*/
 
-        if(transform_.rotate_.x <= 89) transform_.rotate_.x += 1.0f;     // 1dd‹‚¸‚Â‰ñ“]
+        if(transform_.rotate_.x <= 88) transform_.rotate_.x += 1.0f;     // 1dd‹‚¸‚Â‰ñ“]
     }
 
     if (Input::IsKey(DIK_DOWN))
