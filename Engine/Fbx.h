@@ -14,6 +14,13 @@ using std::vector;
 
 class Texture;
 
+struct RayCastData {
+	XMFLOAT4 start;
+	XMFLOAT4 dir;
+	bool hit;
+	//double dist;
+};
+
 class Fbx
 {
 	//マテリアル
@@ -36,12 +43,6 @@ class Fbx
 		XMVECTOR position;
 		XMVECTOR uv;
 		XMVECTOR normal;
-	};
-
-	struct Raycast {
-		XMFLOAT4 start;
-		XMFLOAT4 dir;
-		bool hit;
 	};
 
 	VERTEX* pVertices_;
@@ -69,8 +70,6 @@ public:
 	//メンバ関数
 	Fbx();
 	HRESULT Load(std::string fileName);
-	
-	
 	void Draw(Transform& transform);
 	void Release();
 
