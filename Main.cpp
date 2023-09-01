@@ -23,6 +23,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 {
+	TriangleTests::Intersects();
+
+
+
 	XMVECTOR beginP = XMVectorSet(1, 5, 1, 0);
 	XMVECTOR dirVec = XMVectorSet(0, -1, 0, 0);
 	XMVECTOR P1 = XMVectorSet(0, 0, 0, 0);

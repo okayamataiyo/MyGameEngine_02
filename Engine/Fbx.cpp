@@ -121,12 +121,12 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 //  int count = 0;
     pIndexBuffer_ = new ID3D11Buffer * [materialCount_];
     indexCount_ = vector<int>(materialCount_);
-//    indexCount_ = new int[materialCount_];
+//  indexCount_ = new int[materialCount_];
 
-//    for (DWORD poly = 0; poly < polygonCount_; poly++)
+//  for (DWORD poly = 0; poly < polygonCount_; poly++)
 
     vector<int> index(polygonCount_ * 3);//ポリゴン数　* 3 = 全頂点分用意
-//    int* index = new int[polygonCount_ * 3];
+//  int* index = new int[polygonCount_ * 3];
 
     for (int i = 0; i < materialCount_; i++)
     {

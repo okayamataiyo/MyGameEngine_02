@@ -38,6 +38,16 @@ class Fbx
 		XMVECTOR normal;
 	};
 
+	struct Raycast {
+		XMFLOAT4 start;
+		XMFLOAT4 dir;
+		bool hit;
+	};
+
+	VERTEX* pVertices_;
+	int** ppIndex_;
+
+
 	int vertexCount_;	//頂点数	FBXファイルを扱うために必要になる変数を宣言する。
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;	//マテリアルの個数
@@ -63,5 +73,7 @@ public:
 	
 	void Draw(Transform& transform);
 	void Release();
+
+	void RayCast(RayCastData& rayData);
 };
 
