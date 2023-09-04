@@ -60,6 +60,14 @@ void Stage::Initialize()
 //更新
 void Stage::Update()
 {
+    //ビューポート行列
+    /*float w = (float)Direct3D::scrWidth / 2.0f;
+    float h = (float)Direct3D::scrHeight / 2.0f;
+    XMMATRIX vp = {
+        w,0,0,0,
+        0,-h,0,0,
+        w,h,0,1
+    };*/
 }
 
 //描画

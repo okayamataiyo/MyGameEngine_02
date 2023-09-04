@@ -3,6 +3,7 @@
 #include "Direct3D.h"
 #include "Camera.h"
 #include "Texture.h"
+#include "DirectXCollision.h"
 
 
 Fbx::Fbx()
@@ -123,7 +124,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
     pIndexBuffer_ = new ID3D11Buffer * [materialCount_];
     indexCount_ = vector<int>(materialCount_);
 //  indexCount_ = new int[materialCount_];
-    ppIndex_ = new int* [materialCount_];
+    //ppIndex_ = new int* [materialCount_];
 
 //  for (DWORD poly = 0; poly < polygonCount_; poly++)
 
@@ -351,13 +352,19 @@ void Fbx::RayCast(RayCastData& rayData)
 {
     for (int material = 0; material < materialCount_; material++) {
         //‚ ‚ématerial‚Ìindex”‚ð3‚ÅŠ„‚é‚Æƒ|ƒŠƒSƒ“”‚É‚È‚é‚Ë‚¥
-        for (int poly = 0; poly < ; poly++){
 
-            XMFLOAT3 v0 = materialCount_;
-            XMFLOAT3 v1 = ;
-            XMFLOAT3 v2 = ;
+        int polygonCount = material / 3;
+        for (int poly = 0; poly < polygonCount; poly++){
 
-            rayData.hit = TriangleTest::Intesect();
+            float dist;//’·‚³‚ÌŠi”[
+            XMFLOAT3 v0;
+            XMFLOAT3 v1;
+            XMFLOAT3 v2;
+            XMVECTOR start;
+            XMVECTOR dir;
+            XMStoreFloat3(rayData.start, start);
+
+            rayData.hit = TriangleTests::Intersects(rayData.start,rayData.dir,v0,v1,v2,dist);
 
             if (rayData.hit)
             {
