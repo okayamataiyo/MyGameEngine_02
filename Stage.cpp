@@ -1,5 +1,6 @@
 #include "Engine/Model.h"
 #include "Stage.h"
+#include "Resource.h"
 
 //コンストラクタ
 Stage::Stage(GameObject* parent)
@@ -105,6 +106,28 @@ void Stage::Release()
     delete[]table_;*/
 }
 
+//Stageのダイアログプロシージャ
+BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    switch (msg)
+    {
+    //ダイアログが出来た時
+    case WM_INITDIALOG:
+        SendMessage(GetDlgItem(hDlg,IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);            //ラジオボタンの初期化
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"デフォルト");  //コンボボックスの初期化
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"レンガ");
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"草");
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"砂");
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"水");
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
+        return 0;
+    case WM_COMMAND:
+
+        return 0;
+    }
+    return DefWindowProc(hDlg, msg, wParam, lParam);
+}
+
 void Stage::SetBlock(int _x, int _z, BLOCKTYPE _type)
 {
     //エラーチェック 範囲内の値かどうか
@@ -115,6 +138,8 @@ void Stage::SetBlockHeight(int _x, int _z, int _y)
 {
     table_[_x][_z].height = _y;
 }
+
+
 
 //bool Stage::IsWall(int x, int z)
 //{

@@ -7,7 +7,9 @@
 #include "Engine/Rootjob.h"
 #include "Engine/Model.h"
 #include "DirectXCollision.h"
+
 #include "resource.h"
+#include "Stage.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -101,6 +103,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	pRootjob->Initialize();
 
 	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
+	//DialogBox();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -202,17 +205,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-//ダイアログプロシージャ
+//Mainのダイアログプロシージャ
 BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-	case WM_INITDIALOG:
+	Stage* pStage = (Stage*)pRootjob->FindObject("Stage");
+	return pStage->DialogProc(hDlg, msg, wParam, lParam);
 
-		return 0;
-	case WM_COMMAND:
+	//(Stage*)(pRootjob->FindObject("Stage"))->DialogProc(hDlg, msg, wParam, lParam);
 
-		return 0;
-	}
-	return DefWindowProc(hDlg, msg,wParam,lParam);
 }

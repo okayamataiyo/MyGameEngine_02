@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include <Windows.h>
 
 namespace {
     const int MODEL_NUM{ 5 };
@@ -19,6 +20,8 @@ class Stage : public GameObject
         int height;
     }table_[XSIZE][ZSIZE];
 
+    int mode_;      //0:ã‚°‚é 1:‰º‚°‚é 2:í—Ş‚ğ•Ï‚¦‚é
+    int select_;    //í—Ş
     int hModel_[MODEL_NUM];    //ƒ‚ƒfƒ‹”Ô†
     //int table_[XSIZE][ZSIZE];
     //int width_, height_;
@@ -42,6 +45,8 @@ public:
 
     //ŠJ•ú
     void Release() override;
+
+    BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
     void SetBlock(int _x, int _z, BLOCKTYPE _type);
 
