@@ -360,11 +360,11 @@ void Fbx::RayCast(RayCastData& rayData)
             XMFLOAT3 v0;
             XMFLOAT3 v1;
             XMFLOAT3 v2;
-            //XMVECTOR start = XMLoadFloat3(&rayData.start);
-            //XMVECTOR dir = XMLoadFloat3(&rayData.dir);
+            XMVECTOR start = XMLoadFloat3(&rayData.start);
+            XMVECTOR dir = XMLoadFloat3(&rayData.dir);
             
 
-            //rayData.hit = TriangleTests::Intersects(start,dir,v0,v1,v2,dist);
+            rayData.hit = TriangleTests::Intersects(start,dir,v0,v1,v2,dist);
 
             if (rayData.hit)
             {
