@@ -124,7 +124,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
     pIndexBuffer_ = new ID3D11Buffer * [materialCount_];
     indexCount_ = vector<int>(materialCount_);
 //  indexCount_ = new int[materialCount_];
-    //ppIndex_ = new int* [materialCount_];
+    ppIndex_ = new int* [materialCount_];
 
 //  for (DWORD poly = 0; poly < polygonCount_; poly++)
 
@@ -360,11 +360,11 @@ void Fbx::RayCast(RayCastData& rayData)
             XMFLOAT3 v0;
             XMFLOAT3 v1;
             XMFLOAT3 v2;
-            XMVECTOR start;
-            XMVECTOR dir;
-            XMLoadFloat3(&rayData.start);
+            //XMVECTOR start = XMLoadFloat3(&rayData.start);
+            //XMVECTOR dir = XMLoadFloat3(&rayData.dir);
+            
 
-            rayData.hit = TriangleTests::Intersects(rayData.start,rayData.dir,v0,v1,v2,dist);
+            //rayData.hit = TriangleTests::Intersects(start,dir,v0,v1,v2,dist);
 
             if (rayData.hit)
             {

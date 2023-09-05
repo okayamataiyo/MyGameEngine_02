@@ -7,6 +7,7 @@
 #include "Engine/Rootjob.h"
 #include "Engine/Model.h"
 #include "DirectXCollision.h"
+#include "resource.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -19,11 +20,12 @@ Rootjob* pRootjob = nullptr;
 
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 {
-	TriangleTests::Intersects();
+	//TriangleTests::Intersects();
 
 
 
@@ -97,6 +99,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	pRootjob = new Rootjob(nullptr);
 	pRootjob->Initialize();
+
+	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -196,4 +200,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
+//ダイアログプロシージャ
+BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+
+		return 0;
+	case WM_COMMAND:
+
+		return 0;
+	}
+	return DefWindowProc(hDlg, msg,wParam,lParam);
 }

@@ -134,5 +134,11 @@
     <ClInclude Include="Controller.h">
       <Filter>リソース ファイル\Contoroller</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MyGameEngine_MapEditor.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
