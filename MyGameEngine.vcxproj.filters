@@ -24,30 +24,21 @@
     <Filter Include="リソース ファイル\Contoroller">
       <UniqueIdentifier>{e6296c51-309d-48de-a328-8cbd46810de0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01Engine">
+      <UniqueIdentifier>{7caeeccc-9244-4f08-8830-dceef819ae42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01Engine\DirectX">
+      <UniqueIdentifier>{ad65f962-5099-40b0-b893-5277f5896e07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Fbx.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Camera.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Direct3D.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Input.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Quad.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Sprite.cpp">
-      <Filter>ソース ファイル\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Texture.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject.cpp">
@@ -77,6 +68,21 @@
     <ClCompile Include="Controller.cpp">
       <Filter>リソース ファイル\Contoroller</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Direct3D.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Fbx.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Texture.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Sprite.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple3D.hlsl" />
@@ -89,22 +95,7 @@
     <ClInclude Include="Engine\Transform.h">
       <Filter>ヘッダーファイル\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Texture.h">
-      <Filter>ヘッダーファイル\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Sprite.h">
-      <Filter>ヘッダーファイル\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Quad.h">
-      <Filter>ヘッダーファイル\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Fbx.h">
-      <Filter>ヘッダーファイル\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Input.h">
-      <Filter>ヘッダーファイル\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Direct3D.h">
       <Filter>ヘッダーファイル\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Camera.h">
@@ -135,6 +126,21 @@
       <Filter>リソース ファイル\Contoroller</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Engine\Direct3D.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Fbx.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Texture.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Sprite.h">
+      <Filter>ソース ファイル\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine_MapEditor.rc">

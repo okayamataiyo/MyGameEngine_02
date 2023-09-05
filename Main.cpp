@@ -40,7 +40,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	bool result = TriangleTests::Intersects(beginP, dirVec, P1, P2, P3, dist);
 
-	int a;
+	//int a;
 
 	HRESULT hr;
 
@@ -92,6 +92,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //エラー起きたら強制終了
 		return hr;
 	}
+
+	//Fbx* pFbx = new Fbx;
+	//pFbx->Load("Assets/BoxBrick.fbx");
+	//RayCastData data;
+	//data.start = XMFLOAT3(0, 5, 0);
+	//data.dir = XMFLOAT3(0, -1, -1);
+	////ここで落ちとります。
+	//pFbx->RayCast(data);
+	//int a = 6;
+	//a++;
 
 	//カメラの初期化
 	Camera::Initialize();

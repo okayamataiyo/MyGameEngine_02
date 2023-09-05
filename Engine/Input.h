@@ -18,4 +18,13 @@ namespace Input
 	XMVECTOR GetMousePosition();
 	void SetMousePosition(int x, int y);
 	void Release();
+
+	//É}ÉEÉX
+	bool IsMouseButton(int buttonCode);
+	bool IsMouseButtonDown(int buttonCode);
+	bool IsMouseButtonUp(int buttonCode);
+	//XMFLOAT3 GetMousePosition();
+	XMFLOAT3 GetMouseMove();
+	void SetMousePosition(int x, int y);
+
 };

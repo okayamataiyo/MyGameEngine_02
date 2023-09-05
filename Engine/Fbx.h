@@ -18,6 +18,7 @@ struct RayCastData {
 	XMFLOAT3 start;
 	XMFLOAT3 dir;
 	bool hit;
+	float dist;
 	//double dist;
 };
 
