@@ -62,13 +62,27 @@ void Stage::Initialize()
 void Stage::Update()
 {
     //ビューポート行列
-    /*float w = (float)Direct3D::scrWidth / 2.0f;
+    float w = (float)Direct3D::scrWidth / 2.0f;
     float h = (float)Direct3D::scrHeight / 2.0f;
     XMMATRIX vp = {
-        w,0,0,0,
+        w, 0,0,0,
         0,-h,0,0,
-        w,h,0,1
-    };*/
+        0, 0,1,0,
+        w, h,0,1,
+    };
+    //ビューポート
+    XMMATRIX intVP =
+
+        //プロジェクション変換
+        XMMATRIX invProj =
+
+        //ビュー変換
+        XMMATRIX invView =
+        XMFLOAT3 mousePosFront = GetMouse
+        mousePosFront.z = 0.0;
+    XMFLOAT3 mousePosBack = ごにょごにょ;
+    mousePosBack.z = 1.0f;
+
 }
 
 //描画

@@ -4,6 +4,7 @@
 
 namespace Input
 {
+	//DirectInputオブジェクト
 	LPDIRECTINPUT8   pDInput = nullptr;
 	LPDIRECTINPUTDEVICE8 pKeyDevice = nullptr;
 	BYTE KeyState[256] = { 0 };
@@ -23,6 +24,11 @@ namespace Input
 		pKeyDevice->SetDataFormat(&c_dfDIKeyboard);
 		pKeyDevice->SetCooperativeLevel(hWnd,
 			DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
+
+		//マウス
+		pDInput->CreateDevice(GUID_SysMouse, &pMouseDevice, nullptr);
+		pMouseDevice->SetDataFormat(&c_dfDIMouse);
+		pMouseDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	}
 
 	void Update()
@@ -34,7 +40,8 @@ namespace Input
 
 		//マウス
 		pMouseDevice->Acquire();
-		memcpy(&prevMouseState, &)
+		memcpy(&prevMouseState, &mouseState, sizeof(mouseState));
+		pMouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 
 	}
 
