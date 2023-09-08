@@ -1,5 +1,4 @@
 #pragma once
-
 #include <dInput.h>
 #include "Direct3D.h"
 
@@ -15,16 +14,15 @@ namespace Input
 	bool IsKey(int keyCode);
 	bool IsKeyDown(int keyCode);
 	bool IsKeyUp(int keyCode);
-	XMVECTOR GetMousePosition();
 	void SetMousePosition(int x, int y);
 	void Release();
 
 	//マウス
 	bool IsMouseButton(int buttonCode);
 	bool IsMouseButtonDown(int buttonCode);
-	bool IsMouseButtonUp(int buttonCode);
-	//XMFLOAT3 GetMousePosition();
-	XMFLOAT3 GetMouseMove();
+	bool IsMouseButtonUp(int buttonCode);	//マウスのボタンを今離したか調べる
+	XMFLOAT3 GetMousePosition();			//マウスカーソルの位置を取得
+	XMFLOAT3 GetMouseMove();				//そのフレームでマウスの移動量を取得
 	void SetMousePosition(int x, int y);
 
 };

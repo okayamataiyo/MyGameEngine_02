@@ -128,7 +128,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 
 //  for (DWORD poly = 0; poly < polygonCount_; poly++)
 
-    vector<int> index(polygonCount_ * 3);//ポリゴン数　* 3 = 全頂点分用意
+//  vector<int> index(polygonCount_ * 3);//ポリゴン数　* 3 = 全頂点分用意
 //  int* index = new int[polygonCount_ * 3];
 
     for (int i = 0; i < materialCount_; i++)
@@ -360,9 +360,9 @@ void Fbx::RayCast(RayCastData& rayData)
             XMVECTOR v0 = pVertices_[ppIndex_[material][poly * 3 + 0]].position;
             XMVECTOR v1 = pVertices_[ppIndex_[material][poly * 3 + 1]].position;
             XMVECTOR v2 = pVertices_[ppIndex_[material][poly * 3 + 2]].position;
-            XMVECTOR start = XMLoadFloat3(&rayData.start);
-            XMVECTOR dir = XMLoadFloat3(&rayData.dir);
-            XMVECTOR dirN = XMVector3Normalize(dir);
+            XMVECTOR start = XMLoadFloat4(&rayData.start);
+            XMVECTOR dir = XMLoadFloat4(& rayData.dir);
+            XMVECTOR dirN = XMVector4Normalize(dir);
             
 
             rayData.hit = TriangleTests::Intersects(start,dir,v0,v1,v2,dist);

@@ -15,8 +15,8 @@ using std::vector;
 class Texture;
 
 struct RayCastData {
-	XMFLOAT3 start;
-	XMFLOAT3 dir;
+	XMFLOAT4 start;
+	XMFLOAT4 dir;
 	bool hit;
 	float dist;
 	//double dist;
@@ -64,7 +64,6 @@ class Fbx
 	void InitVertex(fbxsdk::FbxMesh* mesh);
 	void InitIndex(fbxsdk::FbxMesh* mesh);
 	void InitConstantBuffer();
-
 	void InitMaterial(fbxsdk::FbxNode* pNode);
 
 public:

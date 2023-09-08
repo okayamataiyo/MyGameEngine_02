@@ -119,9 +119,6 @@
     <ClInclude Include="Engine\SphereCollider.h">
       <Filter>ヘッダーファイル\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>リソース ファイル\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>リソース ファイル\Contoroller</Filter>
     </ClInclude>
@@ -139,7 +136,10 @@
       <Filter>01Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Sprite.h">
-      <Filter>ソース ファイル\Engine</Filter>
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>リソース ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
