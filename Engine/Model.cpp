@@ -8,9 +8,9 @@ struct ModelData {
 	Transform transform_;
 	std::string filename_;	//ファイル名
 };
+
 	//モデルのポインタをぶち込んでおくベクタ
 	std::vector<ModelData* >modelList;
-
 
 int Model::Load(std::string fileName)
 {

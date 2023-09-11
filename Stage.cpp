@@ -51,15 +51,15 @@ void Stage::Initialize()
     /*for (int i = 0; i < MODEL_NUM; i++) {
         hModel_[i] = -1;
     }*/
+    //tableにブロックのタイプをセット
     for (int z = 0; z < ZSIZE; z++) {
         for (int x = 0; x < XSIZE; x++) {
-            //table_[x][z] = x%5;
-            SetBlock(x, z, (BLOCKTYPE)(z%5));
-            SetBlockHeight(x, z, x%4);
+            SetBlock(x, z, (BLOCKTYPE)(0));
+            SetBlockHeight(x, z, 0);
         }
     }
 
-    //tableにブロックのタイプをセット
+    
 }
 
 //更新
@@ -117,6 +117,7 @@ void Stage::Update()
 
                 //⑥レイが当たったらブレークポイントで止める
                 if (data.hit) {
+                    table_[x][z].height++;
                     break;
                 }
             }

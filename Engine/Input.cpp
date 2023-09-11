@@ -28,12 +28,12 @@ namespace Input
 		//マウス
 		pDInput->CreateDevice(GUID_SysMouse, &pMouseDevice, nullptr);
 		pMouseDevice->SetDataFormat(&c_dfDIMouse);
-		pMouseDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+		pMouseDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE);
 	}
 
 	void Update()
 	{
-		memcpy(prevKeyState,KeyState,sizeof(prevKeyState));
+		memcpy(prevKeyState,KeyState,sizeof(KeyState));
 
 		pKeyDevice->Acquire();
 		pKeyDevice->GetDeviceState(sizeof(KeyState), &KeyState);
@@ -57,7 +57,7 @@ namespace Input
 	bool IsKeyDown(int keyCode)
 	{
 		//今は押してて、前回は押してない
-		if (IsKey(keyCode) && !(prevKeyState[keyCode] & 0x80))
+		if ((KeyState[keyCode] & 0x80) && !(prevKeyState[keyCode] & 0x80))
 		{
 			return true;
 		}
@@ -67,7 +67,7 @@ namespace Input
 	bool IsKeyUp(int keyCode)
 	{
 		//今は押してなくて、前回は押している
-		if (!IsKey(keyCode) && (prevKeyState[keyCode] & 0x80))
+		if (!(KeyState[keyCode] & 0x80) && (prevKeyState[keyCode] & 0x80))
 		{
 			return true;
 		}

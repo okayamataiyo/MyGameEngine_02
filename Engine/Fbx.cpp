@@ -353,19 +353,19 @@ void Fbx::RayCast(RayCastData& rayData)
     for (int material = 0; material < materialCount_; material++) {
         //‚ ‚ématerial‚Ìindex”‚ð3‚ÅŠ„‚é‚Æƒ|ƒŠƒSƒ“”‚É‚È‚é‚Ë‚¥
 
-        int polygonCount = material / 3;
-        for (int poly = 0; poly < polygonCount; poly++){
+        //int polygonCount = material / 3;
+        for (int poly = 0; poly < indexCount_[material]/3; poly++){
 
-            float dist;//’·‚³‚ÌŠi”[
+            //float dist;//’·‚³‚ÌŠi”[
             XMVECTOR v0 = pVertices_[ppIndex_[material][poly * 3 + 0]].position;
             XMVECTOR v1 = pVertices_[ppIndex_[material][poly * 3 + 1]].position;
             XMVECTOR v2 = pVertices_[ppIndex_[material][poly * 3 + 2]].position;
             XMVECTOR start = XMLoadFloat4(&rayData.start);
-            XMVECTOR dir = XMLoadFloat4(& rayData.dir);
+            XMVECTOR dir = XMLoadFloat4(&rayData.dir);
             XMVECTOR dirN = XMVector4Normalize(dir);
             
 
-            rayData.hit = TriangleTests::Intersects(start,dir,v0,v1,v2,dist);
+            rayData.hit = TriangleTests::Intersects(start,dirN,v0,v1,v2,rayData.dist);
 
             if (rayData.hit)
             {
