@@ -20,9 +20,12 @@ class Stage : public GameObject
         int height;
     }table_[XSIZE][ZSIZE];
 
-    int mode_;      //0:上げる 1:下げる 2:種類を変える
-    int select_;    //種類
-    int hModel_[MODEL_NUM];    //モデル番号
+    int mode_;              //0:上げる 1:下げる 2:種類を変える
+    int select_;            //種類
+    int hModel_[MODEL_NUM]; //モデル番号
+    int controlId;          //コントロールのIDを取得
+    int comboId;            //コンボのIDを取得
+    int notificationCode;   //通知コードを取得
     //int table_[XSIZE][ZSIZE];
     //int width_, height_;
 

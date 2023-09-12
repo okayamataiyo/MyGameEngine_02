@@ -58,7 +58,7 @@ void Stage::Initialize()
             SetBlockHeight(x, z, 0);
         }
     }
-
+    controlId = IDC_RADIO_UP;
     
 }
 
@@ -116,9 +116,26 @@ void Stage::Update()
                 Model::RayCast(hModel_[0], data);
 
                 //⑥レイが当たったらブレークポイントで止める
-                if (data.hit) {
-                    table_[x][z].height++;
-                    break;
+                if (controlId == IDC_RADIO_UP) {
+                    if (data.hit) {
+                        table_[x][z].height++;
+                        break;
+                    }
+                }
+                else if (controlId == IDC_RADIO_DOWN) {
+                    if (data.hit) {
+                        table_[x][z].height--;
+                        break;
+                    }
+                }
+                else if (controlId == IDC_RADIO_CHANGE) {
+                    if (data.hit) {
+                        if (comboId == 0) {
+                            SetBlock(x, z, (BLOCKTYPE)(1));
+                            break;
+                        }
+                    }
+
                 }
             }
         }
@@ -176,7 +193,9 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
         return 0;
     case WM_COMMAND:
-
+        controlId = LOWORD(wParam); // コントロールのIDを取得
+        notificationCode = HIWORD(wParam); // 通知コードを取得
+        comboId = SendMessage(GetDlgItem(hDlg,IDC_COMBO1), CB_GETCURSEL, 0, 0);
         return 0;
     }
     return DefWindowProc(hDlg, msg, wParam, lParam);
