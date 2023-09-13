@@ -124,15 +124,19 @@ void Stage::Update()
                 }
                 else if (controlId == IDC_RADIO_DOWN) {
                     if (data.hit) {
-                        table_[x][z].height--;
-                        break;
+                        if (y > 0) {
+                            table_[x][z].height--;
+                            break;
+                        }
                     }
                 }
                 else if (controlId == IDC_RADIO_CHANGE) {
                     if (data.hit) {
-                        if (comboId == 0) {
-                            SetBlock(x, z, (BLOCKTYPE)(1));
-                            break;
+                        for (int i = 0; i <= 4; i++) {
+                            if (comboId == i) {
+                                SetBlock(x, z, (BLOCKTYPE)(i));
+                                break;
+                            }
                         }
                     }
 
@@ -184,8 +188,8 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
     {
     //ダイアログが出来た時
     case WM_INITDIALOG:
-        SendMessage(GetDlgItem(hDlg,IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);            //ラジオボタンの初期化
-        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"デフォルト");  //コンボボックスの初期化
+        SendMessage(GetDlgItem(hDlg,IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);             //ラジオボタンの初期化
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"デフォルト");    //コンボボックスの初期化
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"レンガ");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"草");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"砂");
@@ -195,7 +199,11 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         controlId = LOWORD(wParam); // コントロールのIDを取得
         notificationCode = HIWORD(wParam); // 通知コードを取得
-        comboId = SendMessage(GetDlgItem(hDlg,IDC_COMBO1), CB_GETCURSEL, 0, 0);
+        
+        if (controlId == IDC_COMBO1 || notificationCode == CBN_SELCHANGE) {
+            comboId = SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+            controlId = IDC_RADIO_CHANGE;
+        }
         return 0;
     }
     return DefWindowProc(hDlg, msg, wParam, lParam);
