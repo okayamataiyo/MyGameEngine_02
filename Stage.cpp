@@ -115,31 +115,22 @@ void Stage::Update()
 
                 Model::RayCast(hModel_[0], data);
 
-                //⑥レイが当たったらブレークポイントで止める
-                if (controlId == IDC_RADIO_UP) {
-                    if (data.hit) {
+                if (data.hit) {
+                    //⑥レイが当たったらブレークポイントで止める
+                    if (controlId == IDC_RADIO_UP) {
                         table_[x][z].height++;
                         break;
                     }
-                }
-                else if (controlId == IDC_RADIO_DOWN) {
-                    if (data.hit) {
+                    else if (controlId == IDC_RADIO_DOWN) {
                         if (y > 0) {
                             table_[x][z].height--;
                             break;
                         }
                     }
-                }
-                else if (controlId == IDC_RADIO_CHANGE) {
-                    if (data.hit) {
-                        for (int i = 0; i <= 4; i++) {
-                            if (comboId == i) {
-                                SetBlock(x, z, (BLOCKTYPE)(i));
-                                break;
-                            }
-                        }
+                    else if (controlId == IDC_RADIO_CHANGE) {
+                        SetBlock(x, z, (BLOCKTYPE)(comboId));
+                        break;
                     }
-
                 }
             }
         }
