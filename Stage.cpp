@@ -58,7 +58,7 @@ void Stage::Initialize()
             SetBlockHeight(x, z, 0);
         }
     }
-    controlId = IDC_RADIO_UP;
+    controlId_ = IDC_RADIO_UP;
     
 }
 
@@ -68,6 +68,7 @@ void Stage::Update()
     if (!Input::IsMouseButtonDown(0)) {
         return;
     }
+
     //ビューポート行列
     float w = (float)(Direct3D::scrWidth / 2.0f);
     float h = (float)(Direct3D::scrHeight / 2.0f);
@@ -117,18 +118,18 @@ void Stage::Update()
 
                 if (data.hit) {
                     //⑥レイが当たったらブレークポイントで止める
-                    if (controlId == IDC_RADIO_UP) {
+                    if (controlId_ == IDC_RADIO_UP) {
                         table_[x][z].height++;
                         break;
                     }
-                    else if (controlId == IDC_RADIO_DOWN) {
+                    else if (controlId_ == IDC_RADIO_DOWN) {
                         if (y > 0) {
                             table_[x][z].height--;
                             break;
                         }
                     }
-                    else if (controlId == IDC_RADIO_CHANGE) {
-                        SetBlock(x, z, (BLOCKTYPE)(comboId));
+                    else if (controlId_ == IDC_RADIO_CHANGE) {
+                        SetBlock(x, z, (BLOCKTYPE)(comboId_));
                         break;
                     }
                 }
@@ -188,12 +189,12 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
         return 0;
     case WM_COMMAND:
-        controlId = LOWORD(wParam); // コントロールのIDを取得
-        notificationCode = HIWORD(wParam); // 通知コードを取得
+        controlId_ = LOWORD(wParam); // コントロールのIDを取得
+        notificationCode_ = HIWORD(wParam); // 通知コードを取得
         
-        if (controlId == IDC_COMBO1 || notificationCode == CBN_SELCHANGE) {
-            comboId = SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-            controlId = IDC_RADIO_CHANGE;
+        if (controlId_ == IDC_COMBO1 || notificationCode_ == CBN_SELCHANGE) {
+            comboId_ = SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+            controlId_ = IDC_RADIO_CHANGE;
         }
         return 0;
     }

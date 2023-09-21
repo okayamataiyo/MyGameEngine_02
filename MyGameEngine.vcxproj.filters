@@ -18,17 +18,17 @@
     <Filter Include="ヘッダーファイル\Engine">
       <UniqueIdentifier>{9045cf68-d35b-4686-a31c-6b4697e90eb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\Stage">
-      <UniqueIdentifier>{ed7c4a2f-d0e9-47d9-8378-4057345898e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\Contoroller">
-      <UniqueIdentifier>{e6296c51-309d-48de-a328-8cbd46810de0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01Engine">
       <UniqueIdentifier>{7caeeccc-9244-4f08-8830-dceef819ae42}</UniqueIdentifier>
     </Filter>
     <Filter Include="01Engine\DirectX">
       <UniqueIdentifier>{ad65f962-5099-40b0-b893-5277f5896e07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Contoroller">
+      <UniqueIdentifier>{e6296c51-309d-48de-a328-8cbd46810de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{ed7c4a2f-d0e9-47d9-8378-4057345898e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,10 +63,10 @@
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
-      <Filter>リソース ファイル\Stage</Filter>
+      <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Controller.cpp">
-      <Filter>リソース ファイル\Contoroller</Filter>
+      <Filter>ソース ファイル\Contoroller</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Direct3D.cpp">
       <Filter>01Engine\DirectX</Filter>
@@ -120,7 +120,7 @@
       <Filter>ヘッダーファイル\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
-      <Filter>リソース ファイル\Contoroller</Filter>
+      <Filter>ソース ファイル\Contoroller</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\Direct3D.h">
@@ -139,7 +139,7 @@
       <Filter>01Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
-      <Filter>リソース ファイル\Stage</Filter>
+      <Filter>ソース ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
