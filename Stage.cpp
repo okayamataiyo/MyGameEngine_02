@@ -69,8 +69,7 @@ void Stage::Update()
         return;
     }
 
-    //ビューポート行列
-    float w = (float)(Direct3D::scrWidth / 2.0f);
+    float w = (float)(Direct3D::scrWidth / 2.0f);   //ビューポート行列
     float h = (float)(Direct3D::scrHeight / 2.0f);
     //Offsetx,yは0
     //minZ = 0 maxZ = 1
@@ -81,24 +80,17 @@ void Stage::Update()
         0, 0,1,0,
         w, h,0,1,
     };
-    //ビューポート
-    XMMATRIX intVP = XMMatrixInverse(nullptr, vp);
-    //プロジェクション変換
-    XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
-    //ビュー変換
-    XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
+    XMMATRIX intVP = XMMatrixInverse(nullptr, vp);                              //ビューポート
+    XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix()); //プロジェクション変換    
+    XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());       //ビュー変換
     XMFLOAT3 mousePosFront = Input::GetMousePosition();
     mousePosFront.z = 0.0f;
     XMFLOAT3 mousePosBack = Input::GetMousePosition();
-    mousePosBack.z = 1.0f;
-    //①　mousePosFrontをベクトルに変換
-    XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
-    //②　①にinvVP, invPrj, intViewをかける
-    vMouseFront = XMVector3TransformCoord(vMouseFront,intVP * invProj * invView );
-    //③　mousePosBackをベクトルに変換
-    XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
-    //④　③にinvVP, invPrj, invViewをかける
-    vMouseBack = XMVector3TransformCoord(vMouseBack,intVP * invProj * invView );
+    mousePosBack.z = 1.0f;    
+    XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);                            //①　mousePosFrontをベクトルに変換    
+    vMouseFront = XMVector3TransformCoord(vMouseFront,intVP * invProj * invView );  //②　①にinvVP, invPrj, intViewをかける    
+    XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);                              //③　mousePosBackをベクトルに変換    
+    vMouseBack = XMVector3TransformCoord(vMouseBack,intVP * invProj * invView );    //④　③にinvVP, invPrj, invViewをかける
 
     for (int x = 0; x < 15; x++) {
         for (int z = 0; z < 15; z++) {
@@ -113,7 +105,6 @@ void Stage::Update()
                 trans.position_.y = y;
                 trans.position_.z = z;
                 Model::SetTransform(hModel_[0], trans);
-
                 Model::RayCast(hModel_[0], data);
 
                 if (data.hit) {
