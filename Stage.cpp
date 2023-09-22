@@ -191,9 +191,8 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         controlId_ = LOWORD(wParam); // コントロールのIDを取得
         notificationCode_ = HIWORD(wParam); // 通知コードを取得
-        
+        comboId_ = SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
         if (controlId_ == IDC_COMBO1 || notificationCode_ == CBN_SELCHANGE) {
-            comboId_ = SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
             controlId_ = IDC_RADIO_CHANGE;
         }
         return 0;
