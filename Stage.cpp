@@ -83,6 +83,9 @@ void Stage::Update()
     XMMATRIX intVP = XMMatrixInverse(nullptr, vp);                              //ビューポート
     XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix()); //プロジェクション変換    
     XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());       //ビュー変換
+    float angleIncrement = XMConvertToRadians(-5.0f); // 角度をラジアンに変換
+    XMMATRIX rotationMatrix = XMMatrixRotationX(angleIncrement); // X軸周りに回転
+    invView = XMMatrixMultiply(rotationMatrix, invView); // ビュー行列に回転行列を適用
     XMFLOAT3 mousePosFront = Input::GetMousePosition();
     mousePosFront.z = 0.0f;
     XMFLOAT3 mousePosBack = Input::GetMousePosition();
@@ -91,6 +94,8 @@ void Stage::Update()
     vMouseFront = XMVector3TransformCoord(vMouseFront,intVP * invProj * invView );  //②　①にinvVP, invPrj, intViewをかける    
     XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);                              //③　mousePosBackをベクトルに変換    
     vMouseBack = XMVector3TransformCoord(vMouseBack,intVP * invProj * invView );    //④　③にinvVP, invPrj, invViewをかける
+
+    rayHit_ = false;
 
     for (int x = 0; x < 15; x++) {
         for (int z = 0; z < 15; z++) {
@@ -107,7 +112,8 @@ void Stage::Update()
                 Model::SetTransform(hModel_[0], trans);
                 Model::RayCast(hModel_[0], data);
 
-                if (data.hit) {
+                if (data.hit && !rayHit_) {
+                    rayHit_ = true;
                     //⑥レイが当たったらブレークポイントで止める
                     if (controlId_ == IDC_RADIO_UP) {
                         table_[x][z].height++;
@@ -178,7 +184,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"砂");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"水");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
-        return 0;
+        return TRUE;
     case WM_COMMAND:
         controlId_ = LOWORD(wParam); // コントロールのIDを取得
         notificationCode_ = HIWORD(wParam); // 通知コードを取得
@@ -186,9 +192,9 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         if (controlId_ == IDC_COMBO1 || notificationCode_ == CBN_SELCHANGE) {
             controlId_ = IDC_RADIO_CHANGE;
         }
-        return 0;
+        return TRUE;
     }
-    return DefWindowProc(hDlg, msg, wParam, lParam);
+    return FALSE;
 }
 
 void Stage::SetBlock(int _x, int _z, BLOCKTYPE _type)

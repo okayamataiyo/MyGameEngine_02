@@ -23,10 +23,11 @@ class Stage : public GameObject
     int mode_;              //0:上げる 1:下げる 2:種類を変える
     int select_;            //種類
     int hModel_[MODEL_NUM]; //モデル番号
-    int controlId_;          //コントロールのIDを取得
-    int comboId_;            //コンボのIDを取得
-    int notificationCode_;   //通知コードを取得
-    int setComboId_;         //コンボIDをセット
+    int controlId_;         //コントロールのIDを取得
+    int comboId_;           //コンボのIDを取得
+    int notificationCode_;  //通知コードを取得
+    int setComboId_;        //コンボIDをセット
+    bool rayHit_;   //レイがヒットしたかどうかを示すフラグ
     //int table_[XSIZE][ZSIZE];
     //int width_, height_;
 
