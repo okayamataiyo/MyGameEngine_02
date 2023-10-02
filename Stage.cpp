@@ -186,7 +186,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"砂");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"水");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
-        return TRUE;
+        return 0;
     case WM_COMMAND:
         controlId_ = LOWORD(wParam); // コントロールのIDを取得
         notificationCode_ = HIWORD(wParam); // 通知コードを取得
@@ -194,9 +194,9 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         if (controlId_ == IDC_COMBO1 || notificationCode_ == CBN_SELCHANGE) {
             controlId_ = IDC_RADIO_CHANGE;
         }
-        return TRUE;
+        return 0;
     }
-    return FALSE;
+    return DefWindowProc(hDlg, msg, wParam, lParam);
 }
 
 void Stage::SetBlock(int _x, int _z, BLOCKTYPE _type)
