@@ -32,9 +32,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Camera.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
@@ -83,13 +80,17 @@
     <ClCompile Include="Engine\Sprite.cpp">
       <Filter>01Engine\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Simple3D.hlsl" />
-    <FxCompile Include="Simple2D.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <FxCompile Include="Simple2D.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Simple3D.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Transform.h">
@@ -122,7 +123,6 @@
     <ClInclude Include="Controller.h">
       <Filter>ソース ファイル\Contoroller</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Engine\Direct3D.h">
       <Filter>01Engine\DirectX</Filter>
     </ClInclude>
@@ -141,10 +141,18 @@
     <ClInclude Include="Stage.h">
       <Filter>ソース ファイル\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>リソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MyGameEngine_MapEditor.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

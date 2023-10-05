@@ -1,3 +1,5 @@
+#include <iostream>
+#include <fstream>
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
@@ -210,7 +212,14 @@ void Stage::SetBlockHeight(int _x, int _z, int _y)
     table_[_x][_z].height = _y;
 }
 
-
+void SaveToFile(const std::string& filename)
+{
+    std::ofstream outFile(filename);
+    if (!outFile.is_open()) {
+        std::cerr << "ファイルを開けませんでした。" << std::endl;
+        return;
+    }
+}
 
 //bool Stage::IsWall(int x, int z)
 //{
