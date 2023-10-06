@@ -61,6 +61,7 @@ void Stage::Initialize()
         }
     }
     controlId_ = IDC_RADIO_UP;
+
     
 }
 
@@ -137,6 +138,8 @@ void Stage::Update()
             }
         }
     }
+
+    
 }
 
 //描画
@@ -164,6 +167,34 @@ void Stage::Draw()
 
 }
 
+void Stage::Save()
+{
+    char fileName[MAX_PATH] = "無題.map";  //ファイル名を入れる変数
+
+    //「ファイルを保存」ダイアログの設定
+    OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
+    ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
+    ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
+    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
+        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
+    ofn.lpstrFile = fileName;               	//ファイル名
+    ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
+    ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
+    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
+
+    //「ファイルを保存」ダイアログ
+    BOOL selFile;
+    selFile = GetSaveFileName(&ofn);
+
+    //キャンセルしたら中断
+    if (selFile == FALSE) return;
+
+    HANDLE hFile;
+    hFile = CreateFile{
+
+    }
+}
+
 //開放
 void Stage::Release()
 {
@@ -183,6 +214,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_INITDIALOG:
         SendMessage(GetDlgItem(hDlg,IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);             //ラジオボタンの初期化
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"デフォルト");    //コンボボックスの初期化
+        SendMessage(GetDlgItem(hDlg, ID_MENU_SAVE), BM_SETCHECK, BST_CHECKED, 0);             //ラジオボタンの初期化
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"レンガ");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"草");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"砂");

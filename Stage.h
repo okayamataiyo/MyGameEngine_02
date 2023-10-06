@@ -57,6 +57,8 @@ public:
 
     void SetBlockHeight(int _x, int _z, int _y);
 
+    void Save();
+
 
 
     //Žw’è‚µ‚½ˆÊ’u‚ª’Ê‚ê‚é‚©’Ê‚ê‚È‚¢‚©‚ð’²‚×‚é

@@ -50,7 +50,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		std::cout << "ファイルオープンに失敗" << GetLastError() << std::endl;
 		return -1;
 	}
-	std::string writeStr = 
+	//std::string writeStr = 
 	XMVECTOR beginP = XMVectorSet(1, 5, 1, 0);
 	XMVECTOR dirVec = XMVectorSet(0, -1, 0, 0);
 	XMVECTOR P1 = XMVectorSet(0, 0, 0, 0);
@@ -231,6 +231,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);  //プログラム終了
 		return 0;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case ID_MENU_NEW:
+			OutputDebugString("new FILE");
+			break;
+		case ID_MENU_OPEN:
+			OutputDebugString("open FILE");
+			break;
+		case ID_MENU_SAVE:
+			OutputDebugString("Save File");
+			((Stage*)pRootJob->FindObject("Stage"))->Save();
+			//ファイル保存ダイアログで名前を決める
+			//決めたファイル名でセーブを実行
+
+			return 0;
+		}
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
@@ -244,3 +260,4 @@ BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	//(Stage*)(pRootjob->FindObject("Stage"))->DialogProc(hDlg, msg, wParam, lParam);
 
 }
+
