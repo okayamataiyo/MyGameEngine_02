@@ -189,10 +189,11 @@ void Stage::Save()
     //キャンセルしたら中断
     if (selFile == FALSE) return;
 
+    //セーブのルーチン
     HANDLE hFile;
-    hFile = CreateFile{
-
-    }
+    hFile = CreateFile(
+        
+    );
 }
 
 //開放
