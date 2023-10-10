@@ -191,9 +191,9 @@ void Stage::Save()
 
     //セーブのルーチン
     HANDLE hFile;
-    hFile = CreateFile(
+//    hFile = CreateFile(
         
-    );
+//    );
 }
 
 //開放
