@@ -76,6 +76,38 @@ void Quad::InitVertexData()
 	vertexNum_ = vertices_.size();
 }
 
+//頂点バッファを作成
+HRESULT Quad::CreateVertexBuffer()
+{
+	HRESULT hr;
+
+	D3D11_BUFFER_DESC bd_vertex;
+	bd_vertex.ByteWidth = sizeof(VERTEX) * vertexNum_;
+	bd_vertex.Usage = D3D11_USAGE_DEFAULT;
+	bd_vertex.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd_vertex.CPUAccessFlags = 0;
+	bd_vertex.MiscFlags = 0;
+	bd_vertex.StructureByteStride = 0;
+	D3D11_SUBRESOURCE_DATA data_vertex;
+	data_vertex.pSysMem = vertices_.data();
+	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
+		return hr;
+	}
+	return S_OK;
+}
+
+//インデックス情報を準備
+void Quad::InitIndexData()
+{
+	index_ = { 0,2,3, 0,1,2 };
+
+	//インデックス数
+	indexNum_ = index_.size();
+}
+
 HRESULT Quad::CreateIndexBuffer()
 {
 	// インデックスバッファを生成する

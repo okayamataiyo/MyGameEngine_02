@@ -47,10 +47,6 @@ public:
 	HRESULT Initialize();
 	void Draw(XMMATRIX& worldMatrix);
 	void Release();
-	HRESULT CreateBuffers(VERTEX* _ver, int _vn, int* _index, int _in);
-
-	void SetBuffers(int _in, XMMATRIX& worldMatrix);
-private:
 	virtual void InitVertexData();
 	HRESULT CreateVertexBuffer();
 	virtual void InitIndexData();
@@ -61,5 +57,7 @@ private:
 	//---------Draw関数から呼ばれる関数---------
 	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);	//コンスタントバッファに各種情報を渡す
 	void SetBufferToPipeline();
+private:
+	
 };
 
