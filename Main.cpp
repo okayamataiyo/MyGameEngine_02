@@ -34,35 +34,31 @@ BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 {
-	//TriangleTests::Intersects();
-	setlocale(LC_ALL, "Japanese");
-	HANDLE hFile = CreateFile(
-		"dataFile.txt",
-		GENERIC_WRITE,
-		0,
-		NULL,
-		CREATE_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL
-	);
-	if (hFile == INVALID_HANDLE_VALUE)//失敗したとき
-	{
-		std::cout << "ファイルオープンに失敗" << GetLastError() << std::endl;
-		return -1;
-	}
-	//std::string writeStr = 
-	XMVECTOR beginP = XMVectorSet(1, 5, 1, 0);
-	XMVECTOR dirVec = XMVectorSet(0, -1, 0, 0);
-	XMVECTOR P1 = XMVectorSet(0, 0, 0, 0);
-	XMVECTOR P2 = XMVectorSet(0, 0, 3, 0);
-	XMVECTOR P3 = XMVectorSet(3, 0, 0, 0);
-	float dist;
+	////TriangleTests::Intersects();
+	//setlocale(LC_ALL, "Japanese");
+	//HANDLE hFile = CreateFile(
+	//	"dataFile.txt",
+	//	GENERIC_WRITE,
+	//	0,
+	//	NULL,
+	//	CREATE_ALWAYS,
+	//	FILE_ATTRIBUTE_NORMAL,
+	//	NULL
+	//);
+	//if (hFile == INVALID_HANDLE_VALUE)//失敗したとき
+	//{
+	//	std::cout << "ファイルオープンに失敗" << GetLastError() << std::endl;
+	//	return -1;
+	//}
+	////std::string writeStr = 
+	//XMVECTOR beginP = XMVectorSet(1, 5, 1, 0);
+	//XMVECTOR dirVec = XMVectorSet(0, -1, 0, 0);
+	//XMVECTOR P1 = XMVectorSet(0, 0, 0, 0);
+	//XMVECTOR P2 = XMVectorSet(0, 0, 3, 0);
+	//XMVECTOR P3 = XMVectorSet(3, 0, 0, 0);
+	//float dist;
 
-	bool result = TriangleTests::Intersects(beginP, dirVec, P1, P2, P3, dist);
-
-	//int a;
-
-	HRESULT hr;
+	//bool result = TriangleTests::Intersects(beginP, dirVec, P1, P2, P3, dist);
 
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
@@ -105,6 +101,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	ShowWindow(hWnd, nCmdShow);
 
 	//Direct3D初期化
+	HRESULT hr;
 	hr = Direct3D::Initialize(winW, winH, hWnd);
 	if (FAILED(hr))
 	{
@@ -222,6 +219,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int a = 0;
 	switch (msg)
 	{
 	case WM_MOUSEMOVE:
@@ -234,17 +232,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case ID_MENU_NEW:
-			OutputDebugString("new FILE");
+			a++;
 			break;
 		case ID_MENU_OPEN:
-			OutputDebugString("open FILE");
+			a++;
 			break;
 		case ID_MENU_SAVE:
-			OutputDebugString("Save File");
-//			((Stage*)pRootJob->FindObject("Stage"))->Save();
+			((Stage*)pRootjob->FindObject("stage"))->Save();
 			//ファイル保存ダイアログで名前を決める
 			//決めたファイル名でセーブを実行
-
 			return 0;
 		}
 	}
@@ -254,8 +250,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //Mainのダイアログプロシージャ
 BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	Stage* pStage = (Stage*)pRootjob->FindObject("Stage");
-	return pStage->DialogProc(hDlg, msg, wParam, lParam);
+	//Stage* pStage = (Stage*)pRootjob->FindObject("Stage");
+	return ((Stage*)pRootjob->FindObject("Stage"))->DialogProc(hDlg, msg, wParam, lParam);
 
 	//(Stage*)(pRootjob->FindObject("Stage"))->DialogProc(hDlg, msg, wParam, lParam);
 
