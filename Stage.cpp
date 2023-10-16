@@ -255,7 +255,7 @@ void Stage::Save()
     DWORD bytes = 0;
     WriteFile(
         hFile,      //ファイルハンドル
-        "ABCDEF",   //保存したい文字列
+        "ABCDEF\0",   //保存したい文字列
         12,         //保存する文字数
         &bytes,     //保存したサイズ
         NULL
