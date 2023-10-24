@@ -8,6 +8,8 @@
 #include "Stage.h"
 #include "Resource.h"
 
+using std::to_string;
+
 //コンストラクタ
 Stage::Stage(GameObject* parent)
     :GameObject(parent, "Stage")
@@ -238,7 +240,7 @@ void Stage::Save()
     string data = "";
     for (int x = 0; x < XSIZE; x++) {
         for (int z = 0; z < ZSIZE; z++) {
-            data += std::to_string(table_[x][z].type);
+            data += to_string(table_[x][z].type);
         }
         data + "\n";
     }
