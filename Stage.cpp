@@ -237,27 +237,29 @@ void Stage::Save()
         FILE_ATTRIBUTE_NORMAL,
         NULL
     );
+
     string data = "";
     for (int x = 0; x < XSIZE; x++) {
         for (int z = 0; z < ZSIZE; z++) {
-            data += to_string(table_[x][z].type);
+            data += to_string(table_[x][z].type) + " "
+                + to_string(table_[x][z].height) + "\n";
         }
         data + "\n";
     }
     const char* charData = data.c_str();
+
     //data.length()
     DWORD bytes = 0;
     WriteFile(
         hFile,      //ファイルハンドル
         charData,   //保存したい文字列
-        12,         //保存する文字数
+        static_cast<DWORD>(data.length()),         //保存する文字数
         &bytes,     //保存したサイズ
         NULL
     );
 
     CloseHandle(hFile);
 }
-
 
 //bool Stage::IsWall(int x, int z)
 //{
