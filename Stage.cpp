@@ -8,6 +8,8 @@
 #include "Stage.h"
 #include "Resource.h"
 
+using std::to_string;
+
 //コンストラクタ
 Stage::Stage(GameObject* parent)
     :GameObject(parent, "Stage")
@@ -16,14 +18,11 @@ Stage::Stage(GameObject* parent)
         hModel_[i] = -1;
     }
 
-    for (int x = 0; x < MODEL_NUM; x++)
-    {
-        for (int z = 0; z < MODEL_NUM; z++)
-        {
+    for (int x = 0; x < MODEL_NUM; x++){
+        for (int z = 0; z < MODEL_NUM; z++){
             SetBlock(x, z, DEFAULT);
         }
     }
-
 }
 
 //デストラクタ
@@ -34,7 +33,6 @@ Stage::~Stage()
 //初期化
 void Stage::Initialize()
 {
-
     string modelname[] = {
         "BoxDefault.fbx",
         "BoxBrick.fbx",
@@ -62,7 +60,6 @@ void Stage::Initialize()
     }
     controlId_ = IDC_RADIO_UP;
 
-    
 }
 
 //更新
@@ -76,8 +73,7 @@ void Stage::Update()
     float h = (float)(Direct3D::scrHeight / 2.0f);
     //Offsetx,yは0
     //minZ = 0 maxZ = 1
-    XMMATRIX vp = 
-    {
+    XMMATRIX vp = {
         w, 0,0,0,
         0,-h,0,0,
         0, 0,1,0,
@@ -87,9 +83,9 @@ void Stage::Update()
     XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix()); //プロジェクション変換    
     XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());       //ビュー変換
     //レイを-5°移動させて、調節した
-    float angleIncrement = XMConvertToRadians(-5.0f); // 角度をラジアンに変換
-    XMMATRIX rotationMatrix = XMMatrixRotationX(angleIncrement); // X軸周りに回転
-    invView = XMMatrixMultiply(rotationMatrix, invView); // ビュー行列に回転行列を適用
+    //constexpr float angleIncrement = XMConvertToRadians(-5.0f); // 角度をラジアンに変換
+    //XMMATRIX rotationMatrix = XMMatrixRotationX(angleIncrement); // X軸周りに回転
+    //invView = XMMatrixMultiply(rotationMatrix, invView); // ビュー行列に回転行列を適用
 
     XMFLOAT3 mousePosFront = Input::GetMousePosition();
     mousePosFront.z = 0.0f;
@@ -138,8 +134,6 @@ void Stage::Update()
             }
         }
     }
-
-    
 }
 
 //描画
@@ -147,12 +141,9 @@ void Stage::Draw()
 {
     Transform blockTrans;
 
-    for (int x = 0; x < 15; x++)
-    {
-        for (int z = 0; z < 15; z++)
-        {
-            for (int y = 0; y < table_[x][z].height + 1; y++)
-            {
+    for (int x = 0; x < 15; x++){
+        for (int z = 0; z < 15; z++){
+            for (int y = 0; y < table_[x][z].height + 1; y++){
                 int type = table_[x][z].type;
 
                 blockTrans.position_.x = x;
@@ -164,14 +155,12 @@ void Stage::Draw()
             }
         }
     }
-
 }
 
 //開放
 void Stage::Release()
 {
-    /*for (int x = 0; x < width_; x++)
-    {
+    /*for (int x = 0; x < width_; x++){
         delete[] table_[x];
     }
     delete[]table_;*/
@@ -180,8 +169,7 @@ void Stage::Release()
 //Stageのダイアログプロシージャ
 BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    switch (msg)
-    {
+    switch (msg){
     //ダイアログが出来た時
     case WM_INITDIALOG:
         SendMessage(GetDlgItem(hDlg,IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);             //ラジオボタンの初期化
@@ -192,7 +180,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"砂");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"水");
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
-        return 0;
+        return TRUE;
     case WM_COMMAND:
         controlId_ = LOWORD(wParam); // コントロールのIDを取得
         notificationCode_ = HIWORD(wParam); // 通知コードを取得
@@ -200,9 +188,9 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         if (controlId_ == IDC_COMBO1 || notificationCode_ == CBN_SELCHANGE) {
             controlId_ = IDC_RADIO_CHANGE;
         }
-        return 0;
+        return TRUE;
     }
-    return DefWindowProc(hDlg, msg, wParam, lParam);
+    return FALSE;
 }
 
 void Stage::SetBlock(int _x, int _z, BLOCKTYPE _type)
@@ -225,11 +213,11 @@ void Stage::Save()
     OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
     ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
     ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
-    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
-        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
+    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")  //─┬ファイルの種類
+        TEXT("すべてのファイル(*.*)\0*.*\0\0");             //─┘
     ofn.lpstrFile = fileName;               	//ファイル名
-    ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
-    ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
+    ofn.nMaxFile = MAX_PATH;                  	//パスの最大文字数
+    ofn.Flags = OFN_OVERWRITEPROMPT;   		    //フラグ（同名ファイルが存在したら上書き確認）
     ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
 
     //「ファイルを保存」ダイアログ
@@ -249,22 +237,19 @@ void Stage::Save()
         FILE_ATTRIBUTE_NORMAL,
         NULL
     );
-
-    // バイナリデータを書き込む
-    BYTE binaryData[] = { 0x01, 0x02, 0x03, 0x04 }; // 例としてバイナリデータを指定
-    DWORD dwBytesWritten;
-
-    if (!WriteFile(hFile, binaryData, sizeof(binaryData), &dwBytesWritten, NULL)) {
-        CloseHandle(hFile);
-        return;
+    string data = "";
+    for (int x = 0; x < XSIZE; x++) {
+        for (int z = 0; z < ZSIZE; z++) {
+            data += to_string(table_[x][z].type);
+        }
+        data + "\n";
     }
-
-    std::string data = "";
+    const char* charData = data.c_str();
     //data.length()
     DWORD bytes = 0;
     WriteFile(
         hFile,      //ファイルハンドル
-        binaryData,   //保存したい文字列
+        charData,   //保存したい文字列
         12,         //保存する文字数
         &bytes,     //保存したサイズ
         NULL
