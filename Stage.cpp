@@ -250,16 +250,26 @@ void Stage::Save()
         NULL
     );
 
+    // バイナリデータを書き込む
+    BYTE binaryData[] = { 0x01, 0x02, 0x03, 0x04 }; // 例としてバイナリデータを指定
+    DWORD dwBytesWritten;
+
+    if (!WriteFile(hFile, binaryData, sizeof(binaryData), &dwBytesWritten, NULL)) {
+        CloseHandle(hFile);
+        return;
+    }
+
     std::string data = "";
     //data.length()
     DWORD bytes = 0;
     WriteFile(
         hFile,      //ファイルハンドル
-        "ABCDEF\0",   //保存したい文字列
+        binaryData,   //保存したい文字列
         12,         //保存する文字数
         &bytes,     //保存したサイズ
         NULL
     );
+
     CloseHandle(hFile);
 }
 
