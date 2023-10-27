@@ -207,7 +207,7 @@ void Stage::SetBlockHeight(int _x, int _z, int _y)
 void Stage::Save()
 {
 
-    char fileName[MAX_PATH] = "無題.map";  //ファイル名を入れる変数
+    char fileName[MAX_PATH] = "マップデータ.map";  //ファイル名を入れる変数
 
     //「ファイルを保存」ダイアログの設定
     OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
