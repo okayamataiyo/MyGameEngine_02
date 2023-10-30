@@ -21,6 +21,7 @@ private:
         int height;
     }table_[XSIZE][ZSIZE];
 
+
     int mode_;              //0:ã‚°‚é 1:‰º‚°‚é 2:í—Ş‚ğ•Ï‚¦‚é
     int select_;            //í—Ş
     int hModel_[MODEL_NUM]; //ƒ‚ƒfƒ‹”Ô†
@@ -57,6 +58,10 @@ public:
     void SetBlock(int _x, int _z, BLOCKTYPE _type);
 
     void SetBlockHeight(int _x, int _z, int _y);
+
+    string BlockData(const Block& block);
+
+    Block GetBlock(int _x, int _z) { return table_[_x][_z]; }
 
     void Save();
 

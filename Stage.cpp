@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <string>
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
@@ -204,21 +206,31 @@ void Stage::SetBlockHeight(int _x, int _z, int _y)
     table_[_x][_z].height = _y;
 }
 
+string Stage::BlockData(const Block& block)
+{
+    string data;
+    data.resize(sizeof(Block));
+    memcpy(&data[0], &block, sizeof(Block));
+    return data;
+}
+
+
 void Stage::Save()
 {
+    char fileName[MAX_PATH] = "無題.map";
+    std::string buffer;
+    std::stringstream oss;
 
-    char fileName[MAX_PATH] = "マップデータ.map";  //ファイル名を入れる変数
-
-    //「ファイルを保存」ダイアログの設定
-    OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
-    ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
-    ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
-    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")  //─┬ファイルの種類
-        TEXT("すべてのファイル(*.*)\0*.*\0\0");             //─┘
-    ofn.lpstrFile = fileName;               	//ファイル名
-    ofn.nMaxFile = MAX_PATH;                  	//パスの最大文字数
-    ofn.Flags = OFN_OVERWRITEPROMPT;   		    //フラグ（同名ファイルが存在したら上書き確認）
-    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
+    //OPENFILENAME構造体を初期化
+    OPENFILENAME ofn; {
+        ZeroMemory(&ofn, sizeof(ofn));
+        ofn.lStructSize = sizeof(OPENFILENAME);
+        ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0");
+        ofn.lpstrFile = fileName;
+        ofn.nMaxFile = MAX_PATH;
+        ofn.Flags = OFN_OVERWRITEPROMPT;
+        ofn.lpstrDefExt = TEXT("map");
+    }
 
     //「ファイルを保存」ダイアログ
     BOOL selFile;
@@ -229,36 +241,90 @@ void Stage::Save()
 
     HANDLE hFile;
     hFile = CreateFile(
-        fileName, //ファイル名
+        fileName,    //ファイル名
         GENERIC_WRITE,  //アクセスモード
         0,
         NULL,
-        CREATE_ALWAYS,  //作成方法
+        CREATE_ALWAYS,     //作成方法
         FILE_ATTRIBUTE_NORMAL,
         NULL
     );
 
-    string data = "";
+    //ファイルに保存
+    
+    std::string data = "";
     for (int x = 0; x < XSIZE; x++) {
         for (int z = 0; z < ZSIZE; z++) {
-            data += to_string(table_[x][z].type) + " "
-                + to_string(table_[x][z].height) + "\n";
+            data += BlockData(table_[x][z]);
+            //outputFile.read((char*)&data, sizeof(Block));
+           
         }
-        data + "\n";
     }
-    const char* charData = data.c_str();
 
-    //data.length()
+    
+    std::fstream outputFile(fileName, std::ios::binary | std::ios::out);
     DWORD bytes = 0;
     WriteFile(
-        hFile,      //ファイルハンドル
-        charData,   //保存したい文字列
-        static_cast<DWORD>(data.length()),         //保存する文字数
-        &bytes,     //保存したサイズ
+        hFile,              //ファイルハンドル
+        data.c_str(),          //保存したい文字列            
+        data.size(),             //保存したサイズ
+        &bytes,
         NULL
     );
-
     CloseHandle(hFile);
+
+    //char fileName[MAX_PATH] = "マップデータ.map";  //ファイル名を入れる変数
+
+    ////「ファイルを保存」ダイアログの設定
+    //OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
+    //ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
+    //ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
+    //ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")  //─┬ファイルの種類
+    //    TEXT("すべてのファイル(*.*)\0*.*\0\0");             //─┘
+    //ofn.lpstrFile = fileName;               	//ファイル名
+    //ofn.nMaxFile = MAX_PATH;                  	//パスの最大文字数
+    //ofn.Flags = OFN_OVERWRITEPROMPT;   		    //フラグ（同名ファイルが存在したら上書き確認）
+    //ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
+
+    ////「ファイルを保存」ダイアログ
+    //BOOL selFile;
+    //selFile = GetSaveFileName(&ofn);
+
+    ////キャンセルしたら中断
+    //if (selFile == FALSE) return;
+
+    //HANDLE hFile;
+    //hFile = CreateFile(
+    //    fileName, //ファイル名
+    //    GENERIC_WRITE,  //アクセスモード
+    //    0,
+    //    NULL,
+    //    CREATE_ALWAYS,  //作成方法
+    //    FILE_ATTRIBUTE_NORMAL,
+    //    NULL
+    //);
+
+    //string data = "";
+    //for (int x = 0; x < XSIZE; x++) {
+    //    for (int z = 0; z < ZSIZE; z++) {
+    //        data += to_string(table_[x][z].type) + " "
+    //            + to_string(table_[x][z].height) + "\n";
+    //    }
+    //    data + "\n";
+    //}
+    //const char* charData = data.c_str();
+
+    ////data.length()
+    //DWORD bytes = 0;
+    //WriteFile(
+    //    hFile,      //ファイルハンドル
+    //    charData,   //保存したい文字列
+    //    static_cast<DWORD>(data.length()),         //保存する文字数
+    //    &bytes,     //保存したサイズ
+    //    NULL
+    //);
+
+    //CloseHandle(hFile);
 }
 
 //bool Stage::IsWall(int x, int z)
