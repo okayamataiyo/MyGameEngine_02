@@ -61,7 +61,7 @@ public:
 
     string BlockData(const Block& block);
 
-    Block GetBlock(int _x, int _z) { return table_[_x][_z]; }
+    //Block GetBlock(int _x, int _z) { return table_[_x][_z]; }
 
     void Save();
 
