@@ -16,11 +16,6 @@ namespace
 class Stage : public GameObject
 {
 private:
-    struct Block {
-        int type;
-        int height;
-    }table_[XSIZE][ZSIZE];
-
 
     int mode_;              //0:上げる 1:下げる 2:種類を変える
     int select_;            //種類
@@ -38,20 +33,15 @@ public:
     //引数:parent 親オブジェクト(SceneManager)
     Stage(GameObject* parent);
 
-    //デストラクタ
-    ~Stage();
+    ~Stage();    //デストラクタ
 
-    //初期化
-    void Initialize() override;
+    void Initialize() override;    //初期化
 
-    //更新
-    void Update() override;
+    void Update() override;    //更新
 
-    //描画
-    void Draw() override;
+    void Draw() override;    //描画
 
-    //開放
-    void Release() override;
+    void Release() override;    //開放
 
     BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -59,13 +49,9 @@ public:
 
     void SetBlockHeight(int _x, int _z, int _y);
 
-    string BlockData(const Block& block);
+    void Save();    //セーブ
 
-    //Block GetBlock(int _x, int _z) { return table_[_x][_z]; }
-
-    void Save();
-
-
+    void Load();    //ロード
 
     //指定した位置が通れるか通れないかを調べる
     //引数:x,z  調べる位置

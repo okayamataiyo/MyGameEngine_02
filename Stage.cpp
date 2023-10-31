@@ -12,6 +12,11 @@
 
 using std::to_string;
 
+struct Block {
+    int type;
+    int height;
+}table_[XSIZE][ZSIZE];
+
 //コンストラクタ
 Stage::Stage(GameObject* parent)
     :GameObject(parent, "Stage")
@@ -20,9 +25,10 @@ Stage::Stage(GameObject* parent)
         hModel_[i] = -1;
     }
 
-    for (int x = 0; x < MODEL_NUM; x++){
-        for (int z = 0; z < MODEL_NUM; z++){
-            SetBlock(x, z, DEFAULT);
+    for (int x = 0; x < XSIZE; x++){
+        for (int z = 0; z < ZSIZE; z++){
+            table_[x][z].type = BLOCKTYPE::DEFAULT;
+            table_[x][z].height = 0;
         }
     }
 }
@@ -206,15 +212,6 @@ void Stage::SetBlockHeight(int _x, int _z, int _y)
     table_[_x][_z].height = _y;
 }
 
-string Stage::BlockData(const Block& block)
-{
-    string data;
-    data.resize(sizeof(Block));
-    memcpy(&data[0], &block, sizeof(Block));
-    return data;
-}
-
-
 void Stage::Save()
 {
     char fileName[MAX_PATH] = "無題.map";
@@ -232,47 +229,61 @@ void Stage::Save()
         ofn.lpstrDefExt = TEXT("map");
     }
 
-    //「ファイルを保存」ダイアログ
-    BOOL selFile;
-    selFile = GetSaveFileName(&ofn);
-
-    //キャンセルしたら中断
-    if (selFile == FALSE) return;
-
-    HANDLE hFile;
-    hFile = CreateFile(
-        fileName,    //ファイル名
-        GENERIC_WRITE,  //アクセスモード
-        0,
-        NULL,
-        CREATE_ALWAYS,     //作成方法
-        FILE_ATTRIBUTE_NORMAL,
-        NULL
-    );
-
     //ファイルに保存
-    
-    std::string data = "";
-    for (int x = 0; x < XSIZE; x++) {
-        for (int z = 0; z < ZSIZE; z++) {
-            data += BlockData(table_[x][z]);
-            //outputFile.read((char*)&data, sizeof(Block));
-           
+    if (GetSaveFileName(&ofn)) {
+        
+        std::fstream outputFile(fileName, std::ios::binary | std::ios::out);
+        for (int x = 0; x < XSIZE; x++) {
+            for (int z = 0; z < ZSIZE; z++) {
+                outputFile.write((char*)&table_[x][z], sizeof(Block));
+
+            }
         }
+        outputFile.close();
     }
 
-    
-    std::fstream outputFile(fileName, std::ios::binary | std::ios::out);
-    DWORD bytes = 0;
-    WriteFile(
-        hFile,              //ファイルハンドル
-        data.c_str(),          //保存したい文字列            
-        data.size(),             //保存したサイズ
-        &bytes,
-        NULL
-    );
-    CloseHandle(hFile);
+}
 
+//ロード
+void Stage::Load() 
+{
+    char fileName[MAX_PATH] = "無題.map";
+    std::string buffer;
+    std::stringstream oss;
+
+    //OPENFILENAME構造体を初期化
+    OPENFILENAME ofn; {
+        ZeroMemory(&ofn, sizeof(ofn));
+        ofn.lStructSize = sizeof(OPENFILENAME);
+        ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0");
+        ofn.lpstrFile = fileName;
+        ofn.nMaxFile = MAX_PATH;
+        ofn.Flags = OFN_FILEMUSTEXIST;
+        ofn.lpstrDefExt = TEXT("map");
+    }
+
+    //ファイルを開く
+    if (GetOpenFileName(&ofn)) {
+        std::fstream inputFile(fileName, std::ios::binary | std::ios::in);
+
+        for (int x = 0; x < XSIZE; x++) {
+            for (int z = 0; z < ZSIZE; z++) {
+                inputFile.read((char*)&table_[x][z], sizeof(Block));
+            }
+        }
+        inputFile.close();
+    }
+}
+
+//bool Stage::IsWall(int x, int z)
+//{
+//    if (table_[x][z] == TYPE_WALL)
+//    {
+//        return true;
+//    }
+//}
+
+    //自作したSave関数の中身
     //char fileName[MAX_PATH] = "マップデータ.map";  //ファイル名を入れる変数
 
     ////「ファイルを保存」ダイアログの設定
@@ -325,13 +336,3 @@ void Stage::Save()
     //);
 
     //CloseHandle(hFile);
-}
-
-//bool Stage::IsWall(int x, int z)
-//{
-//    if (table_[x][z] == TYPE_WALL)
-//    {
-//        return true;
-//    }
-//}
-
