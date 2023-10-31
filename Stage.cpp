@@ -73,10 +73,14 @@ void Stage::Initialize()
 //更新
 void Stage::Update()
 {
-    if (!Input::IsMouseButtonDown(0)) {
-        return;
+    if (Input::IsMouseButtonDown(0)) {
+        BlockWrite();
     }
 
+}
+
+void Stage::BlockWrite()
+{
     float w = (float)(Direct3D::scrWidth / 2.0f);   //ビューポート行列
     float h = (float)(Direct3D::scrHeight / 2.0f);
     //Offsetx,yは0
@@ -98,11 +102,11 @@ void Stage::Update()
     XMFLOAT3 mousePosFront = Input::GetMousePosition();
     mousePosFront.z = 0.0f;
     XMFLOAT3 mousePosBack = Input::GetMousePosition();
-    mousePosBack.z = 1.0f;    
+    mousePosBack.z = 1.0f;
     XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);                            //①　mousePosFrontをベクトルに変換    
-    vMouseFront = XMVector3TransformCoord(vMouseFront,intVP * invProj * invView );  //②　①にinvVP, invPrj, intViewをかける    
+    vMouseFront = XMVector3TransformCoord(vMouseFront, intVP * invProj * invView);  //②　①にinvVP, invPrj, intViewをかける    
     XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);                              //③　mousePosBackをベクトルに変換    
-    vMouseBack = XMVector3TransformCoord(vMouseBack,intVP * invProj * invView );    //④　③にinvVP, invPrj, invViewをかける
+    vMouseBack = XMVector3TransformCoord(vMouseBack, intVP * invProj * invView);    //④　③にinvVP, invPrj, invViewをかける
 
     rayHit_ = false;
 
@@ -113,7 +117,7 @@ void Stage::Update()
                 //⑤　②から④に向かってレイをうつ（とりあえずモデル番号はhModel_[0]）
                 RayCastData data;
                 XMStoreFloat4(&data.start, vMouseFront);
-                XMStoreFloat4(&data.dir, vMouseBack- vMouseFront);
+                XMStoreFloat4(&data.dir, vMouseBack - vMouseFront);
                 Transform trans;
                 trans.position_.x = x;
                 trans.position_.y = y;

@@ -39,6 +39,8 @@ public:
 
     void Update() override;    //XV
 
+    void BlockWrite();
+
     void Draw() override;    //•`‰æ
 
     void Release() override;    //ŠJ•ú
