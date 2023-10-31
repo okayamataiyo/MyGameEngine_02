@@ -239,9 +239,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			((Stage*)pRootjob->FindObject("stage"))->Load();
 			return 0;
 		case ID_MENU_SAVE:
-			((Stage*)pRootjob->FindObject("stage"))->Save();
 			//ファイル保存ダイアログで名前を決める
 			//決めたファイル名でセーブを実行
+			((Stage*)pRootjob->FindObject("stage"))->Save();
 			return 0;
 		}
 	}
