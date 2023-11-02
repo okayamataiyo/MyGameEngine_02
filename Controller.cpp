@@ -162,7 +162,7 @@ void Controller::Update()
 
     //ÉJÉÅÉâ
     XMVECTOR vCam = { 0, 0, -10, 0 };              //é©éBÇËñ_ópà”
-    XMVECTOR upCam = { 0, 30, 35, 0 };
+    XMVECTOR upCam = { 7, 30, -10, 0 };
     vCam = XMVector3TransformCoord(vCam, mRotX * mRotY);    //é©éBÇËñ_âÒì]
 
     switch (camType_)
