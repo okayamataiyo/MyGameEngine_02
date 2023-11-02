@@ -3,14 +3,16 @@
 #include "Engine/Model.h"
 #include "Engine/Camera.h"
 
-
 enum
 {
+    CAM_TYPE_UP,    //上目線
+    CAM_TYPE_FREE,  //自由始点
+    CAM_TYPE_MAX,
 };
 
 //コンストラクタ
 Controller::Controller(GameObject* parent)
-    :GameObject(parent, "Controller"), hModel_(-1)
+    :GameObject(parent, "Controller"), hModel_(-1), camType_(CAM_TYPE_FREE)
 {
     transform_.position_.x = 7.0f;
     transform_.position_.z = 7.0f;
@@ -126,7 +128,7 @@ void Controller::Update()
 
         XMStoreFloat3(&transform_.position_, vPos);*/
 
-        if(transform_.rotate_.x <= 88) transform_.rotate_.x += 1.0f;     // 1dd°ずつ回転
+        if (transform_.rotate_.x <= 88) transform_.rotate_.x += 1.0f;     // 1dd°ずつ回転
     }
 
     if (Input::IsKey(DIK_DOWN))
@@ -134,7 +136,7 @@ void Controller::Update()
         /*vPos += vMove1;
 
         XMStoreFloat3(&transform_.position_, vPos);*/
-        if(transform_.rotate_.x >= 0) transform_.rotate_.x += -1.0f;     // 1dd°ずつ回転
+        if (transform_.rotate_.x >= 0) transform_.rotate_.x += -1.0f;     // 1dd°ずつ回転
     }
 
     if (Input::IsKey(DIK_LEFT))
@@ -149,8 +151,33 @@ void Controller::Update()
         transform_.rotate_.y += 1.0f;     // 1dd°ずつ回転
     }
 
-    if (Input::IsMouseButton(1)) {
-        transform_.position_.y += 1.0f;
+    if (Input::IsKeyDown(DIK_Z))
+    {
+        camType_++;
+        if (camType_ == CAM_TYPE_MAX)
+        {
+            camType_ = 0;
+        }
+    }
+
+    //カメラ
+    XMVECTOR vCam = { 0, 0, -10, 0 };              //自撮り棒用意
+    XMVECTOR upCam = { 0, 30, 35, 0 };
+    vCam = XMVector3TransformCoord(vCam, mRotX * mRotY);    //自撮り棒回転
+
+    switch (camType_)
+    {
+    case CAM_TYPE_FREE:
+        
+        //vCam = XMVector3TransformCoord(vCam, mRotX);
+        //XMFLOAT3 camPos;
+        //XMStoreFloat3(&camPos, vPos + vCam);
+        Camera::SetPosition(vPos + vCam);            //カメラの位置は自撮り棒の先端
+        Camera::SetTarget(transform_.position_);    //カメラの見る位置はこのオブジェクトの位置
+        break;
+    case CAM_TYPE_UP:
+        Camera::SetPosition(upCam);
+        break;
     }
 
     /*Camera::SetTarget(transform_.position_);
@@ -159,14 +186,7 @@ void Controller::Update()
     camPos.z -= 10;
     Camera::SetPosition(camPos);*/
 
-    //カメラ
-    XMVECTOR vCam = { 0, 0, -10, 0 };              //自撮り棒用意
-    vCam = XMVector3TransformCoord(vCam, mRotX * mRotY);    //自撮り棒回転
-    //vCam = XMVector3TransformCoord(vCam, mRotX);
-    //XMFLOAT3 camPos;
-    //XMStoreFloat3(&camPos, vPos + vCam);
-    Camera::SetPosition(vPos+ vCam);            //カメラの位置は自撮り棒の先端
-    Camera::SetTarget(transform_.position_);    //カメラの見る位置はこのオブジェクトの位置
+    
 
 }
 

@@ -12,7 +12,8 @@
 
 using std::to_string;
 
-struct Block {
+struct Block 
+{
     int type;
     int height;
 }table_[XSIZE][ZSIZE];

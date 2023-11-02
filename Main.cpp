@@ -230,7 +230,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);  //ÉvÉçÉOÉâÉÄèIóπ
 		return 0;
 	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
+		switch (LOWORD(wParam)) 
+		{
 		case ID_MENU_NEW:
 			a++;
 			break;
