@@ -149,7 +149,9 @@ void Controller::Update()
         transform_.rotate_.y += 1.0f;     // 1dd‹‚¸‚Â‰ñ“]
     }
 
-
+    if (Input::IsMouseButton(1)) {
+        transform_.position_.y += 1.0f;
+    }
 
     /*Camera::SetTarget(transform_.position_);
     XMFLOAT3 camPos = transform_.position_;
