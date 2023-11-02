@@ -25,6 +25,7 @@ private:
     int notificationCode_;  //通知コードを取得
     int setComboId_;        //コンボIDをセット
     bool rayHit_;   //レイがヒットしたかどうかを示すフラグ
+    int timer_;
     //int table_[XSIZE][ZSIZE];
     //int width_, height_;
 
