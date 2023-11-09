@@ -11,6 +11,11 @@ namespace
     {
         DEFAULT, BRICK, GRASS, SAND, WATER
     };
+
+    enum PUSHTYPE
+    {
+        ONE_PUSH,WAIT_MANY_PUSH,MANY_PUSH,FINISH,
+    };
 }
 
 //Stageを管理するクラス
@@ -26,6 +31,7 @@ private:
     int notificationCode_;  //通知コードを取得
     int setComboId_;    //コンボIDをセット
     bool rayHit_;       //レイがヒットしたかどうかを示すフラグ
+    int pushType_;
     int timer_;         //タイマー 
     int timerThresHold_;//タイマーの閾値
     bool pushFlag_;     //ボタンが押されたかどうかを示すフラグ

@@ -20,8 +20,9 @@ struct Block
 
 //コンストラクタ
 Stage::Stage(GameObject* parent)
-    :GameObject(parent, "Stage"),controlId_(IDC_RADIO_UP),comboId_(0),notificationCode_(0),
-    setComboId_(0),timer_(0),timerThresHold_(80), pushFlag_(true)
+    :GameObject(parent, "Stage"),controlId_(IDC_RADIO_UP),comboId_(0),
+    notificationCode_(0),setComboId_(0),timer_(0),timerThresHold_(80),
+    pushFlag_(true),pushType_(ONE_PUSH),rayHit_(true)
 {
     for (int i = 0; i < MODEL_NUM; i++) 
     {
@@ -82,31 +83,68 @@ void Stage::Initialize()
 void Stage::Update()
 {
     timer_++;
-    if(Input::IsMouseButtonDown(0))
+
+    switch (pushType_)
     {
-        BlockWrite();
-        pushFlag_ = false;
-    }
-    else if (Input::IsMouseButtonUp(0))
-    {
+    case ONE_PUSH:
+        if (Input::IsMouseButtonDown(0))
+        {
+            BlockWrite();
+            pushType_ = 1;
+        }
+        break;
+    case WAIT_MANY_PUSH:
+        if (timer_ >= timerThresHold_)
+        {
+            timer_ = 0;
+            timerThresHold_ = 5;
+            pushType_ = 2;
+        }
+        if (Input::IsMouseButtonUp(0))
+        {
+            pushType_ = 3;
+        }
+        break;
+    case MANY_PUSH:
+        if (Input::IsMouseButton(0) && timer_ >= timerThresHold_)
+        {
+            BlockWrite();
+            timer_ = 0;
+        }
+        if (Input::IsMouseButtonUp(0))
+        {
+            pushType_ = 3;
+        }
+        break;
+    case FINISH:
         timer_ = 0;
         timerThresHold_ = 80;
+        pushType_ = 0;
+        break;
     }
+    /*if(Input::IsMouseButtonDown(0))
+{
 
-    if (pushFlag_ == false && timer_ >= timerThresHold_)
-    {
-        pushFlag_ = true;
-        timer_ = 0;
-        timerThresHold_ = 5;
-    }
+    pushFlag_ = false;
+}
+else if (Input::IsMouseButtonUp(0))
+{
+    timer_ = 0;
+    timerThresHold_ = 80;
+}
 
-    if (Input::IsMouseButton(0) && timer_ >= timerThresHold_)
-    {
-        BlockWrite();
-        timer_ = 0;
-    }
-    
+if (pushFlag_ == false && timer_ >= timerThresHold_)
+{
+    pushFlag_ = true;
+    timer_ = 0;
+    timerThresHold_ = 5;
+}
 
+if (Input::IsMouseButton(0) && timer_ >= timerThresHold_)
+{
+    BlockWrite();
+    timer_ = 0;
+}*/
 }
 
 void Stage::BlockWrite()
