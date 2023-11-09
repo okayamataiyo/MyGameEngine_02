@@ -126,9 +126,9 @@ void Stage::BlockWrite()
     XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix()); //プロジェクション変換    
     XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());       //ビュー変換
     //レイを-5°移動させて、調節した
-    constexpr float angleIncrement = XMConvertToRadians(-5.0f); // 角度をラジアンに変換
-    XMMATRIX rotationMatrix = XMMatrixRotationX(angleIncrement); // X軸周りに回転
-    invView = XMMatrixMultiply(rotationMatrix, invView); // ビュー行列に回転行列を適用
+    //constexpr float angleIncrement = XMConvertToRadians(-5.0f); // 角度をラジアンに変換
+    //XMMATRIX rotationMatrix = XMMatrixRotationX(angleIncrement); // X軸周りに回転
+    //invView = XMMatrixMultiply(rotationMatrix, invView); // ビュー行列に回転行列を適用
 
     XMFLOAT3 mousePosFront = Input::GetMousePosition();
     mousePosFront.z = 0.0f;
