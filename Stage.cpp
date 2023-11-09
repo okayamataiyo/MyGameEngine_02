@@ -20,7 +20,8 @@ struct Block
 
 //コンストラクタ
 Stage::Stage(GameObject* parent)
-    :GameObject(parent, "Stage")
+    :GameObject(parent, "Stage"),controlId_(IDC_RADIO_UP),comboId_(0),notificationCode_(0),
+    setComboId_(0),timer_(0),timerThresHold_(80), pushFlag_(true)
 {
     for (int i = 0; i < MODEL_NUM; i++) 
     {
@@ -75,20 +76,36 @@ void Stage::Initialize()
             SetBlockHeight(x, z, 0);
         }
     }
-    controlId_ = IDC_RADIO_UP;
-    timer_ = 0;
 }
 
 //更新
 void Stage::Update()
 {
     timer_++;
-    if (Input::IsMouseButton(0) && timer_ >= 5)
+    if(Input::IsMouseButtonDown(0))
     {
-            BlockWrite();
-            timer_ = 0;
+        BlockWrite();
+        pushFlag_ = false;
+    }
+    else if (Input::IsMouseButtonUp(0))
+    {
+        timer_ = 0;
+        timerThresHold_ = 80;
     }
 
+    if (pushFlag_ == false && timer_ >= timerThresHold_)
+    {
+        pushFlag_ = true;
+        timer_ = 0;
+        timerThresHold_ = 5;
+    }
+
+    if (Input::IsMouseButton(0) && timer_ >= timerThresHold_)
+    {
+        BlockWrite();
+        timer_ = 0;
+    }
+    
 
 }
 
