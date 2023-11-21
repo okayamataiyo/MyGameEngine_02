@@ -162,7 +162,7 @@ void Controller::Update()
 
     //カメラ
     XMVECTOR vCam = { 0, 0, -10, 0 };              //自撮り棒用意
-    XMVECTOR upCam = {7, 30, -5, 0 };
+    XMVECTOR upCam = {7, 30, -5, 0 };              //定点カメラ用意
     vCam = XMVector3TransformCoord(vCam, mRotX * mRotY);    //自撮り棒回転
 
     switch (camType_)
@@ -173,10 +173,10 @@ void Controller::Update()
         //XMFLOAT3 camPos;
         //XMStoreFloat3(&camPos, vPos + vCam);
         Camera::SetPosition(vPos + vCam);            //カメラの位置は自撮り棒の先端
-        Camera::SetTarget(transform_.position_);    //カメラの見る位置はこのオブジェクトの位置
+        Camera::SetTarget(transform_.position_);     //カメラの見る位置はこのオブジェクトの位置
         break;
     case CAM_TYPE_UP:
-        Camera::SetPosition(upCam);
+        Camera::SetPosition(upCam);                  //カメラの位置は自撮り棒の先端
         break;
     }
 
